@@ -15,8 +15,8 @@
 # in the templates via {{ site.myvariable }}.
 title: elkurin.com
 description: ChromeOS Software Engineer / マダミス作家
-baseurl: "" # the subpath of your site, e.g. /blog
-url: https://elkurin.com # the base hostname & protocol for your site, e.g. http://example.com
+  # url: https://elkurin.com # the base hostname & protocol for your site, e.g. http://example.com
+  # enforce_ssl: elkurin.com
 twitter_username: elkurin_
 github_username:  elkurin
 
