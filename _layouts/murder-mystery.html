@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+  {%- include head.html -%}
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <main class="page-content" aria-label="Content">
+    <div class="wrapper">
+      <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
+    </div>
+    <h1 class="title">Scenarios</h1>
+    <div class="post-content">
+      {{ content }}
+    </div>
+    <div class="wrapper">
+      <div class="scenario-container">
+        <a href="/games/mafia" class="animated-button button-mafia"><span>海の上で<br>昼食を</span></a>
+        <a href="/games/dragon" class="animated-button button-dragon"><span>ドラゴン<br>リバース</span></a>
+        <a href="/games/gokon" class="animated-button button-gokon"><span>合コン<br>マダミス</span></a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

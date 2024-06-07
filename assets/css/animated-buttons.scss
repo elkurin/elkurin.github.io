@@ -1,0 +1,110 @@
+.entrance-container {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 50px;
+}
+
+.scenario-container {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 50px;
+}
+
+
+.animated-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  /*background-color: #007BFF; */
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.animated-button:hover {
+  /*background-color: #0056b3;*/
+  transform: scale(1.1);
+  color: #007BFF;
+}
+
+// Overlay
+.animated-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.animated-button span {
+  position: relative;
+  z-index: 1;
+  color: white;
+  white-space: pre-wrap;
+}
+
+.button-t1 {
+  background-image: url('/assets/images/t1.jpg');
+  width: 200px;
+  height: 250px;
+  background-size: cover;
+}
+
+.button-phantom {
+  background-image: url('/assets/images/phantom.png');
+  width: 200px;
+  height: 250px;
+  background-size: cover;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+.button-mafia {
+  background-image: url('/assets/images/mafia.png');
+  width: 250px;
+  height: 250px;
+  // background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'MS P明朝', 'MS PMincho', serif;
+}
+
+.button-dragon {
+  background-image: url('/assets/images/dragon.png');
+  width: 250px;
+  height: 250px;
+  // background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Zen Old Mincho', serif;
+}
+
+.button-gokon {
+  background-image: url('/assets/images/gokon.png');
+  width: 250px;
+  height: 250px;
+  // background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Mochiy Pop One', sans-serif;
+}
+
+.animated-button:link,
+.animated-button:visited,
+.animated-button:hover,
+.animated-button:active {
+  color: white;
+}
+
