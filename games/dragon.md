@@ -39,8 +39,8 @@ relative_url }}">{{ site.title | escape }}</a>
 
   <div class="dragon-characters">
     <h2 style="color:#34495e; margin-top:50px;">登場人物一覧</h2>
-    <p>※画像は開発段階のものです</p>
-    <div class="dragon-characters-container">
+    <p>詳細はキャラクターをクリック<br>※画像は開発段階のものです</p>
+    <div class="characters-container">
       <button class="animated-button char-button button-fighter" style="font-family: 'Corsiva', cursive;" data-target="#fighter-details"><span>Fighter</span></button>
       <button class="animated-button char-button button-mage" style="font-family: 'Corsiva', cursive;" data-target="#mage-details"><span>Mage</span></button>
       <button class="animated-button char-button button-priest" style="font-family: 'Corsiva', cursive;" data-target="#priest-details"><span>Priest</span></button>

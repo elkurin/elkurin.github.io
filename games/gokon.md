@@ -40,4 +40,50 @@ relative_url }}">{{ site.title | escape }}</a>
     </ul>
     <p><strong>！注意！</strong> これはバカゲーです。キャラクターの設定は全てフィクションであり、偏った思想を持つ癖のあるキャラクター達にモデルはありません。</p>
   </div>
+
+  <div class="gokon-characters">
+    <h2 style="color:#34495e; margin-top:50px;">登場人物一覧</h2>
+    <p>※画像は開発段階のものです</p>
+    <div class="characters-container">
+      <button class="animated-button char-button button-yuki" style="font-family: 'Mochy Pop One', sans-serif;" data-target="#yuki-details"></button>
+      <button class="animated-button char-button button-aoto" style="font-family: 'Mochy Pop One', sans-serif;" data-target="#aoto-details"></button>
+      <button class="animated-button char-button button-akari" style="font-family: 'Mochy Pop One', sans-serif;" data-target="#akari-details"></button>
+    </div>
+    <div id="yuki-details" class="character-details yuki-details">
+      <h3 style="font-family: 'Mochy Pop One', sans-serif;">ゆうき</h3>
+      <p>金髪にジャケットを着たチャラそうな男。社交的なタイプに見える。</p>
+      <p>「どうも初めまして！ゆうきと言います。主催者のくせにドタキャンした友人の代打として来ました。今日はよろしくお願いします！」</p>
+    </div>
+    <div id="aoto-details" class="character-details aoto-details">
+      <h3 style="font-family: 'Mochy Pop One', sans-serif;">あおと</h3>
+      <p>シンプルなシャツ姿の端正な紳士。落ち着いた雰囲気をまとっている。</p>
+      <p>「皆さん初めまして。あおとです。この中では最年長かな？夜にひとりでワインを嗜むのが最近の趣味です。一緒に楽しんでくれる方がいれば嬉しいですね。」</p>
+    </div>
+    <div id="akari-details" class="character-details akari-details">
+      <h3 style="font-family: 'Mochy Pop One', sans-serif;">あかり</h3>
+      <p>赤いネクタイにスーツ姿の青年。この場を盛り上げようと頑張っている。</p>
+      <p>「こんばんはー！あかりって言います！よく男らしい名前だねって言われます！普段は投資家をやっています！よろしくね！」</p>
+    </div>
+    <div class="characters-container">
+      <button class="animated-button char-button button-misaki" style="font-family: 'Mochy Pop One', sans-serif;" data-target="#misaki-details"></button>
+      <button class="animated-button char-button button-momomi" style="font-family: 'Mochy Pop One', sans-serif;" data-target="#momomi-details"></button>
+      <button class="animated-button char-button button-midori" style="font-family: 'Mochy Pop One', sans-serif;" data-target="#midori-details"></button>
+    </div>
+    <div id="misaki-details" class="character-details misaki-details">
+      <h3 style="font-family: 'Mochy Pop One', sans-serif;">みさき</h3>
+      <p>綺麗なロングの髪にシンプルな装いの美女。笑顔が素敵でスタイルが良い。</p>
+      <p>「初めまして！みさきです。旅行が大好きで気づいたら仕事になっちゃいました！今はキャビンアテンダントとして世界を飛び回ってます。よろしくお願いします♪」</p>
+    </div>
+    <div id="momomi-details" class="character-details momomi-details">
+      <h3 style="font-family: 'Mochy Pop One', sans-serif;">ももみ</h3>
+      <p>おしゃれなパーカーを着たショートカット女子。小柄で愛嬌がある。</p>
+      <p>「こんにちはー。最近はWebデザインの勉強を頑張ってまーす。でもパソコンって難しいから教えてくれる聡明な男性がいたら是非仲良くなりたいな。よろしくね！」</p>
+    </div>
+    <div id="midori-details" class="character-details midori-details">
+      <h3 style="font-family: 'Mochy Pop One', sans-serif;">みどり</h3>
+      <p>眼鏡にニット姿の着飾っていない女性。なんだかとげとげしい感じだ。</p>
+      <p>「こんばんは。みどりです。女性を大切にしてくれる素敵な男性と出会えると嬉しいです。よろしくお願いします。」</p>
+    </div>
+  </div>
 </div>
+<script src="/assets/js/character-details.js"></script>

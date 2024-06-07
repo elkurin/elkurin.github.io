@@ -19,7 +19,7 @@
   margin-top: 50px;
 }
 
-.dragon-characters-container {
+.characters-container {
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -154,6 +154,60 @@
   background-repeat: no-repeat;
 }
 
+.button-yuki {
+  background-image: url('/assets/images/yuki.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-aoto {
+  background-image: url('/assets/images/aoto.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-akari {
+  background-image: url('/assets/images/akari.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-misaki {
+  background-image: url('/assets/images/misaki.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-momomi {
+  background-image: url('/assets/images/momomi.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-midori {
+  background-image: url('/assets/images/midori.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .char-button.clicked::before {
   display: none;
 }
@@ -195,6 +249,36 @@
 .theif-details {
   background-color: #da003d;
   color: white;
+}
+
+.yuki-details {
+  background-color: #fff876;
+  color: black;
+}
+
+.aoto-details {
+  background-color: #4e84da;
+  color: black;
+}
+
+.akari-details {
+  background-color: #ff2e56;
+  color: black;
+}
+
+.misaki-details {
+  background-color: #e3c6ff;
+  color: black;
+}
+
+.momomi-details {
+  background-color: #feafc5;
+  color: black;
+}
+
+.midori-details {
+  background-color: #a4bd9d;
+  color: black;
 }
 
 /********************
