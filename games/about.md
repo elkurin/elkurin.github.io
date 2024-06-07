@@ -3,6 +3,10 @@ layout: page
 title: マダミス作家える@elkurin
 permalink: /games/about
 ---
+<head>
+  <link rel="icon" href="{{ '/phantom-favicon.png' | relative_url }}" type="image/x-icon">
+</head>
+
 マーダーミステリーのシナリオを書いているえるです。
 
 <img src="/assets/images/phantom.png" width="100px">

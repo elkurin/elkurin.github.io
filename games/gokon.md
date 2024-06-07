@@ -5,6 +5,7 @@ js: /assets/js/character-details.js
 permalink: /games/gokon/
 ---
 <head>
+  <link rel="icon" href="{{ '/phantom-favicon.png' | relative_url }}" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet">
 </head>
