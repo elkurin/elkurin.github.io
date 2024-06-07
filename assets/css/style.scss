@@ -74,6 +74,8 @@
   width: 200px;
   height: 250px;
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .button-phantom {
@@ -82,6 +84,8 @@
   height: 250px;
   background-size: cover;
   font-family: 'Noto Sans JP', sans-serif;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .button-mafia {
@@ -512,7 +516,7 @@
 
 .gokon-details{
   color: white;
-  max-width: 800px;
+  max-width: 600px;
   text-align: justify;
   margin-top: 40px;
   line-height: 1.8;
