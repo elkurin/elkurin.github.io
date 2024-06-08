@@ -8,10 +8,17 @@ document.addEventListener('DOMContentLoaded', function () {
       const targetElement = document.querySelector(targetId);
 
       const allDetails = document.querySelectorAll('.character-details');
-      allDetails.forEach(detail => detail.style.display = 'none');
+      allDetails.forEach(detail => {
+        detail.classList.remove('show');
+        detail.style.display = 'none';
+      });
+
       if (targetElement) {
         targetElement.style.display = 'block';
-        targetElement.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+          targetElement.classList.add('show');
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }, /*delay=*/50);
       }
 
       if (previousButton && previousButton != this) {

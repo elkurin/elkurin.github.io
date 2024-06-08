@@ -118,6 +118,51 @@
   font-family: 'Mochiy Pop One', sans-serif;
 }
 
+.button-cent {
+  background-image: url('/assets/images/cent.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-curve {
+  background-image: url('/assets/images/curve.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-golay {
+  background-image: url('/assets/images/golay.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-zagi {
+  background-image: url('/assets/images/zagi.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-harco {
+  background-image: url('/assets/images/harco.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .button-fighter {
   background-image: url('/assets/images/fighter.png');
   width: 100px;
@@ -233,6 +278,44 @@
   border-radius: 10px;
   margin-top: 20px;
   max-width: 100%;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.character-details.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cent-details {
+  background-color: #38761d;
+  color: white;
+  max-width: 300px;
+}
+
+.curve-details {
+  background-color: #980000;
+  color: white;
+  max-width: 300px;
+}
+
+.golay-details {
+  background-color: #0000ff;
+  color: white;
+  max-width: 300px;
+}
+
+.zagi-details {
+  background-color: #b45f06;
+  color: white;
+  max-width: 300px;
+}
+
+.harco-details {
+  background-color: #9900ff;
+  color: white;
+  max-width: 300px;
 }
 
 .fighter-details {
@@ -562,6 +645,12 @@
   font-size: 48px;
   margin-top: 0;
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
+  .dragon-title {
+    font-size: calc(16px + 3vw);
+  }
 }
 
 .dragon-intro {

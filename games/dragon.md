@@ -24,7 +24,7 @@ relative_url }}">{{ site.title | escape }}</a>
     <p>これはとあるファンタジー世界の物語。</p>
     <p>剣士・武闘家・魔法使い・僧侶の4人からなる冒険隊一行は、忌まわしき竜が眠るという「竜の塔」を突き止め、攻略へと乗り出した。彼らの目標は竜を討伐し、竜の塔に眠るだいじなお宝を手に入れることだ。</p>
     <p>実力派と名高い冒険隊は順調に歩を進めていくのだが、その中で思わぬ悲運に見舞われることとなる…。</p>
-    <p><strong>現在テストプレイ中です。近頃ココフォリア版・オフライン版を公開予定！</strong></p>
+    <p><strong>現在テストプレイ中です。近々ココフォリア版・オフライン版を公開予定！</strong></p>
   </div>
 
   <div class="dragon-details">
@@ -39,7 +39,7 @@ relative_url }}">{{ site.title | escape }}</a>
 
   <div class="dragon-characters">
     <h2 style="color:#34495e; margin-top:50px;">登場人物一覧</h2>
-    <p>詳細はキャラクターをクリック<br>※画像は開発段階のものです</p>
+    <p>詳細はキャラクターをクリック！<br>※画像は開発段階のものです</p>
     <div class="characters-container">
       <button class="animated-button char-button button-fighter" style="font-family: 'Corsiva', cursive;" data-target="#fighter-details"><span>Fighter</span></button>
       <button class="animated-button char-button button-mage" style="font-family: 'Corsiva', cursive;" data-target="#mage-details"><span>Mage</span></button>
