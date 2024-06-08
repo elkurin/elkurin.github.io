@@ -208,6 +208,10 @@
   background-repeat: no-repeat;
 }
 
+.char-button {
+  aspect-ratio: 1 / 1;
+}
+
 .char-button.clicked::before {
   display: none;
 }
@@ -291,6 +295,18 @@
   max-width: 300px;
 }
 
+@media (max-width: 768px) {
+  .character-details {
+    padding: 10px;
+  }
+
+  .char-button {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+  }
+}
+
 /********************
  * /games/ title
  ********************/
@@ -354,7 +370,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  padding: 20px;
+  padding: 10px;
 }
 
 .scenarios-nav {
