@@ -1,5 +1,5 @@
 ---
 layout: murder-mystery
-title: マーダーミステリー
+title: えるのマダミスシナリオ
 permalink: /games/
 ---

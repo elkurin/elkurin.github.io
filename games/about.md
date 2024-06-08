@@ -7,13 +7,14 @@ permalink: /games/about
   <link rel="icon" href="{{ '/phantom-favicon.png' | relative_url }}" type="image/x-icon">
 </head>
 
-マーダーミステリーのシナリオを書いているえるです。
+マーダーミステリーのシナリオを書いているえるです。  
+X/Twitter アカウント → [@elkurin_games](https://x.com/elkurin_games)  
 
 <img src="/assets/images/phantom.png" width="100px">
 
 
 ## 現在制作中シナリオ
-すべてテストプレイ中で、近頃公開予定です。
+すべてテストプレイ中で、近々公開予定です。
 
 ### 海の上で昼食を
 裏社会ファミリーの中で腹の探り合いを楽しむシナリオ。
