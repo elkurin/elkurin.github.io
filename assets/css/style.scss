@@ -89,13 +89,15 @@
 }
 
 .button-mafia {
-  background-image: url('/assets/images/mafia.png');
+  // background-image: url('/assets/images/mafia.png');
+  background-image: url('/assets/images/mafia-intro-background.png');
   width: 250px;
   height: 250px;
   // background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  font-family: 'MS P明朝', 'MS PMincho', serif;
+  // font-family: 'MS P明朝', 'MS PMincho', serif;
+  font-family: 'Zen Antique', serif;
 }
 
 .button-dragon {
@@ -116,6 +118,16 @@
   background-position: center;
   background-repeat: no-repeat;
   font-family: 'Mochiy Pop One', sans-serif;
+}
+
+.button-sonata {
+  background-image: url('/assets/images/sonata.png');
+  width: 250px;
+  height: 250px;
+  // background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Zen Old Mincho', serif;
 }
 
 .button-cent {
@@ -156,6 +168,15 @@
 
 .button-harco {
   background-image: url('/assets/images/harco.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-otto {
+  background-image: url('/assets/images/otto.png');
   width: 100px;
   height: 100px;
   background-size: contain;
@@ -253,6 +274,60 @@
   background-repeat: no-repeat;
 }
 
+.button-ichinose {
+  background-image: url('/assets/images/ichinose.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-nikaido {
+  background-image: url('/assets/images/nikaido.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-mishima {
+  background-image: url('/assets/images/mishima.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-shinomiya {
+  background-image: url('/assets/images/shinomiya.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-mother {
+  background-image: url('/assets/images/mother.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-itsuki {
+  background-image: url('/assets/images/itsuki.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .char-button {
   aspect-ratio: 1 / 1;
 }
@@ -289,7 +364,7 @@
 }
 
 .cent-details {
-  background-color: #38761d;
+  background-color: #1c8f16;
   color: white;
   max-width: 300px;
 }
@@ -301,19 +376,25 @@
 }
 
 .golay-details {
-  background-color: #0000ff;
+  background-color: #3f4ae1;
   color: white;
   max-width: 300px;
 }
 
 .zagi-details {
-  background-color: #b45f06;
+  background-color: #c09b0d;
   color: white;
   max-width: 300px;
 }
 
 .harco-details {
-  background-color: #9900ff;
+  background-color: #b610d1;
+  color: white;
+  max-width: 300px;
+}
+
+.otto-details {
+  background-color: #606060;
   color: white;
   max-width: 300px;
 }
@@ -343,37 +424,73 @@
 }
 
 .yuki-details {
-  background-color: #fff876;
+  background-color: #fff7af;
   color: black;
   max-width: 300px;
 }
 
 .aoto-details {
-  background-color: #4e84da;
+  background-color: #8da2fa;
   color: black;
   max-width: 300px;
 }
 
 .akari-details {
-  background-color: #ff2e56;
+  background-color: #ff3a3a;
   color: black;
   max-width: 300px;
 }
 
 .misaki-details {
-  background-color: #e3c6ff;
+  background-color: #b596f1;
   color: black;
   max-width: 300px;
 }
 
 .momomi-details {
-  background-color: #feafc5;
+  background-color: #fffaf7;
   color: black;
   max-width: 300px;
 }
 
 .midori-details {
-  background-color: #a4bd9d;
+  background-color: #87dd79;
+  color: black;
+  max-width: 300px;
+}
+
+.ichinose-details {
+  background-color: #ffd0f5;
+  color: black;
+  max-width: 300px;
+}
+
+.nikaido-details {
+  background-color: #ffcaca;
+  color: black;
+  max-width: 300px;
+}
+
+.mishima-details {
+  background-color: #efd0f8;
+  color: black;
+  max-width: 300px;
+}
+
+.shinomiya-details {
+  background-color: #ffffff;
+  color: black;
+  max-width: 300px;
+}
+
+.mother-details {
+  background-color: #e1e1e1;
+  color: black;
+  max-width: 300px;
+}
+
+.itsuki-details {
+  background-color: #ffcaca;
   color: black;
   max-width: 300px;
 }
@@ -471,7 +588,7 @@
 }
 
 .mafia-link {
-  color: #00aaff;
+  color: #980000;
 }
 
 .mafia-link:hover {
@@ -501,8 +618,8 @@
 }
 
 .mafia-button {
-  color: #34495e;
-  background-color: #ffdd57;
+  color: #980000;
+  background-color: black;
 }
 
 .mafia-button:hover {
@@ -537,7 +654,8 @@
   // background: linear-gradient(135deg, #2c3e50, #4a5c6b);
   // background-color: #2c3e50;
   // background-color: #34495e;
-  background: url('/assets/images/ocean-background.jpg') no-repeat center center fixed;
+  // background: url('/assets/images/ocean-background.jpg') no-repeat center center fixed;
+  background: url('/assets/images/mafia-ocean.png') no-repeat center center fixed;
   background-size: cover;
   color: white;
 }
@@ -554,13 +672,58 @@
 }
 
 .mafia-title {
-  font-family: 'MS P明朝', 'MS PMincho', serif;
-  color: #ffdd57;
+  // font-family: 'MS P明朝', 'MS PMincho', serif;
+  font-family: 'Zen Antique', serif;
+  // color: #ffdd57;
+  // color: #980000;
+  color: black;
   text-align: center;
   font-size: 48px;
   margin-top: 0;
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
 }
+
+.mafia-title::after {
+  content: "";
+  display: block;
+  width: 300px;
+  height: 30px;
+  background: url('/assets/images/title-bar.png') no-repeat center;
+  background-size: contain;
+  margin: 5px auto 0;
+}
+
+/*
+.mafia-sub-title {
+  font-family: 'New Tegomin', serif;
+  text-align: center;
+  color: black;
+  font-size: 24px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  display: inline-block;
+  position: relative;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  // box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.mafia-sub-title::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  background-color: transparent;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+*/
 
 .mafia-intro {
   font-family: 'MS P明朝', 'MS PMincho', serif;
@@ -570,10 +733,16 @@
   margin-top: 20px;
   line-height: 1.8;
   // background-color: rgba(44, 62, 80, 0.8);
-  background-color: rgba(52, 73, 94, 0.8);
+  // background-color: rgba(52, 73, 94, 0.8);
+  // background-color: black;
+  background: url('/assets/images/mafia-intro-background.png') no-repeat center center;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.mafia-intro h2 {
+  font-family: 'Zen Antique', serif;
 }
 
 .mafia-details {
@@ -617,6 +786,29 @@
   color: #ffdd57;
 }
 
+.mafia-characters {
+  color: black;
+  max-width: 350px;
+  text-align: center;
+  margin-top: 20px;
+  // background-color: rgba(52, 73, 94, 0.8);
+  background-color: rgba(255, 252, 219, 0.7);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.mafia-characters h2 {
+  font-family: 'Mochiy Pop One', sans-serif;
+  text-align: center;
+  margin-top: 0;
+  color: #007fab;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.mafia-characters h3 {
+  font-family: 'Mochiy Pop One', sans-serif;
+}
 /********************
  * Dragon
  ********************/
@@ -712,7 +904,7 @@
   // background: linear-gradient(135deg, #2c3e50, #4a5c6b);
   // background-color: #2c3e50;
   // background-color: #34495e;
-  background: url('/assets/images/gokon-background.png') no-repeat center center fixed;
+  background: url('/assets/images/gokon-background-new.png') no-repeat center center fixed;
   background-size: cover;
   color: black;
 }
@@ -809,6 +1001,120 @@
 
 .gokon-characters h3 {
   font-family: 'Mochiy Pop One', sans-serif;
+}
+
+/********************
+ * Sonata
+ ********************/
+.sonata-body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  // background: linear-gradient(135deg, #2c3e50, #4a5c6b);
+  // background-color: #2c3e50;
+  // background-color: #34495e;
+  background: url('/assets/images/sonata-background.png') no-repeat center center fixed;
+  background-size: cover;
+  color: black;
+}
+
+.sonata-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.sonata-title {
+  font-family: 'Zen Old Mincho', serif;
+  color: black;
+  text-align: center;
+  font-size: 48px;
+  margin-top: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.sonata-intro {
+  font-family: 'Zen Old Mincho', serif;
+  color: black;
+  max-width: 600px;
+  text-align: justify;
+  margin-top: 20px;
+  line-height: 1.8;
+  padding: 20px;
+  background: #b07c7c;
+  opacity: 0.8;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.sonata-details{
+  color: white;
+  max-width: 600px;
+  text-align: justify;
+  margin-top: 40px;
+  line-height: 1.8;
+  background-color: rgba(52, 73, 94, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.sonata-details h2 {
+  font-family: 'Zen Old Mincho', serif;
+  text-align: center;
+  font-size: 36px;
+  margin-top: 0;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.sonata-details ul {
+  list-style-type: none;
+  font-family: 'Zen Old Mincho', serif;
+  padding: 0;
+  margin: 0;
+}
+
+.sonata-details li {
+  margin: 10px 0;
+  font-size: 18px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.sonata-details li::before {
+  content: "♪";
+  position: absolute;
+  left: 0;
+  color: white;
+}
+
+.sonata-characters {
+  color: black;
+  max-width: 350px;
+  text-align: center;
+  margin-top: 20px;
+  // background-color: rgba(52, 73, 94, 0.8);
+  background-color: rgba(255, 252, 219, 0.7);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.sonata-characters h2 {
+  font-family: 'Zen Old Mincho', serif;
+  text-align: center;
+  margin-top: 0;
+  color: #007fab;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sonata-characters h3 {
+  font-family: 'Zen Old Mincho', serif;
 }
 
 @import

@@ -5,6 +5,8 @@ permalink: /games/mafia/
 ---
 <head>
 <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=New+Tegomin&display=swap" rel="stylesheet">
 </head>
 
 <body class="mafia-body">
@@ -19,11 +21,12 @@ relative_url }}">{{ site.title | escape }}</a>
 <div class="mafia-page">
   <h1 class="mafia-title">海の上で昼食を</h1>
   <div class="mafia-intro">
-    <p>これは裏社会を生きるとあるマフィアファミリーの物語。</p>
-    <p>一仕事終えたファミリーメンバーは、船に乗ってアジトへと向かっていた。</p>
-    <p>あとは帰るだけという今日、船の上でボスの弟が殺された。今、一同がいるのは海の上、この孤立した環境の中で人が死んだということは、間違いなくこの中に犯人がいるだろう。あるいは自殺か、もしくは事故か…いずれにせよ、犯人を見つけなければ、家族を大切にするボスに罰されること間違いない。全く面倒なことだ。</p>
-    <p>さて、最後のお仕事だ。お昼時までに犯人を特定し、片付けたあとは海の上で優雅なランチといこうではないか。</p>
-    <p><strong>現在テストプレイ中です。近々ココフォリア版・オフライン版を公開予定！</strong></p>
+    <h2>―――これは裏社会を生きる5人の男たちの物語。</h2>
+    <p>マフィアのメンバーたちが船に乗って拠点まで戻る最中、ボスが大切にしていた弟・オットーが死体となって発見された。今一同がいるのは海の上という密室状態だ。間違いなくこの中に犯人がいる。あるいは自殺か、もしくは事故か…。いずれにせよ、犯人を見つけなければボスからの制裁が待っている。協力して犯人を暴き出し、陸についたらボスに突き出そう。</p>
+    <p>さあ、最後の仕事だ。お昼時までには片付けて、昼食は優雅にいただこうではないか。</p>
+    <h2 style="text-align: center;">推理と駆け引きを存分に楽しめる<br>本格マーダーミステリーをあなたへ</h2>
+    <p><strong>ゲームマーケット2024秋にて販売！近々ココフォリア版も公開予定！</strong></p>
+    <p>Booth URL: <a href="https://elkurin.booth.pm/items/6099499">https://elkurin.booth.pm/items/6099499</a></p>
   </div>
 
   <div class="mafia-details">
@@ -39,12 +42,12 @@ relative_url }}">{{ site.title | escape }}</a>
   </div>
 
   <div class="mafia-characters">
-    <h2 style="color:#ffdd57;margin-top:50px;">登場人物一覧</h2>
-    <p>詳細はキャラクターをクリック！<br>※画像は開発段階のものです</p>
+    <h2 style="color:black;margin-top:10px;">キャラクター紹介</h2>
+    <p>詳細はキャラクターをクリック！</p>
     <div class="characters-container">
       <button class="animated-button char-button button-cent" style="font-family: 'Parisienne', cursive;" data-target="#cent-details"><span>Cent</span></button>
       <button class="animated-button char-button button-curve" style="font-family: 'Parisienne', cursive;" data-target="#curve-details"><span>Curve</span></button>
-      <button class="animated-button char-button button-golay" style="font-family: 'Parisienne', cursive;" data-target="#golay-details"><span>Golay></span></button>
+      <button class="animated-button char-button button-golay" style="font-family: 'Parisienne', cursive;" data-target="#golay-details"><span>Golay</span></button>
     </div>
     <div id="cent-details" class="character-details cent-details">
       <h3>船長セント</h3>
@@ -64,6 +67,7 @@ relative_url }}">{{ site.title | escape }}</a>
     <div class="characters-container">
       <button class="animated-button char-button button-zagi" style="font-family: 'Parisienne', cursive;" data-target="#zagi-details"><span>Zagi</span></button>
       <button class="animated-button char-button button-harco" style="font-family: 'Parisienne', cursive;" data-target="#harco-details"><span>Harco</span></button>
+      <button class="animated-button char-button button-otto" style="font-family: 'Parisienne', cursive;" data-target="#otto-details"><span>Otto</span></button>
     </div>
     <div id="zagi-details" class="character-details zagi-details">
       <h3>詐欺師ザギ</h3>
@@ -74,6 +78,11 @@ relative_url }}">{{ site.title | escape }}</a>
       <h3>運び屋ハルコ</h3>
       <p>物腰の柔らかい下っ端の運び屋。今回初めて大きな仕事を任された。</p>
       <p>「あざっす！俺にとって初のデカい仕事もオットーさんのおかげでうまくいきました。」</p>
+    </div>
+    <div id="otto-details" class="character-details otto-details">
+      <h3>弟オットー（被害者）</h3>
+      <p>今回の事件の被害者。ボスが大切にしている弟。</p>
+      <p>「みんな、今回の任務もよく頑張ったぞ！僕がほめてやる！」</p>
     </div>
     </div>
 </div>

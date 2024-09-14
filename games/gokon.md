@@ -26,8 +26,8 @@ relative_url }}">{{ site.title | escape }}</a>
     <p>とある休日の午後８時、東京の街角にたたずむ隠れ家のような居酒屋の個室に6人の男女が集う。異性愛者である彼らは、新たな出会いを求めて食事会、いわゆる合コンを行うためにここにいる。</p>
     <p>限られた時間の中で会話を尽くし、時には他者を蹴落とし、時には他者と協力し、あなたの目標を達成できるよう頑張ろう。</p>
     <p>※マダミスと銘打っていますが、マーダーは起きません。…多分ね</p>
-    <p><strong>現在テストプレイ中です。近々オフライン版を公開予定！</strong></p>
-    <p>〜デザイン担当ゆいぴくとの共同制作〜</p>
+    <p><strong>ゲームマーケット2024秋にて販売予定！</strong></p>
+    <p>Booth URL: <a href="https://elkurin.booth.pm/items/6099549">https://elkurin.booth.pm/items/6099549</a></p>
   </div>
 
   <div class="gokon-details">
@@ -44,7 +44,7 @@ relative_url }}">{{ site.title | escape }}</a>
 
   <div class="gokon-characters">
     <h2>登場人物一覧</h2>
-    <p>詳細はキャラクターをクリック！<br>※画像は開発段階のものです</p>
+    <p>詳細はキャラクターをクリック！</p>
     <div class="characters-container">
       <button class="animated-button char-button button-yuki" style="font-family: 'Mochy Pop One', sans-serif;" data-target="#yuki-details"></button>
       <button class="animated-button char-button button-aoto" style="font-family: 'Mochy Pop One', sans-serif;" data-target="#aoto-details"></button>
