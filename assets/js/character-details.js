@@ -23,9 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (previousButton && previousButton != this) {
         previousButton.classList.remove('clicked');
+        previousButton.classList.remove('expanded');
       }
 
       this.classList.add('clicked');
+      this.classList.add('expanded');
       previousButton = this;
     });
   });

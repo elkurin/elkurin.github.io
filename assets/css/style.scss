@@ -28,6 +28,7 @@
 
 .animated-button {
   display: flex;
+  aspect-ratio: 1;
   align-items: center;
   justify-content: center;
   padding: 20px 40px;
@@ -41,13 +42,18 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .animated-button:hover {
   /*background-color: #0056b3;*/
   transform: scale(1.1);
   color: #007BFF;
+}
+
+.animated-button.expanded {
+  transform: scale(1.5); /* 拡大サイズを設定 */
+  z-index: 10; /* 拡大したボタンが他の要素の上に表示されるようにする */
 }
 
 // Overlay
@@ -400,25 +406,25 @@
 }
 
 .fighter-details {
-  background-color: blue;
+  background-color: #2757f5;
   color: white;
   max-width: 420px;
 }
 
 .mage-details {
-  background-color: purple;
+  background-color: #a748fa;
   color: white;
   max-width: 420px;
 }
 
 .priest-details {
-  background-color: green;
+  background-color: #48874a;
   color: white;
   max-width: 420px;
 }
 
 .theif-details {
-  background-color: #da003d;
+  background-color: #fc4c52;
   color: white;
   max-width: 420px;
 }
@@ -846,12 +852,17 @@
 }
 
 .dragon-intro {
+  font-family: 'MS P明朝', 'MS PMincho', serif;
   color: black;
-  max-width: 600px;
+  max-width: 800px;
   text-align: justify;
   margin-top: 20px;
   line-height: 1.8;
   padding: 20px;
+}
+
+.dragon-intro h2 {
+  font-family: 'Zen Antique', serif;
 }
 
 .dragon-details {

@@ -6,6 +6,7 @@ permalink: /games/dragon/
 ---
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Corsiva&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
 </head>
 <body class="dragon-body">
 <header class="scenarios-header">
@@ -21,26 +22,15 @@ relative_url }}">{{ site.title | escape }}</a>
   <h1 class="dragon-title">ドラゴンリバース</h1>
   <div class="dragon-intro">
     <p></p>
-    <p>これはとあるファンタジー世界の物語。</p>
+    <h2>―――これは冒険者の道を選んだ君たちが恐るべき竜に挑んだ夜の物語。</h2>
     <p>剣士・武闘家・魔法使い・僧侶の4人からなる冒険隊一行は、忌まわしき竜が眠るという「竜の塔」を突き止め、攻略へと乗り出した。彼らの目標は竜を討伐し、竜の塔に眠るだいじなお宝を手に入れることだ。</p>
     <p>実力派と名高い冒険隊は順調に歩を進めていくのだが、その中で思わぬ悲運に見舞われることとなる…。</p>
     <p><strong>現在テストプレイ中です。近々UZUで公開予定！</strong></p>
-    <p>
-  </div>
-
-  <div class="dragon-details">
-    <h2>シナリオの特徴</h2>
-    <ul>
-      <li>GM不要4人用のRPG風マーダーミステリー！</li>
-      <li>ファンタジー世界のパーティメンバーになりきって冒険しよう！</li>
-      <li>ボリュームたっぷりのシナリオ！</li>
-      <li>プレイ時間：約3時間</li>
-    </ul>
   </div>
 
   <div class="dragon-characters">
-    <h2 style="color:#34495e; margin-top:50px;">登場人物一覧</h2>
-    <p>詳細はキャラクターをクリック！<br>※画像は開発段階のものです</p>
+    <h2 style="color:#34495e; margin-top:30px;text-align:center; font-family: 'Zen Antique', serif;">登場人物一覧</h2>
+    <p style="text-align:center;"><strong>詳細はキャラクターをクリック！</strong></p>
     <div class="characters-container">
       <button class="animated-button char-button button-fighter" style="font-family: 'Corsiva', cursive;" data-target="#fighter-details"><span>Fighter</span></button>
       <button class="animated-button char-button button-mage" style="font-family: 'Corsiva', cursive;" data-target="#mage-details"><span>Mage</span></button>
@@ -83,5 +73,16 @@ relative_url }}">{{ site.title | escape }}</a>
       <li><strong>盗賊の直感</strong>： ダンジョン内の空いていない宝箱の数がわかる。</li>
       </ul>
     </div>
+  </div>
+
+  <div class="dragon-details" style="margin-top:50px;">
+    <h2>シナリオの特徴</h2>
+    <ul>
+      <li>GM不要4人用のRPG風マーダーミステリー！</li>
+      <li>ファンタジー世界のパーティメンバーになりきって冒険しよう！</li>
+      <li>ボリュームたっぷりのシナリオ！</li>
+      <li>プレイ時間：120分</li>
+    </ul>
+  </div>
 </div>
 <script src="/assets/js/character-details.js"></script>
