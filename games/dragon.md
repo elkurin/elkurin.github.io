@@ -30,7 +30,7 @@ relative_url }}">{{ site.title | escape }}</a>
 
   <div class="dragon-characters">
     <h2 style="color:#34495e; margin-top:30px;text-align:center; font-family: 'Zen Antique', serif;">登場人物一覧</h2>
-    <p style="text-align:center;"><strong>詳細はキャラクターをクリック！</strong></p>
+    <p style="text-align:center;"><strong>詳細はキャラクターをクリック</strong></p>
     <div class="characters-container">
       <button class="animated-button char-button button-fighter" style="font-family: 'Corsiva', cursive;" data-target="#fighter-details"><span>Fighter</span></button>
       <button class="animated-button char-button button-mage" style="font-family: 'Corsiva', cursive;" data-target="#mage-details"><span>Mage</span></button>
@@ -73,6 +73,7 @@ relative_url }}">{{ site.title | escape }}</a>
       <li><strong>盗賊の直感</strong>： ダンジョン内の空いていない宝箱の数がわかる。</li>
       </ul>
     </div>
+    <p style="text-align:center;margin-top:20px;">イラスト：花見酒39様</p>
   </div>
 
   <div class="dragon-details" style="margin-top:50px;">
