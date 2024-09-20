@@ -37,7 +37,6 @@ relative_url }}">{{ site.title | escape }}</a>
       <li>プレイ時間：120分</li>
     </ul>
   </div>
-</div>
 
   <div class="dragon-characters">
     <h2 style="color:#34495e; margin-top:30px;text-align:center; font-family: 'Zen Antique', serif;">登場人物一覧</h2>
@@ -86,4 +85,5 @@ relative_url }}">{{ site.title | escape }}</a>
     </div>
     <p style="text-align:center;margin-top:20px;">イラスト：花見酒39様</p>
   </div>
+</div>
 <script src="/assets/js/character-details.js"></script>
