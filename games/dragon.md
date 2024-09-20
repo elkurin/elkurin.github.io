@@ -28,6 +28,17 @@ relative_url }}">{{ site.title | escape }}</a>
     <p><strong>現在テストプレイ中です。近々UZUで公開予定！</strong></p>
   </div>
 
+  <div class="dragon-details" style="margin-top:50px;">
+    <h2>シナリオの特徴</h2>
+    <ul>
+      <li>GM不要4人用のRPG風マーダーミステリー！</li>
+      <li>ファンタジー世界のパーティメンバーになりきって冒険しよう！</li>
+      <li>ボリュームたっぷりのシナリオ！</li>
+      <li>プレイ時間：120分</li>
+    </ul>
+  </div>
+</div>
+
   <div class="dragon-characters">
     <h2 style="color:#34495e; margin-top:30px;text-align:center; font-family: 'Zen Antique', serif;">登場人物一覧</h2>
     <p style="text-align:center;"><strong>詳細はキャラクターをクリック</strong></p>
@@ -75,15 +86,4 @@ relative_url }}">{{ site.title | escape }}</a>
     </div>
     <p style="text-align:center;margin-top:20px;">イラスト：花見酒39様</p>
   </div>
-
-  <div class="dragon-details" style="margin-top:50px;">
-    <h2>シナリオの特徴</h2>
-    <ul>
-      <li>GM不要4人用のRPG風マーダーミステリー！</li>
-      <li>ファンタジー世界のパーティメンバーになりきって冒険しよう！</li>
-      <li>ボリュームたっぷりのシナリオ！</li>
-      <li>プレイ時間：120分</li>
-    </ul>
-  </div>
-</div>
 <script src="/assets/js/character-details.js"></script>
