@@ -25,8 +25,11 @@ relative_url }}">{{ site.title | escape }}</a>
     <p>マフィアのメンバーたちが船に乗って拠点まで戻る最中、ボスが大切にしていた弟・オットーが死体となって発見された。今一同がいるのは海の上という密室状態だ。間違いなくこの中に犯人がいる。あるいは自殺か、もしくは事故か…。いずれにせよ、犯人を見つけなければボスからの制裁が待っている。協力して犯人を暴き出し、陸についたらボスに突き出そう。</p>
     <p>さあ、最後の仕事だ。お昼時までには片付けて、昼食は優雅にいただこうではないか。</p>
     <h2 style="text-align: center;">推理と駆け引きを存分に楽しめる<br>本格マーダーミステリーをあなたへ</h2>
-    <p><strong>ゲームマーケット2024秋にて販売！近々ココフォリア版も公開予定！</strong></p>
-    <p>Booth URL: <a href="https://elkurin.booth.pm/items/6099499">https://elkurin.booth.pm/items/6099499</a></p>
+    <ul>
+        <li><strong>CCFOLIA GAMESにて販売中！ ➡ <a class="mafia-how-to-buy" href="https://ccfolia.com/games/zcoADP1A8jSJGDCpXHTy">コチラ</a></strong></li>
+        <li><strong>ゲームマーケット2024秋にて販売！予約受付中 ➡ <a class="mafia-how-to-buy" href="https://forms.gle/q1bQ9Y9PBFbzrkJN8">お取り置き予約フォーム</a></strong></li>
+        <li><strong>BOOTHから配送予約も受付中！ ➡ <a class="mafia-how-to-buy" href="https://elkurin.booth.pm/items/6099499">BOOTH</a></strong></li>
+    </ul>
   </div>
 
   <div class="mafia-details">

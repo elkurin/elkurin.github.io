@@ -24,9 +24,11 @@ relative_url }}">{{ site.title | escape }}</a>
   <div class="sonata-intro">
     <p>秋のピアノコンクール全国大会。1位をめざして死に物狂いで努力し続けてきた全国の高校生も最後の5人にまで絞られた。いよいよ1位が決まるというコンクール当日の今日、演奏者の1人が控室で首をつって死んでいた。なんとその演奏者は高校1年生の“天才少女”五木梨香だった…。</p>
     <h2 style="text-align:center">青春をピアノに捧げる高校生<br>たちの生き様をご照覧あれ！</h2>
-    <p><strong>ゲームマーケット2024秋にて販売します！近々オンライン版も公開予定！</strong></p>
     <p>イラスト：高嶋るみあ様・花見酒39様</p>
-    <p>Booth URL: <a href="https://elkurin.booth.pm/items/6099565">https://elkurin.booth.pm/items/6099565</a></p>
+    <ul>
+        <li><strong>ゲームマーケット2024秋にて販売！予約受付中 ➡ <a href="https://forms.gle/q1bQ9Y9PBFbzrkJN8">お取り置き予約フォーム</a></strong></li>
+        <li><strong>BOOTHから配送予約も受付中！ ➡ <a href="https://elkurin.booth.pm/items/6099565">BOOTH</a></strong></li>
+    </ul>
   </div>
 
   <div class="sonata-details">
