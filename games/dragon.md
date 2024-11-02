@@ -27,7 +27,7 @@ relative_url }}">{{ site.title | escape }}</a>
     <p>実力派と名高い冒険隊は順調に歩を進めていくのだが、その中で思わぬ悲運に見舞われることとなる…。</p>
     <p><strong>マダミスアプリUZUにて、本格マダミスウィークの作品として2024/11/2に公開予定！</strong></p>
     <p><strong>こちらから遊べます！ <a
-    href="https://www.uzu-app.com/ja/scenario/6168">コチラ</a></strong>
+    href="https://www.uzu-app.com/ja/scenario/6168">コチラ</a></strong></p>
   </div>
 
   <div class="dragon-details" style="margin-top:50px;">
