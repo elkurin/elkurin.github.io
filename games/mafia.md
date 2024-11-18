@@ -27,8 +27,8 @@ relative_url }}">{{ site.title | escape }}</a>
     <h2 style="text-align: center;">推理と駆け引きを存分に楽しめる<br>本格マーダーミステリーをあなたへ</h2>
     <ul>
         <li><strong>CCFOLIA GAMESにて販売中！ ➡ <a class="mafia-how-to-buy" href="https://ccfolia.com/games/zcoADP1A8jSJGDCpXHTy">コチラ</a></strong></li>
-        <li><strong>ゲームマーケット2024秋にて販売！予約受付中 ➡ <a class="mafia-how-to-buy" href="https://forms.gle/q1bQ9Y9PBFbzrkJN8">お取り置き予約フォーム</a></strong></li>
-        <li><strong>BOOTHから配送予約も受付中！ ➡ <a class="mafia-how-to-buy" href="https://elkurin.booth.pm/items/6099499">BOOTH</a></strong></li>
+        <li>作家GMも受付中。ご希望の方はX(@elkurin_games)のDMまでご連絡ください！</li>
+        <li><strong>BOOTHから数量限定で配送販売中！ ➡ <a class="mafia-how-to-buy" href="https://elkurin.booth.pm/items/6099499">BOOTH</a></strong></li>
     </ul>
   </div>
 

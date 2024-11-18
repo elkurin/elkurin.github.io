@@ -27,8 +27,7 @@ relative_url }}">{{ site.title | escape }}</a>
     <p>限られた時間の中で会話を尽くし、時には他者を蹴落とし、時には他者と協力し、あなたの目標を達成できるよう頑張ろう。</p>
     <p>※マダミスと銘打っていますが、マーダーは起きません。…多分ね</p>
     <ul>
-        <li><strong>ゲームマーケット2024秋にて販売！予約受付中 ➡ <a href="https://forms.gle/q1bQ9Y9PBFbzrkJN8">お取り置き予約フォーム</a></strong></li>
-        <li><strong>BOOTHから配送予約も受付中！ ➡ <a href="https://elkurin.booth.pm/items/6099549">BOOTH</a></strong></li>
+        <li><strong>BOOTHから数量限定で配送販売中！ ➡ <a href="https://elkurin.booth.pm/items/6099549">BOOTH</a></strong></li>
     </ul>
   </div>
 
