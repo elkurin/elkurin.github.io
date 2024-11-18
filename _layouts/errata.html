@@ -1,0 +1,24 @@
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+  {%- include head.html -%}
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="{{ '/phantom-favicon.png' | relative_url }}" type="image/x-icon">
+</head>
+
+<body>
+  <main class="page-content" aria-label="Content">
+    <div class="wrapper">
+      <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
+    </div>
+    <article class="post">
+
+      <header class="post-header">
+      </header>
+
+      <div class="post-content">
+        {{ content }}
+      </div>
+
+    </article>
+  </main>
+</body>

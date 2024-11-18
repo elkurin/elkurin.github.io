@@ -136,6 +136,40 @@
   font-family: 'Zen Old Mincho', serif;
 }
 
+.alert-button {
+  text-align: center;
+  margin: 20px auto; /* タイトルの下に余白を追加 */
+}
+
+.alert-link {
+  display: inline-block;
+  padding: 10px 20px; /* ボタン内の余白 */
+  font-size: 18px; /* ボタンのテキストサイズ */
+  font-weight: bold;
+  color: white; /* テキストの色 */
+  background-color: #e74c3c; /* ボタンの背景色 (赤系) */
+  text-decoration: none;
+  border-radius: 5px; /* ボタンの角を丸く */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* ボックスシャドウを追加 */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* アニメーションを追加 */
+}
+
+.alert-link:link,
+.alert-link:visited,
+.alert-link:hover,
+.alert-link:active {
+  color: white;
+}
+
+.alert-link:hover {
+  background-color: #c0392b; /* ホバー時の背景色 */
+  transform: scale(1.05); /* ホバー時に少し拡大 */
+}
+
+/********************
+ * Characters Animated buttons
+ ********************/
+
 .button-cent {
   background-image: url('/assets/images/cent.png');
   width: 100px;
@@ -1131,6 +1165,58 @@
 .sonata-characters h3 {
   font-family: 'Zen Old Mincho', serif;
 }
+
+/********************
+ * errata page
+ ********************/
+.errata-page {
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.errata-page h1 {
+  font-family: 'Zen Antique', serif;
+  color: #2c3e50;
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.scenario-errata h2 {
+  font-family: 'New Tegomin', serif;
+  color: #e74c3c;
+  font-size: 28px;
+  margin-top: 20px;
+}
+
+.scenario-errata li {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.errata-item {
+  margin-bottom: 20px; /* 各エラッタ間のスペース */
+}
+
+.errata-location {
+  font-weight: bold;
+  font-size: 18px;
+  color: #d35400; /* 赤茶色で目立たせる */
+  margin-bottom: 5px;
+}
+
+.errata-description {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5; /* 行間を広く設定 */
+}
+
 
 @import
   "minima/skins/{{ site.minima.skin | default: 'classic' }}",
