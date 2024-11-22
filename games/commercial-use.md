@@ -5,6 +5,11 @@ permalink: /games/commercial-use/
 ---
 
 <div class="commercial-use-page">
+  <div class="alert-button">
+    <p
+    class="alert-link">現在整備中です。詳細はXかメールまでお問い合わせください。</p>
+  </div>
+
   <h1>商用利用について</h1>
   <p>当サイトの提供するシナリオやサービスに関する商用利用について、以下のようにまとめています。</p>
 
@@ -31,8 +36,8 @@ permalink: /games/commercial-use/
     <h2>お問い合わせ</h2>
     <p>商用利用に関するお問い合わせは以下の方法でご連絡ください。</p>
     <ul>
-      <li><strong>メール:</strong> <a href="mailto:example@example.com">example@example.com</a></li>
-      <li><strong>XのDM:</strong> <a href="https://twitter.com/example" target="_blank">@example</a></li>
+      <li><strong>メール:</strong> <a href="mailto:elkurin.games@gmail.com">elkurin.games@gmail.com</a></li>
+      <li><strong>XのDM:</strong> <a href="https://twitter.com/elkurin_games" target="_blank">@elkurin_games</a></li>
     </ul>
   </section>
 </div>

@@ -4,12 +4,6 @@ title: エラッタ情報
 permalink: /games/errata/
 ---
 
-<header class="scenarios-header">
-  <nav class="scenarios-nav">
-    <a href="/games/" class="scenarios-link scenarios-button dragon-link dragon-button">Scenarios</a>
-  </nav>
-</header>
-
 <div class="errata-page">
   <h1>エラッタ情報</h1>
   <div>

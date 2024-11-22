@@ -22,18 +22,10 @@
     </ul>
   </nav>
   <main class="page-content" aria-label="Content">
-    <div class="wrapper">
-      <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
+
+    <div class="post-content">
+      {{ content }}
     </div>
-    <article class="post">
 
-      <header class="post-header">
-      </header>
-
-      <div class="post-content">
-        {{ content }}
-      </div>
-
-    </article>
   </main>
 </body>
