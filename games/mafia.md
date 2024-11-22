@@ -10,13 +10,6 @@ permalink: /games/mafia/
 </head>
 
 <body class="mafia-body">
-<header class="scenarios-header">
-  <nav class="scenarios-nav">
-    <a href="/games/" class="scenarios-link scenarios-button mafia-link mafia-button">Scenarios</a>
-  </nav>
-</header>
-<a class="site-title" style="color:gray;margin-left:30px;margin-top:10px" rel="author" href="{{ "/" |
-relative_url }}">{{ site.title | escape }}</a>
 
 <div class="mafia-page">
   <h1 class="mafia-title">海の上で昼食を</h1>

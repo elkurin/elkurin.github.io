@@ -10,6 +10,22 @@
 </head>
 
 <body>
+  <nav class="menu-bar">
+    <!--
+    <div class="menu-logo">
+      <a href="/">
+        <img src="/assets/images/logo-white.png" alt="Site Logo">
+      </a>
+    </div>
+    --!>
+    <ul class="menu-items">
+      <li><a href="/" class="menu-link">Home</a></li>
+      <li><a href="/games/" class="menu-link">Scenarios</a></li>
+      <li><a href="/games/commercial-use" class="menu-link">商用利用</a></li>
+      <li><a href="/games/about" class="menu-link">About me</a></li>
+    </ul>
+  </nav>
+
   <main class="page-content" aria-label="Content">
     <div class="wrapper">
       <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
@@ -32,9 +48,11 @@
         <a href="/games/sonata" class="animated-button button-sonata"><span>最後の<br>ソナタ</span></a>
       </div>
     </div>
-    <footer class="games-footer">
-      <a href="/games/about" class="games-about">About me</a>
-    </footer>
   </main>
+  <!--
+  <footer class="games-footer">
+    <a href="/games/about" class="games-about">About me</a>
+  </footer>
+  --!>
 </body>
 </html>

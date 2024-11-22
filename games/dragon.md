@@ -9,14 +9,6 @@ permalink: /games/dragon/
 <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
 </head>
 <body class="dragon-body">
-<header class="scenarios-header">
-  <nav class="scenarios-nav">
-    <a href="/games/" class="scenarios-link scenarios-button dragon-link dragon-button">Scenarios</a>
-  </nav>
-</header>
-
-<a class="site-title" style="color:gray;margin-left:30px;margin-top:10px" rel="author" href="{{ "/" |
-relative_url }}">{{ site.title | escape }}</a>
 
 <div class="dragon-page">
   <h1 class="dragon-title">ドラゴンリバース</h1>

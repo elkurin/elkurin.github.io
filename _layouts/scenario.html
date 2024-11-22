@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang | default: "en" }}">
-  {%- include head.html -%}
+  <nav class="menu-bar">
+    <!--
+    <div class="menu-logo">
+      <a href="/">
+        <img src="/assets/images/logo-white.png" alt="Site Logo">
+      </a>
+    </div>
+    --!>
+    <ul class="menu-items">
+      <li><a href="/" class="menu-link">Home</a></li>
+      <li><a href="/games/" class="menu-link">Scenarios</a></li>
+      <li><a href="/games/commercial-use" class="menu-link">商用利用</a></li>
+      <li><a href="/games/about" class="menu-link">About me</a></li>
+    </ul>
+  </nav>
 
-  {{ content }}
+    {%- include head.html -%}
+  <main class="page-content" aria-label="Content">
+
+    {{ content }}
+  </main>
 </html>

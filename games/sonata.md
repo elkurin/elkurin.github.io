@@ -10,14 +10,6 @@ permalink: /games/sonata/
 </head>
 
 <body class="sonata-body">
-<header class="scenarios-header">
-  <nav class="scenarios-nav">
-    <a href="/games/" class="scenarios-link scenarios-button sonata-link sonata-button">Scenarios</a>
-  </nav>
-</header>
-
-<a class="site-title" style="color:gray;margin-left:30px;margin-top:10px" rel="author" href="{{ "/" |
-relative_url }}">{{ site.title | escape }}</a>
 
 <div class="sonata-page">
   <h1 class="sonata-title">最後のソナタ</h1>
@@ -25,24 +17,29 @@ relative_url }}">{{ site.title | escape }}</a>
     <a href="/games/errata"
     class="alert-link">エラッタがございます。こちらをクリックしてご確認ください。</a>
   </div>
+    <div class="youtube-video">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/uC0EvfcYGEs?si=i4y8pOb_i3bwi8aN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
   <div class="sonata-intro">
     <p>秋のピアノコンクール全国大会。1位をめざして死に物狂いで努力し続けてきた全国の高校生も最後の5人にまで絞られた。いよいよ1位が決まるというコンクール当日の今日、演奏者の1人が控室で首をつって死んでいた。なんとその演奏者は高校1年生の“天才少女”五木梨香だった…。</p>
     <h2 style="text-align:center">青春をピアノに捧げる高校生<br>たちの生き様をご照覧あれ！</h2>
     <p>イラスト：高嶋るみあ様・花見酒39様</p>
     <ul>
         <li><strong>BOOTHから数量限定で配送販売中！ ➡ <a href="https://elkurin.booth.pm/items/6099565">BOOTH</a></strong></li>
+        <li><strong>マダミス広報部まいちぃさんにレビューを書いていただきました！→<a
+        href="https://note.com/maichy/n/n772797580cd6">ネタバレなしレビュー</a></strong></li>
     </ul>
-  </div>
 
-  <div class="sonata-details">
-    <h2>シナリオの特徴</h2>
-    <ul>
-      <li>GM不要5人用のエモいマーダーミステリー！</li>
-      <li>ロールプレイも推理も楽しめる！</li>
-      <li>音楽作品のオマージュも登場します！</li>
-      <li>エンディングブックには曲目解説も記載！</li>
-      <li>プレイ時間：約150分</li>
-    </ul>
+    <div class="sonata-details">
+      <h2>シナリオの特徴</h2>
+      <ul>
+        <li>GM不要5人用のエモいマーダーミステリー！</li>
+        <li>ロールプレイも推理も楽しめる！</li>
+        <li>音楽作品のオマージュも登場します！</li>
+        <li>エンディングブックには曲目解説も記載！</li>
+        <li>プレイ時間：約150分</li>
+      </ul>
+    </div>
   </div>
 
   <div class="sonata-characters">

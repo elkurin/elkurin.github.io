@@ -11,14 +11,6 @@ permalink: /games/gokon/
 </head>
 
 <body class="gokon-body">
-<header class="scenarios-header">
-  <nav class="scenarios-nav">
-    <a href="/games/" class="scenarios-link scenarios-button gokon-link gokon-button">Scenarios</a>
-  </nav>
-</header>
-
-<a class="site-title" style="color:gray;margin-left:30px;margin-top:10px" rel="author" href="{{ "/" |
-relative_url }}">{{ site.title | escape }}</a>
 
 <div class="gokon-page">
   <h1 class="gokon-title">合コンマダミス</h1>
