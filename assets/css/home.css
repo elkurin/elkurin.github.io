@@ -22,27 +22,28 @@ body {
 }
 
 .home-logo img {
-  max-width: 800px; /* ロゴの幅を600pxに設定 */
+  max-width: 80vw;
   height: auto; /* アスペクト比を維持 */
   margin-bottom: 20px;
 }
 
 .home-description {
-  font-size: 20px;
+  font-size: 1.6vw;
   color: #dddddd; /* 白っぽいグレー */
   line-height: 1.6;
 }
 
 .button-section {
   display: flex;
-  gap: 30px; /* ボタン間のスペースを広げる */
-  margin-top: 50px;
+  gap: 5vw;
+  margin-top: 5vh;
+  flex-wrap: wrap;
 }
 
 .custom-button {
   display: inline-block;
-  padding: 20px 40px; /* ボタンを大きくする */
-  font-size: 24px; /* フォントサイズを大きく */
+  padding: 2vw 4vw; /* ボタンを大きくする */
+  font-size: 2vw; /* フォントサイズを大きく */
   font-weight: bold;
   color: #000000; /* 黒文字 */
   background-color: #ffffff; /* 白背景 */

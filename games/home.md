@@ -16,7 +16,7 @@ permalink: /games/
   <div class="button-section">
     <a href="/games/scenarios" class="custom-button">Scenarios</a>
     <a href="https://elkurin.booth.pm/" target="_blank" class="custom-button">BOOTH</a>
-    <a href="/games/errata" class="custom-button">エラッタ</a>
+    <a href="/games/errata" class="custom-button">誤植</a>
   </div>
 </div>
 
