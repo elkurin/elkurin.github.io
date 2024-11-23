@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  color: #ffffff;
+  background-color: #000000; /* 黒背景 */
+}
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* ビューポート全体をカバー */
+  text-align: center;
+}
+
+.home-title {
+  font-family: 'Zen Antique', serif; /* スタイリッシュなフォント */
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.home-logo img {
+  max-width: 800px; /* ロゴの幅を600pxに設定 */
+  height: auto; /* アスペクト比を維持 */
+  margin-bottom: 20px;
+}
+
+.home-description {
+  font-size: 20px;
+  color: #dddddd; /* 白っぽいグレー */
+  line-height: 1.6;
+}
+
+.button-section {
+  display: flex;
+  gap: 30px; /* ボタン間のスペースを広げる */
+  margin-top: 50px;
+}
+
+.custom-button {
+  display: inline-block;
+  padding: 20px 40px; /* ボタンを大きくする */
+  font-size: 24px; /* フォントサイズを大きく */
+  font-weight: bold;
+  color: #000000; /* 黒文字 */
+  background-color: #ffffff; /* 白背景 */
+  text-decoration: none;
+  border-radius: 50px; /* 丸いボタン */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 立体感を強調 */
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.custom-button:visited {
+  color: #000000;
+}
+
+.custom-button:hover {
+  background-color: #e74c3c; /* ホバー時の背景色 */
+  color: #ffffff; /* ホバー時の文字色 */
+  transform: scale(1.1); /* 少し拡大 */
+}
+

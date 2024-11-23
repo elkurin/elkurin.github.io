@@ -1,5 +1,5 @@
 ---
 layout: murder-mystery
 title: えるのマダミスシナリオ
-permalink: /games/
+permalink: /games/scenarios/
 ---
