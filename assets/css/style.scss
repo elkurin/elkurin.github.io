@@ -374,6 +374,60 @@ main {
   background-repeat: no-repeat;
 }
 
+.button-silco {
+  background-image: url('/assets/images/silco.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-bridget {
+  background-image: url('/assets/images/bridget.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-heimer {
+  background-image: url('/assets/images/heimer.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-izzy {
+  background-image: url('/assets/images/izzy.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-dunke {
+  background-image: url('/assets/images/dunke.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.button-victor {
+  background-image: url('/assets/images/victor.png');
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .char-button {
   aspect-ratio: 1 / 1;
 }
@@ -539,6 +593,13 @@ main {
   background-color: #ffcaca;
   color: black;
   max-width: 300px;
+}
+
+.silco-details {
+  background: brown;
+  color: black;
+  max-width: 300px;
+  text-align: left;
 }
 
 @media (max-width: 768px) {
@@ -1172,6 +1233,173 @@ main {
   font-family: 'Zen Old Mincho', serif;
 }
 
+/********************
+ * Airship
+ ********************/
+.airship-body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  // background: linear-gradient(135deg, #2c3e50, #4a5c6b);
+  // background-color: #2c3e50;
+  // background-color: #34495e;
+  // background: url('/assets/images/ocean-background.jpg') no-repeat center center fixed;
+  background: url('/assets/images/airship-background.png') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+}
+
+.airship-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: 'MS P明朝', 'MS PMincho', serif;
+}
+
+.airship-title {
+  // font-family: 'MS P明朝', 'MS PMincho', serif;
+  font-family: 'Zen Antique', serif;
+  color: white;
+  text-align: center;
+  font-size: 48px;
+  margin-top: 0;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+}
+
+.airship-title::after {
+  content: "";
+  display: block;
+  width: 300px;
+  height: 30px;
+  background: url('/assets/images/airship-title-bar.png') no-repeat center;
+  background-size: contain;
+  margin: 5px auto 0;
+}
+
+/*
+.airship-sub-title {
+  font-family: 'New Tegomin', serif;
+  text-align: center;
+  color: black;
+  font-size: 24px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  display: inline-block;
+  position: relative;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  // box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.airship-sub-title::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  background-color: transparent;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+*/
+
+.airship-intro {
+  font-family: 'MS P明朝', 'MS PMincho', serif;
+  color: #54381e;
+  max-width: 800px;
+  text-align: justify;
+  margin-top: 20px;
+  line-height: 1.8;
+  // background-color: rgba(44, 62, 80, 0.8);
+  // background-color: rgba(52, 73, 94, 0.8);
+  // background-color: black;
+  background: url('/assets/images/airship-intro-background.png') no-repeat center center;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.airship-intro h2 {
+  font-family: 'Zen Antique', serif;
+}
+
+.airship-how-to-buy:hover {
+  color: #FFFFFF;
+}
+
+.airship-details {
+  font-family: 'MS P明朝', 'MS PMincho', serif;
+  color: white;
+  max-width: 800px;
+  text-align: justify;
+  margin-top: 40px;
+  line-height: 1.8;
+  background-color: rgba(52, 73, 94, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.airship-details h2 {
+  text-align: center;
+  font-size: 36px;
+  margin-top: 0;
+  color: #ffdd57;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+}
+
+.airship-details ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.airship-details li {
+  margin: 10px 0;
+  font-size: 18px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.airship-details li::before {
+  content: "★";
+  position: absolute;
+  left: 0;
+  color: #ffdd57;
+}
+
+.airship-characters {
+  color: black;
+  max-width: 350px;
+  text-align: center;
+  margin-top: 20px;
+  // background-color: rgba(52, 73, 94, 0.8);
+  background-color: rgba(255, 252, 219, 0.7);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.airship-characters h2 {
+  font-family: 'Mochiy Pop One', sans-serif;
+  text-align: center;
+  margin-top: 0;
+  color: #007fab;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.airship-characters h3 {
+  font-family: 'Mochiy Pop One', sans-serif;
+}
 /********************
  * Menu bar
  ********************/
