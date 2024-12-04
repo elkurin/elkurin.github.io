@@ -7,7 +7,7 @@ permalink: /games/commercial-use/
 <div class="commercial-use-page">
   <div class="alert-button">
     <p
-    class="alert-link">現在整備中です。詳細はXかメールまでお問い合わせください。</p>
+    class="alert-link">現在整備中です。詳細はXのDMかメールまでお問い合わせください。</p>
   </div>
 
   <h1>商用利用について</h1>
@@ -22,13 +22,14 @@ permalink: /games/commercial-use/
   <!-- 公演依頼 -->
   <section id="request">
     <h2>公演依頼</h2>
-    <p>当方に直接公演を依頼することも可能です。規模や場所によって料金が異なります。</p>
+    <p>当方に直接公演を依頼することも可能です。パッケージをご購入の方は割引いたします。ぜひお問い合わせください。</p>
   </section>
 
   <!-- パッケージ逐次購入 -->
   <section id="purchase">
     <h2>パッケージ逐次購入</h2>
-    <p>シナリオのパッケージを購入して公演を行う形式です。詳しくはお問い合わせください。</p>
+    <p>シナリオのパッケージを1プレイごとに1購入して公演を行う場合、当方への連絡は不要です。</p>
+    <p>連絡していただいた場合、GM用資料の提供もしております。</p>
   </section>
 
   <!-- お問い合わせ -->
