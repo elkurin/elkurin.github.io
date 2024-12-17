@@ -142,6 +142,17 @@ main {
   font-family: 'Zen Old Mincho', serif;
 }
 
+.button-airship {
+  background-image: url('/assets/images/airship.png');
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: 'Zen Antique', serif;
+}
+
 .alert-button {
   text-align: center;
   margin: 20px auto; /* タイトルの下に余白を追加 */
@@ -596,8 +607,43 @@ main {
 }
 
 .silco-details {
-  background: brown;
+  background: #778899;
+  color: white;
+  max-width: 300px;
+  text-align: left;
+}
+
+.bridget-details {
+  background: #ffb6c1;
   color: black;
+  max-width: 300px;
+  text-align: left;
+}
+
+.heimer-details {
+  background: #98fb98;
+  color: black;
+  max-width: 300px;
+  text-align: left;
+}
+
+.izzy-details {
+  background: #fafad2;
+  color: black;
+  max-width: 300px;
+  text-align: left;
+}
+
+.dunke-details {
+  background: #6495ed;
+  color: black;
+  max-width: 300px;
+  text-align: left;
+}
+
+.victor-details {
+  background: black;
+  color: white;
   max-width: 300px;
   text-align: left;
 }
