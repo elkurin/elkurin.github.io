@@ -28,6 +28,8 @@ permalink: /games/commercial-use/
   <section id="request">
     <h2>公演依頼</h2>
     <p>現在公演依頼も受け付けております。作者がGMをいたします。</p>
+    <p>ご希望の方は、Xやメールからご連絡いただくか、こちらのフォームに記入をお願いします：<a
+    href="https://docs.google.com/forms/d/e/1FAIpQLSdvYiCCpnGYRWRMhR2xolNbq435mh-z5PGKnVXLRX3-8yxRJA/viewform?usp=dialog">公演依頼フォーム</a>
     <h3>オフライン公演</h3>
     <p>基本的には東京圏に限らせていただきますが、関西圏も受付可能な場合がございます。ぜひX(@elkurin_games)までお問い合わせください。</p>
     <p>対応シナリオ：</p>
@@ -45,9 +47,15 @@ permalink: /games/commercial-use/
     <h3>オンライン公演</h3>
     <p>対応シナリオ：</p>
     <ul>
-      <li>魂を運ぶ飛行船: 1000円x人数分</li>
-      <li>海の上で昼食を: 現在追加料金は撮っておりません。CCFOLIA
-      GAMESから当作品をご購入いただいた方には無償で作者GMをいたします。</li>
+      <li>魂を運ぶ飛行船</li>
+      <li>海の上で昼食を</li>
+      <li>最後のソナタ</li>
+    </ul>
+    <p>料金について：</p>
+    <ul>
+      <li>基本料金：1500円x人数分</li>
+      <li>『海の上で昼食を』は、CCFOLIA
+      GAMESから当作品をご購入いただいている方は無償となります。</li>
     </ul>
   </section>
 

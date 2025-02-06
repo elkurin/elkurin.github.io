@@ -76,7 +76,7 @@ permalink: /games/airship/
       <ul>
         <li>年齢：42歳</li>
         <li>職業：医師</li>
-        <li>外聞：現代医学の母と呼ばれるほどの卓越した医療技術を持つ。高い報酬を要求するため一部からは守銭奴と非難されている。</li>
+        <li>外聞：脳医学の母と呼ばれるほどの卓越した医療技術を持つ。高い報酬を要求するため一部からは守銭奴と非難されている。</li>
       </ul>
     </div>
     <div id="dunke-details" class="character-details dunke-details">
