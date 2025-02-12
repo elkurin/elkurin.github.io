@@ -1,59 +1,62 @@
 ---
 layout: scenario
 title: Skybound Rebels～宇宙を翔ける反逆者～
-js: /assets/js/character-details.js
+js:
+  - /assets/js/character-details.js
+  - /assets/js/intro-scroll-animation.js
 permalink: /games/skybound-rebels/
 ---
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Corsiva&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+
 </head>
 <body class="skybound-rebels-body">
 
 <div class="skybound-rebels-page">
+  <div class="skybound-rebels-title">Skybound Rebels</div>
     <div class="skybound-rebels-intro">
-        <h1>Skybound Rebels</h1>
-        <div>
-            <p><span class="skybound-rebels-highlight">1957年10月</span> ソ連が世界初の人工衛星を打ち上げた。</p>
-            <p><span class="skybound-rebels-highlight">1958年2月</span> アメリカも続いて人工衛星を打ち上げる。人類は宇宙への扉を開いた。</p>
-            <p><span class="skybound-rebels-highlight">1958年3月</span> アメリカ陸軍弾道ミサイル局が地球外生命体の活動を報告。同時期に世界各地で謎の飛行物体の観測報告が増加。</p>
+    <div class="intro-text">
+        <div class="intro-story">
+            <p>1957年10月 ソ連が世界初の人工衛星を打ち上げた。</p>
+            <p>1958年2月 アメリカも続いて人工衛星を打ち上げる。人類は宇宙への扉を開いた。</p>
+            <p>1958年3月 アメリカ陸軍弾道ミサイル局が地球外生命体の活動を報告。同時期に世界各地で謎の飛行物体の観測報告が増加。</p>
             <p>そのとき人類はまだ気づいていなかった。それが彼らの下見だったことに。</p>
-
-            <p class="intro-divider">1958年4月―――エイリアン襲来</p>
-
+            <p class="intro-divider intro-highlight">1958年4月―――エイリアン襲来</p>
             <p>それは、突然だった。</p>
             <p>最初の報告は北欧のスウェーデンからだった。国籍不明の飛行物体に苛烈な空襲を受けていると。世界が奇襲を仕掛けた国を探している間に、スウェーデンは焼け野原になった。</p>
-
             <p>次の日。同時多発的に、世界各地に“空襲”が降り注ぐ。迎撃の時間はなかった。それは戦争ではない。一方的な制圧だった。</p>
-
             <p class="intro-divider">1958年 4月20日</p>
             <p>国際連合は敵の正体を地球外生命体、通称「エイリアン」と断定。宇宙開発の進んだソ連、空軍の善戦でエイリアンを退けたアメリカ、屈強な陸軍を保持する東ドイツが中心となって、人類防衛軍を緊急結成。</p>
-
             <p class="intro-divider">1958年 5月 7日</p>
             <p>日本がエイリアンの降伏勧告に応じる。初のエイリアン隷属国となった。</p>
-
+            <p class="intro-divider">1958年 5月15日</p>
+            <p>日本が「新世界平和機構」を設立。エイリアンと手を取り合って新世界の秩序を守ることをスローガンに掲げる。</p>
+            <p class="intro-divider">1958年 6月</p>
+            <p>日本を皮切りに多くの国が降伏。多くの地球の土地に「新世界平和機構」を名乗るエイリアンの拠点ができたことでエイリアン軍が補給線を確立。人類防衛軍はより劣勢になる。</p>
             <p class="intro-divider">1958年 7月 7日</p>
-            <p>国際連合がエイリアンへの降伏を決意。その裏で最後の抵抗策が講じられた。『動くシャーウッドの森』作戦―――</p>
-            
+            <p>国際連合がエイリアンへの降伏を決意。その裏で最後の抵抗策が講じられた。『動くシャーウッドの森』作戦。各軍隊の精鋭兵及び卓越した科学者・技術者を「戦死扱い」として逃がし、再び人類の主権を取り戻すまでの希望の火種とする。</p>
             <p>通称・レジスタンスの始まりだ―――。</p>
-
             <p class="intro-highlight">その日、人類は敗北した。それから3年。</p>
             <p>だが、戦いは終わっていなかった。</p>
             <p class="intro-highlight">あなた達はレジスタンスの一員だ。</p>
-
-            <p>次なる我々の作戦は <span class="highlight">「夜のとばり作戦」</span>。その目標は、地球経済を支配する大企業ビヨンドアースのトップを暗殺すること。</p>
+            <p>次なる我々の作戦は <span class="highlight">「夜のとばり作戦」</span>。その目標は、地球経済を支配する大企業ビヨンドアースのトップを暗殺すること。なぜなら、彼女はエイリアンだったたからだ。</p>
             <p>しかし、作戦当日の今日、実行役を務めていたエージェントが殺された。</p>
-
+            <p>エージェントは周到に待ち伏せされていた。厳重に守られていたはずの作戦情報が漏れていたのだ。この殺害が示唆する事実。</p>
             <p class="intro-highlight">つまり――この中に“内通者”がいる。</p>
+            <p class="intro-highlight">2025年3月リリース予定</p>
         </div>
     </div>
-  </div>
+    </div>
 
 
   <div class="skybound-rebels-details" style="margin-top:50px;">
     <h2>シナリオの特徴</h2>
     <ul>
-      <li>6人用のSFマーダーミステリー</li>
+      <li>6人用のGM必須オンラインSFマーダーミステリー</li>
       <li>独自システムを導入したコンピューターゲーム的な面白さ</li>
       <li>奥深い世界観と魅力的なキャラクター</li>
       <li>手に汗握る駆け引き</li>
@@ -125,5 +128,6 @@ permalink: /games/skybound-rebels/
   </div>
 </div>
 <script src="/assets/js/character-details.js"></script>
+<script src="/assets/js/intro-scroll-animation.js"></script>
 
 

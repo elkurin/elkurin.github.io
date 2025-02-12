@@ -153,6 +153,17 @@ main {
   font-family: 'Zen Antique', serif;
 }
 
+.button-skybound-rebels {
+  background-image: url('/assets/images/skybound-rebels.png');
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: 'Orbitron', sans-serif;
+}
+
 .alert-button {
   text-align: center;
   margin: 20px auto; /* タイトルの下に余白を追加 */
@@ -1567,12 +1578,20 @@ main {
   min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
-  font-family: 'MS P明朝', 'MS PMincho', serif;
+  font-family: 'DotGothic16', sans-serif;
 }
 
 .skybound-rebels-title {
-  // font-family: 'MS P明朝', 'MS PMincho', serif;
-  font-family: 'Zen Antique', serif;
+  color: white;
+  text-align: center;
+  font-size: 48px;
+  margin-top: 0;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+}
+
+.skybound-rebels-title {
+  font-family: 'Orbitron', sans-serif;
   color: white;
   text-align: center;
   font-size: 48px;
@@ -1589,14 +1608,15 @@ main {
   background: url('/assets/images/skybound-rebels-title-bar.png') no-repeat center;
   background-size: contain;
   margin: 5px auto 0;
+  overflow-x: hidden;
 }
 
 .skybound-rebels-intro {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: 50px;
+  align-items: flex-start; /* 上から開始 */
+  min-height: 100vh; /* 最低でも画面の高さを確保 */
+  padding: 100px 10vw; /* 余白を持たせる */
   background: rgba(0, 0, 0, 0.7);
 }
 
@@ -1607,15 +1627,30 @@ main {
   margin-bottom: 30px;
 }
 
-.skybound-rebels-intro div {
+.skybound-rebels-intro .intro-text {
   max-width: 800px;
+  width: 100%;
+}
+
+.skybound-rebels-intro .intro-story {
   font-size: 20px;
   line-height: 1.8;
   text-align: left;
-  animation: fadeIn 2s ease-in-out;
 }
 
-.skybound-rebels-highlight {
+.skybound-rebels-intro .intro-story p {
+  opacity: 0 !important;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* スムーズなトランジション */
+}
+
+/* スクロールで表示されたときのスタイル */
+.skybound-rebels-intro .intro-story p.in-view {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.skybound-rebels-intro .highlight {
   font-size: 22px;
   font-weight: bold;
   color: #f39c12;
@@ -1650,7 +1685,6 @@ main {
 }
 
 .skybound-rebels-details {
-  font-family: 'MS P明朝', 'MS PMincho', serif;
   color: white;
   max-width: 800px;
   text-align: justify;
@@ -1703,15 +1737,10 @@ main {
 }
 
 .skybound-rebels-characters h2 {
-  font-family: 'Mochiy Pop One', sans-serif;
   text-align: center;
   margin-top: 0;
   color: #007fab;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.skybound-rebels-characters h3 {
-  font-family: 'Mochiy Pop One', sans-serif;
 }
 
 /********************
