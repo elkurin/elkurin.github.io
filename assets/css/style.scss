@@ -1489,6 +1489,21 @@ main {
   color: #FFFFFF;
 }
 
+.airship-info {
+  font-family: 'MS P明朝', 'MS PMincho', serif;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.airship-info li::before {
+  content: "⚙";
+  position: absolute;
+  left: 0;
+}
+
 .airship-details {
   font-family: 'MS P明朝', 'MS PMincho', serif;
   color: white;

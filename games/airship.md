@@ -18,9 +18,25 @@ permalink: /games/airship/
     <p>この度は我が最新の発明の先行発表会にみなさまを招待させていただきたいと思いお手紙を差し上げました。会場は私の手掛けた最高傑作と自負している飛行船『スカイヴェッセル』でございます。ぜひご参加ください。</p>
     <p>ヴィクター・ブライトより</p>
     <h2 style="text-align: center;">飛行船が運ぶのは、新たなる未来か、それとも囚われた魂か。歯車がまわり始めたその瞬間、真実と選択の物語の幕が開く。</h2>
-    <p><strong>公演依頼受付中！X(@elkurin_games)からお問い合わせください</strong></p>
-    <p><strong>The Light Houseにて公演中：詳細はこちらから <a
+    <p><strong>公演依頼受付中！ <a href="https://docs.google.com/forms/d/e/1FAIpQLSdvYiCCpnGYRWRMhR2xolNbq435mh-z5PGKnVXLRX3-8yxRJA/viewform?usp=dialog">依頼フォーム</a>またはX(@elkurin_games)からお問い合わせください</strong></p>
+    <p><strong>詳細はこちらから <a
     href="https://thelighthouse-mm.com/thelighthousex%e5%a4%a9%e6%89%8d%e3%82%af%e3%83%aa%e3%82%a8%e3%82%a4%e3%82%bf%e3%83%bc%e3%80%8c%e3%81%88%e3%82%8b%e3%80%8d%e3%82%b3%e3%83%a9%e3%83%9c%e4%bd%9c%e5%93%81%ef%bc%81/">シナリオページ</a></strong></p>
+  </div>
+
+  <div class="airship-info" style="margin-top:25px">
+    <p><strong>公演団体(順不同)：</strong></p>
+    <ul>
+      <li>The Light House様 (北九州)</li>
+      <li>Apri la Porta様 (広島)</li>
+      <li>Hello Hello Mystery様 (福岡)</li>
+      <li>Light and Geek様 (京都)</li>
+      <li>個人GM りゅぁ様 (東京圏)</li>
+    </ul>
+    <p><strong>出張公演：</strong></p>
+    <ul>
+      <li>フーダニット大阪様(大阪)：2/27, 2/28</li>
+      <li>これミスワンルームマダミス新宿店様(東京)：3/4, 3/11, 4/9, 4/10</li>
+    </ul>
   </div>
 
   <div class="airship-details" style="margin-top:50px;">
