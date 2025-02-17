@@ -28,9 +28,8 @@ permalink: /games/sonata/
         <li><strong>BOOTHから数量限定で配送販売中！ ➡ <a href="https://elkurin.booth.pm/items/6099565">BOOTH</a></strong></li>
         <li><strong>マダミス広報部まいちぃさんにレビューを書いていただきました！→<a
         href="https://note.com/maichy/n/n772797580cd6">ネタバレなしレビュー</a></strong></li>
-        <li><strong>作者GMも受付中。ご希望の方はX(@elkurin_games)までご連絡ください！</strong><li>
+        <li><strong>作者GMも受付中。ご希望の方はX(@elkurin_games)までご連絡ください！</strong></li>
     </ul>
-
     <div class="sonata-details">
       <h2>シナリオの特徴</h2>
       <ul>

@@ -12,6 +12,9 @@ permalink: /games/airship/
 
 <div class="airship-page">
   <h1 class="airship-title">魂を運ぶ飛行船</h1>
+    <div class="youtube-video">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/CGUW9D_zud0?si=5S07EPFql00AvKt4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
   <div class="airship-intro">
     <p></p>
     <h2>ようこそスカイヴェッセルへ</h2>
@@ -31,6 +34,7 @@ permalink: /games/airship/
       <li>Hello Hello Mystery様 (福岡)</li>
       <li>Light and Geek様 (京都)</li>
       <li>個人GM りゅぁ様 (東京圏)</li>
+      <li>個人GM 高橋マシュー様 (岩手)</li>
     </ul>
     <p><strong>出張公演：</strong></p>
     <ul>
@@ -54,9 +58,9 @@ permalink: /games/airship/
     <h2 style="color:#34495e; margin-top:10px;text-align:center; font-family: 'Zen Antique', serif;">登場人物一覧</h2>
     <p style="text-align:center;"><strong>詳細はキャラクターをクリック</strong></p>
     <div class="characters-container">
-      <button class="animated-button char-button button-silco" style="font-family: 'Corsiva', cursive;" data-target="#silco-details"><span>心理<br>学者</span></button>
-      <button class="animated-button char-button button-bridget" style="font-family: 'Corsiva', cursive;" data-target="#bridget-details"><span>舞踏家</span></button>
-      <button class="animated-button char-button button-heimer" style="font-family: 'Corsiva', cursive;" data-target="#heimer-details"><span>発明家</span></button>
+      <button class="animated-button char-button button-silco" style="font-family: 'Corsiva', cursive;" data-target="#silco-details"></button>
+      <button class="animated-button char-button button-bridget" style="font-family: 'Corsiva', cursive;" data-target="#bridget-details"></button>
+      <button class="animated-button char-button button-heimer" style="font-family: 'Corsiva', cursive;" data-target="#heimer-details"></button>
     </div>
     <div id="silco-details" class="character-details silco-details">
       <h3>シルコ・フロイト</h3>
@@ -83,9 +87,9 @@ permalink: /games/airship/
       </ul>
     </div>
     <div class="characters-container">
-      <button class="animated-button char-button button-izzy" style="font-family: 'Corsiva', cursive;" data-target="#izzy-details"><span>医師</span></button>
-      <button class="animated-button char-button button-dunke" style="font-family: 'Corsiva', cursive;" data-target="#dunke-details"><span>探検家</span></button>
-      <button class="animated-button char-button button-victor" style="font-family: 'Corsiva', cursive;" data-target="#victor-details"><span>天才<br>発明家</span></button>
+      <button class="animated-button char-button button-izzy" style="font-family: 'Corsiva', cursive;" data-target="#izzy-details"></button>
+      <button class="animated-button char-button button-dunke" style="font-family: 'Corsiva', cursive;" data-target="#dunke-details"></button>
+      <button class="animated-button char-button button-victor" style="font-family: 'Corsiva', cursive;" data-target="#victor-details"></button>
     </div>
     <div id="izzy-details" class="character-details izzy-details">
       <h3>イジー・グラスク</h3>
