@@ -17,7 +17,7 @@ permalink: /games/skybound-rebels/
 <body class="skybound-rebels-body">
 
 <div class="skybound-rebels-page">
-  <div class="skybound-rebels-title">Skybound Rebels</div>
+  <div class="skybound-rebels-title">Skybound Rebellion</div>
     <div class="skybound-rebels-intro">
     <div class="intro-text">
         <div class="intro-story">
