@@ -1,10 +1,10 @@
 ---
 layout: scenario
-title: Skybound Rebels～宇宙を翔ける反逆者～
+title: Skybound Rebellion～宇宙を翔ける反逆者～
 js:
   - /assets/js/character-details.js
   - /assets/js/intro-scroll-animation.js
-permalink: /games/skybound-rebels/
+permalink: /games/skybound-rebellion/
 ---
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Corsiva&display=swap" rel="stylesheet">
@@ -14,11 +14,11 @@ permalink: /games/skybound-rebels/
 
 
 </head>
-<body class="skybound-rebels-body">
+<body class="skybound-rebellion-body">
 
-<div class="skybound-rebels-page">
-  <div class="skybound-rebels-title">Skybound Rebellion</div>
-    <div class="skybound-rebels-intro">
+<div class="skybound-rebellion-page">
+  <div class="skybound-rebellion-title">Skybound Rebellion</div>
+    <div class="skybound-rebellion-intro">
     <div class="intro-text">
         <div class="intro-story">
             <p>1957年10月 ソ連が世界初の人工衛星を打ち上げた。</p>
@@ -53,7 +53,7 @@ permalink: /games/skybound-rebels/
     </div>
 
 
-  <div class="skybound-rebels-details" style="margin-top:50px;">
+  <div class="skybound-rebellion-details" style="margin-top:50px;">
     <h2>シナリオの特徴</h2>
     <ul>
       <li>6人用のGM必須オンラインSFマーダーミステリー</li>
@@ -64,7 +64,7 @@ permalink: /games/skybound-rebels/
     </ul>
   </div>
 
-  <div class="skybound-rebels-characters">
+  <div class="skybound-rebellion-characters">
     <h2 style="color:#34495e; margin-top:10px;text-align:center; font-family: 'Zen Antique', serif;">登場人物一覧</h2>
     <p style="text-align:center;"><strong>詳細はキャラクターをクリック</strong></p>
     <div class="characters-container">

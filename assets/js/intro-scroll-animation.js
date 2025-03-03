@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const sections = document.querySelectorAll(".skybound-rebels-intro .intro-story p"); // 物語のテキスト部分
+  const sections = document.querySelectorAll(".skybound-rebellion-intro .intro-story p"); // 物語のテキスト部分
 
   if (sections.length == 0) {
     console.log("no targets");

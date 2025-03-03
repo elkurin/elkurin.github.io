@@ -153,8 +153,8 @@ main {
   font-family: 'Zen Antique', serif;
 }
 
-.button-skybound-rebels {
-  background-image: url('/assets/images/skybound-rebels.png');
+.button-skybound-rebellion {
+  background-image: url('/assets/images/skybound-rebellion.png');
   width: 250px;
   height: 250px;
   object-fit: cover;
@@ -736,7 +736,7 @@ main {
 
 .soldier-details {
   background: rgb(11, 230, 234);
-  color: white;
+  color: black;
   max-width: 300px;
   text-align: left;
 }
@@ -1570,9 +1570,9 @@ main {
 }
 
 /********************
- * skybound-rebels
+ * skybound-rebellion
  ********************/
-.skybound-rebels-body {
+.skybound-rebellion-body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -1580,12 +1580,12 @@ main {
   // background-color: #2c3e50;
   // background-color: #34495e;
   // background: url('/assets/images/ocean-background.jpg') no-repeat center center fixed;
-  background: url('/assets/images/skybound-rebels-background.png') no-repeat center center fixed;
+  background: url('/assets/images/skybound-rebellion-background.png') no-repeat center center fixed;
   background-size: cover;
   color: white;
 }
 
-.skybound-rebels-page {
+.skybound-rebellion-page {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1596,7 +1596,7 @@ main {
   font-family: 'DotGothic16', sans-serif;
 }
 
-.skybound-rebels-title {
+.skybound-rebellion-title {
   color: white;
   text-align: center;
   font-size: 48px;
@@ -1605,7 +1605,7 @@ main {
   white-space: nowrap;
 }
 
-.skybound-rebels-title {
+.skybound-rebellion-title {
   font-family: 'Orbitron', sans-serif;
   color: white;
   text-align: center;
@@ -1615,18 +1615,18 @@ main {
   white-space: nowrap;
 }
 
-.skybound-rebels-title::after {
+.skybound-rebellion-title::after {
   content: "";
   display: block;
   width: 300px;
   height: 30px;
-  background: url('/assets/images/skybound-rebels-title-bar.png') no-repeat center;
+  background: url('/assets/images/skybound-rebellion-title-bar.png') no-repeat center;
   background-size: contain;
   margin: 5px auto 0;
   overflow-x: hidden;
 }
 
-.skybound-rebels-intro {
+.skybound-rebellion-intro {
   display: flex;
   justify-content: center;
   align-items: flex-start; /* 上から開始 */
@@ -1635,43 +1635,43 @@ main {
   background: rgba(0, 0, 0, 0.7);
 }
 
-.skybound-rebels-intro h1 {
+.skybound-rebellion-intro h1 {
   font-size: 50px;
   text-align: center;
   font-weight: bold;
   margin-bottom: 30px;
 }
 
-.skybound-rebels-intro .intro-text {
+.skybound-rebellion-intro .intro-text {
   max-width: 800px;
   width: 100%;
 }
 
-.skybound-rebels-intro .intro-story {
+.skybound-rebellion-intro .intro-story {
   font-size: 20px;
   line-height: 1.8;
   text-align: left;
 }
 
-.skybound-rebels-intro .intro-story p {
+.skybound-rebellion-intro .intro-story p {
   opacity: 0 !important;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* スムーズなトランジション */
 }
 
 /* スクロールで表示されたときのスタイル */
-.skybound-rebels-intro .intro-story p.in-view {
+.skybound-rebellion-intro .intro-story p.in-view {
   opacity: 1 !important;
   transform: translateY(0) !important;
 }
 
-.skybound-rebels-intro .highlight {
+.skybound-rebellion-intro .highlight {
   font-size: 22px;
   font-weight: bold;
   color: #f39c12;
 }
 
-.skybound-rebels-intro .intro-divider {
+.skybound-rebellion-intro .intro-divider {
   font-size: 22px;
   font-weight: bold;
   text-align: center;
@@ -1680,7 +1680,7 @@ main {
   border-top: 2px solid #ffffff;
 }
 
-.skybound-rebels-intro .intro-highlight {
+.skybound-rebellion-intro .intro-highlight {
   font-size: 24px;
   font-weight: bold;
   color: #e74c3c;
@@ -1699,7 +1699,7 @@ main {
   }
 }
 
-.skybound-rebels-details {
+.skybound-rebellion-details {
   color: white;
   max-width: 800px;
   text-align: justify;
@@ -1711,7 +1711,7 @@ main {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
-.skybound-rebels-details h2 {
+.skybound-rebellion-details h2 {
   text-align: center;
   font-size: 36px;
   margin-top: 0;
@@ -1719,27 +1719,27 @@ main {
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
 }
 
-.skybound-rebels-details ul {
+.skybound-rebellion-details ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.skybound-rebels-details li {
+.skybound-rebellion-details li {
   margin: 10px 0;
   font-size: 18px;
   position: relative;
   padding-left: 20px;
 }
 
-.skybound-rebels-details li::before {
+.skybound-rebellion-details li::before {
   content: "★";
   position: absolute;
   left: 0;
   color: #ffdd57;
 }
 
-.skybound-rebels-characters {
+.skybound-rebellion-characters {
   color: black;
   max-width: 350px;
   text-align: center;
@@ -1751,7 +1751,7 @@ main {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
-.skybound-rebels-characters h2 {
+.skybound-rebellion-characters h2 {
   text-align: center;
   margin-top: 0;
   color: #007fab;
