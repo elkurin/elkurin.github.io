@@ -125,7 +125,7 @@ permalink: /games/skybound-rebellion/
         <li>「諸君は私を疑うというのかね？もう少し頭を使ってから発言してくれたまえ。」</li>
       </ul>
     </div>
-    <p style="text-align:center; margin-top:20px;">イラストは仮絵です</p>
+    <p style="text-align:center; margin-top:20px;">イラスト: わからん</p>
   </div>
 </div>
 <script src="/assets/js/character-details.js"></script>
