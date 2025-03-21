@@ -33,8 +33,10 @@ permalink: /games/airship/
       <li>Apri la Porta様 (広島)</li>
       <li>Hello Hello Mystery様 (福岡)</li>
       <li>Light and Geek様 (京都)</li>
-      <li>個人GM りゅぁ様 (東京圏)</li>
+      <li>個人GM りゅぁ様 (東京)</li>
+      <li>個人GM ひふく様 (香川)</li>
       <li>個人GM 高橋マシュー様 (岩手)</li>
+      <li>個人GM 宮様 (東京)</li>
     </ul>
     <p><strong>出張公演：</strong></p>
     <ul>

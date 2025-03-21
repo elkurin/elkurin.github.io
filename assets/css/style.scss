@@ -164,6 +164,21 @@ main {
   font-family: 'Orbitron', sans-serif;
 }
 
+.button-last-offer {
+  background-image: url('/assets/images/last-offer.jpg_medium');
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: "UnifrakturMaguntia", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 64px;
+}
+
+
 .alert-button {
   text-align: center;
   margin: 20px auto; /* タイトルの下に余白を追加 */
@@ -1073,6 +1088,7 @@ main {
 .mafia-characters h3 {
   font-family: 'Mochiy Pop One', sans-serif;
 }
+
 /********************
  * Dragon
  ********************/
@@ -1756,6 +1772,103 @@ main {
   margin-top: 0;
   color: #007fab;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/********************
+ * Last Offer
+ ********************/
+.last-offer-body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: url('/assets/images/last-offer-background.jpg_medium') no-repeat center center fixed;
+  background-size: cover;
+  color: black;
+}
+
+.last-offer-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.last-offer-title {
+  font-family: "UnifrakturMaguntia", cursive;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
+  text-align: color;
+  font-size: 96px;
+  margin-top: 0;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
+  .last-offer-title {
+    font-size: calc(16px + 3vw);
+  }
+}
+
+.last-offer-intro {
+  font-family: 'Zen Old Mincho', serif;
+  color: white;
+  max-width: 600px;
+  text-align: justify;
+  margin-top: 20px;
+  line-height: 1.8;
+  padding: 20px;
+  background: black;
+  opacity: 0.8;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.last-offer-intro h2 {
+  font-family: 'Zen Antique', serif;
+}
+
+.last-offer-details {
+  color: white;
+  max-width: 800px;
+  text-align: justify;
+  margin-top: 40px;
+  line-height: 1.8;
+  background-color: rgba(52, 73, 94, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.last-offer-details h2 {
+  text-align: center;
+  font-size: 36px;
+  margin-top: 0;
+  color: red;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+}
+
+.last-offer-details ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.last-offer-details li {
+  margin: 10px 0;
+  font-size: 18px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.last-offer-details li::before {
+  content: "★";
+  position: absolute;
+  left: 0;
+  color: red;
 }
 
 /********************
