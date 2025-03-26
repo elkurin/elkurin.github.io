@@ -18,7 +18,8 @@ permalink: /games/skybound-rebellion/
 
 <div class="skybound-rebellion-page">
   <div class="skybound-rebellion-title">Skybound Rebellion</div>
-    <div class="skybound-rebellion-intro">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/09tKyxY1Hgw?si=tlhamXr2nYcbo3-F" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <div style="margin-top:30px" class="skybound-rebellion-intro">
     <div class="intro-text">
         <div class="intro-story">
             <p>1957年10月 ソ連が世界初の人工衛星を打ち上げた。</p>
