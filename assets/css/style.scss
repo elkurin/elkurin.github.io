@@ -1774,6 +1774,37 @@ main {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+.purchase-banner.cyber {
+  background: linear-gradient(to right, #0ff, #09f, #0ff);
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 1em 2em;
+  margin: 2em auto;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #0ff, 0 0 30px #09f inset;
+  max-width: 600px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  text-shadow: 0 0 4px rgba(255,255,255,0.6);
+}
+
+.purchase-banner.cyber:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 25px #0ff, 0 0 40px #09f inset;
+}
+
+.purchase-banner.cyber a {
+  color: #ffffff;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.purchase-banner.cyber a:hover {
+  color: #0ff;
+  text-decoration: none;
+}
+
 /********************
  * Last Offer
  ********************/

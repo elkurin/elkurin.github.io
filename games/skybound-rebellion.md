@@ -19,6 +19,9 @@ permalink: /games/skybound-rebellion/
 <div class="skybound-rebellion-page">
   <div class="skybound-rebellion-title">Skybound Rebellion</div>
   <iframe width="560" height="315" src="https://www.youtube.com/embed/09tKyxY1Hgw?si=tlhamXr2nYcbo3-F" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="purchase-banner cyber">
+           <a href="https://elkurin.booth.pm/items/6730619" target="_blank">ご購入はBOOTHから</a>
+        </div>
     <div style="margin-top:30px" class="skybound-rebellion-intro">
     <div class="intro-text">
         <div class="intro-story">
@@ -48,7 +51,7 @@ permalink: /games/skybound-rebellion/
             <p>しかし、作戦当日の今日、実行役を務めていたエージェントが殺された。</p>
             <p>エージェントは周到に待ち伏せされていた。厳重に守られていたはずの作戦情報が漏れていたのだ。この殺害が示唆する事実。</p>
             <p class="intro-highlight">つまり――この中に“内通者”がいる。</p>
-            <p class="intro-highlight">2025年3月リリース予定</p>
+            <p class="intro-highlight">2025年3月28日リリース</p>
         </div>
     </div>
     </div>
@@ -61,7 +64,7 @@ permalink: /games/skybound-rebellion/
       <li>独自システムを導入したコンピューターゲーム的な面白さ</li>
       <li>奥深い世界観と魅力的なキャラクター</li>
       <li>手に汗握る駆け引き</li>
-      <li>プレイ時間：210-240分</li>
+      <li>プレイ時間：240分</li>
     </ul>
   </div>
 
