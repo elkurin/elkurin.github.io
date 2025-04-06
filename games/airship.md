@@ -27,16 +27,25 @@ permalink: /games/airship/
   </div>
 
   <div class="airship-info" style="margin-top:25px">
-    <p><strong>公演団体(順不同)：</strong></p>
+    <p><strong>公演店舗様(順不同)：</strong></p>
     <ul>
       <li>The Light House様 (北九州)</li>
+      <li>クインズワルツ様 (東京)</li>
+      <li>マダミスギルド様 (東京・<strong>オンライン</strong>)</li>
+      <li>マダミスHOUSE様 (東京)</li>
+      <li>ジョイマダ様 (東京)</li>
+      <li>ひよこの杜様 (仙台)</li>
+      <li>ボードゲームハウスくまがや (埼玉)</li>
+      <li>Light and Geek様 (京都)</li>
       <li>Apri la Porta様 (広島)</li>
       <li>Hello Hello Mystery様 (福岡)</li>
-      <li>Light and Geek様 (京都)</li>
-      <li>個人GM りゅぁ様 (東京)</li>
-      <li>個人GM ひふく様 (香川)</li>
+    </ul>
+    <p><strong>公演GM様(順不同)：</strong></p>
+    <ul>
       <li>個人GM 高橋マシュー様 (岩手)</li>
+      <li>個人GM りゅぁ様 (東京)</li>
       <li>個人GM 宮様 (東京)</li>
+      <li>個人GM ひふく様 (香川)</li>
     </ul>
     <p><strong>出張公演：</strong></p>
     <ul>
