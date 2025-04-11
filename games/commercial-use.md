@@ -39,9 +39,9 @@ permalink: /games/commercial-use/
     </ul>
     <p>料金について：</p>
     <ul>
-      <li>基本料金：1500円x人数分</li>
-      <li><strong>Skybound Rebellion〜宇宙を翔ける反逆者〜
-      リリース記念として、4月中の公演は無償でお引き受けします！</strong>それ以降は本編一式をご購入いただいた方は無償となります。</li>
+      <li><strong>Skybound
+      Rebellion〜宇宙を翔ける反逆者〜について</strong>：参加者全員の本編一式購入をお願いします。</li>
+      <li>その他シナリオの基本料金：1500円x人数分</li>
       <li>『海の上で昼食を』は、CCFOLIA
       GAMESから当作品をご購入いただいている方は無償となります。</li>
     </ul>
