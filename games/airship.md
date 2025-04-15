@@ -46,6 +46,7 @@ permalink: /games/airship/
       <li>個人GM りゅぁ様 (東京)</li>
       <li>個人GM 宮様 (東京)</li>
       <li>個人GM ひふく様 (香川)</li>
+      <li>個人GM めもた様 (<strong>オンライン</strong>)</li>
     </ul>
     <p><strong>出張公演：</strong></p>
     <ul>
