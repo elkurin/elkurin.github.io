@@ -21,37 +21,54 @@ permalink: /games/airship/
     <p>この度は我が最新の発明の先行発表会にみなさまを招待させていただきたいと思いお手紙を差し上げました。会場は私の手掛けた最高傑作と自負している飛行船『スカイヴェッセル』でございます。ぜひご参加ください。</p>
     <p>ヴィクター・ブライトより</p>
     <h2 style="text-align: center;">飛行船が運ぶのは、新たなる未来か、それとも囚われた魂か。歯車がまわり始めたその瞬間、真実と選択の物語の幕が開く。</h2>
-    <p><strong>公演依頼受付中！ <a href="https://docs.google.com/forms/d/e/1FAIpQLSdvYiCCpnGYRWRMhR2xolNbq435mh-z5PGKnVXLRX3-8yxRJA/viewform?usp=dialog">依頼フォーム</a>またはX(@elkurin_games)からお問い合わせください</strong></p>
+    <p><strong>作者GM公演依頼受付中！ <a href="https://docs.google.com/forms/d/e/1FAIpQLSdvYiCCpnGYRWRMhR2xolNbq435mh-z5PGKnVXLRX3-8yxRJA/viewform?usp=dialog">依頼フォーム</a>またはX(<a href="https://x.com/elkurin_games">@elkurin_games</a>)からお問い合わせください</strong></p>
     <p><strong>詳細はこちらから <a
     href="https://thelighthouse-mm.com/thelighthousex%e5%a4%a9%e6%89%8d%e3%82%af%e3%83%aa%e3%82%a8%e3%82%a4%e3%82%bf%e3%83%bc%e3%80%8c%e3%81%88%e3%82%8b%e3%80%8d%e3%82%b3%e3%83%a9%e3%83%9c%e4%bd%9c%e5%93%81%ef%bc%81/">シナリオページ</a></strong></p>
   </div>
 
   <div class="airship-info" style="margin-top:25px">
-    <p><strong>公演店舗様(順不同)：</strong></p>
+    <p><strong>対面公演お取り扱い</strong></p>
+    <p>店舗様</p>
     <ul>
-      <li>The Light House様 (北九州)</li>
-      <li>クインズワルツ様 (東京)</li>
-      <li>マダミスギルド様 (東京・<strong>オンライン</strong>)</li>
-      <li>マダミスHOUSE様 (東京)</li>
-      <li>ジョイマダ様 (東京)</li>
-      <li>ひよこの杜様 (仙台)</li>
-      <li>ボードゲームハウスくまがや (埼玉)</li>
-      <li>Light and Geek様 (京都)</li>
-      <li>Apri la Porta様 (広島)</li>
-      <li>Hello Hello Mystery様 (福岡)</li>
+      <li>The Light House様 (北九州) <a href="https://x.com/TheLightHouseMM">@TheLightHouseMM</a></li>
+      <li>クインズワルツ様 (東京) <a
+      href="https://x.com/queens_waltz">@queens_waltz</a></li>
+      <li>マダミスHOUSE様 (東京) <a href="https://x.com/MudermysHouse">@MusermysHouse</a></li>
+      <li>ジョイマダ様 (東京) <a
+      href="https://x.com/joymada_japan">@joymada_japan</a></li>
+      <li>ひよこの杜様 (仙台) <a href="https://x.com/hiyoko__forest">@hiyoko__forest</a></li>
+      <li>ボードゲームハウスくまがや (埼玉) <a
+      href="https://x.com/3CgXEd3kRcXySFF">@3CgXEd3kRcXySFF</a></li>
+      <li>Light and Geek様 (京都) <a
+      href="https://x.com/LightandGeek_MM">@LightandGeek_MM</a></li>
+      <li>Apri la Porta様 (広島) <a
+      href="https://x.com/apri_la_porta">@apri_la_porta</a></li>
+      <li>Hello Hello Mystery様 (福岡) <a
+      href="https://x.com/hello2mystery">@hello2mystery</a></li>
     </ul>
-    <p><strong>公演GM様(順不同)：</strong></p>
+    <p>個人GM様</p>
     <ul>
-      <li>個人GM 高橋マシュー様 (岩手)</li>
-      <li>個人GM りゅぁ様 (東京)</li>
-      <li>個人GM 宮様 (東京)</li>
-      <li>個人GM ひふく様 (香川)</li>
-      <li>個人GM めもた様 (<strong>オンライン</strong>)</li>
+      <li>個人GM りゅぁ様 (東京) <a
+      href="https://x.com/ryula7123">@ryula7123</a></li>
+      <li>個人GM 宮様 (東京) <a href="https://x.com/miya_rooms">@miya_rooms</a></li>
+      <li>個人GM 高橋マシュー様 (岩手) <a
+      href="https://x.com/Matthew_tkhs">@Matthew_tkhs</a></li>
+      <li>個人GM ひふく様 (香川) <a
+      href="https://x.com/HIHUKU_129">@HIHUKU_129</a></li>
+    </ul>
+    <p><strong>オンライン公演お取り扱い</strong></p>
+    <ul>
+      <li>マダミスギルド様 <a
+      href="https://x.com/MurderMysteryG">@MuderMysteryG</a></li>
+      <li>個人GM めもた様 <a
+      href="https://x.com/Hashibiro_memo">@Hashibiro_memo</a></li>
     </ul>
     <p><strong>出張公演：</strong></p>
     <ul>
-      <li>フーダニット大阪様(大阪)：2/27, 2/28</li>
-      <li>これミスワンルームマダミス新宿店様(東京)：3/4, 3/11, 4/9, 4/10</li>
+      <li>フーダニット大阪様(大阪) <a
+      href="https://x.com/whodoneit_osaka">@whodoneit_osaka</a></li>
+      <li>これミスワンルームマダミス新宿店様(東京) <a
+      href="https://x.com/kore_oneroom">@kore_oneroom</a></li>
     </ul>
   </div>
 
