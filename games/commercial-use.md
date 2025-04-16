@@ -26,7 +26,8 @@ permalink: /games/commercial-use/
     </ul>
     <p>料金について：</p>
     <ul>
-      <li>基本料金：3000円x人数分 + 場所代</li>
+      <li>魂を運ぶ飛行船：4000円x人数分 + 場所代</li>
+      <li>その他基本料金：3000円x人数分 + 場所代</li>
       <li>バッケージをお持ちの団体様：パッケージのお値段分割引</li>
     </ul>
     <h3>オンライン公演</h3>
@@ -41,7 +42,7 @@ permalink: /games/commercial-use/
     <ul>
       <li><strong>Skybound
       Rebellion〜宇宙を翔ける反逆者〜について</strong>：参加者全員の本編一式購入をお願いします。</li>
-      <li>その他シナリオの基本料金：1500円x人数分</li>
+      <li>その他シナリオの基本料金：2000円x人数分</li>
       <li>『海の上で昼食を』は、CCFOLIA GAMESから当作品をご購入いただいている方は無償となります。</li>
     </ul>
   </section>
