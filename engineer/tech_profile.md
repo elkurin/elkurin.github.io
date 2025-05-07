@@ -3,7 +3,7 @@ layout: page
 title: Tech Profile
 permalink: /profile/
 ---
-Software Engineer working at ChromeOS Fundamentals, Google Japan
+Software Engineer working at Chrome Browser Storage, Google Japan
 
 ## Links
 - [Chromium
@@ -14,18 +14,32 @@ Gerrit](https://chromium-review.googlesource.com/q/owner:elkurin@chromium.org)
 - [Blog](https://elkurin.hatenablog.com/)
 - [TechBlog (README is not up-to-date)](https://github.com/elkurin/elkurin-daily-notes)
 
-## Experiences
-- Competitive Debate (Academic): Winner of 8th National High School English Debate
-  Tournament, Top 8 of ディベート甲子園
-- 6th place of ICPC 2017 Asia Tsukuba Regional
+## Awards
+- Winner of 8th National High School Engilish Debate Tournament (Competitive
+  Debate)
+- Top 8 of ディベート甲子園 (Competitive Debate)
 - EGMO(European Girls' Mathematical Olympiad) 2014, Silver Medal
-- Internship @ Recruit
+- 6th place of ICPC 2017 Asia Tsukuba Regional
+- Graduated University of Tokyo with the Encouragement Award (学修奨励賞)
 - Piano: Joint Recital as an award of 2nd place at Aoniyoshi competition, and several more awards etc...
-- Gordonstoun International Summer School 2013
 - Winner of 24th Gordonstoun English Speech Contest
+- 1st Place in Google STEP Coding Camp Hackathon
+
+# Experiences
+- The 12th Annual Meeting of the Asian Association for Algorithms and Computation
+- Gordonstoun International Summer School 2013
+- Asian Science Camp 2013
+- HLAB Summer Camp 2013
+- 数理の翼 第37回 as 班長
+- 数理の翼 第34回 as student
+- Internship @ Google Japan
+- Internship @ Recruit
 
 ## History
-***2021.04-Present***  
+***2025.04-Present***  
+Chrome Browser Storage, Google Japan  
+
+***2021.04-2025.03***  
 ChromeOS Fundamentals, Google Japan  
 
 ***2019.04-2021.03***  
