@@ -13,7 +13,19 @@ permalink: /games/errata/
   </div>
 
   <div class="scenario-errata">
-    <h2>最後のソナタ</h2>
+    <h2>魂を運ぶ飛行船 -Home Edition-</h2>
+    <div class="eratta-item">
+      <div class="errata-location">
+        冊子の封入順番
+      </div>
+      <div class="errata-description">
+        幕間フェイズに入った際、「追加資料」の下にある「幕間会話」冊子を先にお使いください。
+      </div>
+    </div>
+  </div>
+
+  <div class="scenario-errata">
+    <h2>最後のソナタ(第一版)</h2>
     <div class="eratta-item">
       <div class="errata-location">
         ガイドカード灰色の裏面(公開されている面)
