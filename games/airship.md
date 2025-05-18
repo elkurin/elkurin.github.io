@@ -41,6 +41,8 @@ permalink: /games/airship/
       href="https://x.com/3CgXEd3kRcXySFF">@3CgXEd3kRcXySFF</a></li>
       <li>Light and Geek様 (京都) <a
       href="https://x.com/LightandGeek_MM">@LightandGeek_MM</a></li>
+      <li>cache-cache様 (大阪) <a
+      href="https://x.com/cache_mystery">@cache_mystery</a></li>
       <li>Apri la Porta様 (広島) <a
       href="https://x.com/apri_la_porta">@apri_la_porta</a></li>
       <li>Hello Hello Mystery様 (福岡) <a
