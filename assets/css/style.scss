@@ -2016,6 +2016,33 @@ main {
   font-size: 16px;
   color: #333;
   line-height: 1.5; /* 行間を広く設定 */
+  margin-bottom: 5px;
+}
+
+.errata-hidden {
+  display: none;
+  margin-top: 1em;
+  padding: 1em;
+  background-color: #fefefe;
+  border-left: 4px solid #cc0000;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.errata-toggle {
+  margin-top: 0.5em;
+  background-color: #444;
+  color: white;
+  padding: 0.5em 1em;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 6px;
+  margin-bottom: 5px;
+}
+
+.errata-toggle:hover {
+  background-color: #222;
 }
 
 /********************
