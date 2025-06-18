@@ -3,6 +3,7 @@ layout: page
 title: Tech Profile
 permalink: /profile/
 ---
+# Eriko Kurimoto (栗本英理子)
 Software Engineer working at Chrome Browser Storage, Google Japan
 
 ## Links
