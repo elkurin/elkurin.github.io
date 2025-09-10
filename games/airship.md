@@ -21,9 +21,13 @@ permalink: /games/airship/
     <p>この度は我が最新の発明の先行発表会にみなさまを招待させていただきたいと思いお手紙を差し上げました。会場は私の手掛けた最高傑作と自負している飛行船『スカイヴェッセル』でございます。ぜひご参加ください。</p>
     <p>ヴィクター・ブライトより</p>
     <h2 style="text-align: center;">飛行船が運ぶのは、新たなる未来か、それとも囚われた魂か。歯車がまわり始めたその瞬間、真実と選択の物語の幕が開く。</h2>
-    <p><strong>作者GM公演依頼受付中！ <a href="https://docs.google.com/forms/d/e/1FAIpQLSdvYiCCpnGYRWRMhR2xolNbq435mh-z5PGKnVXLRX3-8yxRJA/viewform?usp=dialog">依頼フォーム</a>またはX(<a href="https://x.com/elkurin_games">@elkurin_games</a>)からお問い合わせください</strong></p>
-    <p><strong>詳細はこちらから <a
-    href="https://thelighthouse-mm.com/thelighthousex%e5%a4%a9%e6%89%8d%e3%82%af%e3%83%aa%e3%82%a8%e3%82%a4%e3%82%bf%e3%83%bc%e3%80%8c%e3%81%88%e3%82%8b%e3%80%8d%e3%82%b3%e3%83%a9%e3%83%9c%e4%bd%9c%e5%93%81%ef%bc%81/">シナリオページ</a></strong></p>
+    <ul>
+    <li><strong>作者GM公演依頼受付中！ <a href="https://docs.google.com/forms/d/e/1FAIpQLSdvYiCCpnGYRWRMhR2xolNbq435mh-z5PGKnVXLRX3-8yxRJA/viewform?usp=dialog">依頼フォーム</a>またはX(<a href="https://x.com/elkurin_games">@elkurin_games</a>)からお問い合わせください</strong></li>
+    <li><strong>2025.09.12よりオンライン版販売！ <a
+    href="https://elkurin.booth.pm/items/7397023">Booth販売ページ</a></strong></li>
+    <li><strong>詳細はこちらから <a
+    href="https://thelighthouse-mm.com/thelighthousex%e5%a4%a9%e6%89%8d%e3%82%af%e3%83%aa%e3%82%a8%e3%82%a4%e3%82%bf%e3%83%bc%e3%80%8c%e3%81%88%e3%82%8b%e3%80%8d%e3%82%b3%e3%83%a9%e3%83%9c%e4%bd%9c%e5%93%81%ef%bc%81/">シナリオページ</a></strong></li>
+    </ul>
   </div>
 
   <div class="airship-info" style="margin-top:25px">
