@@ -57,6 +57,8 @@ permalink: /games/airship/
       <li>個人GM りゅぁ様 (東京) <a
       href="https://x.com/ryula7123">@ryula7123</a></li>
       <li>個人GM 宮様 (東京) <a href="https://x.com/miya_rooms">@miya_rooms</a></li>
+      <li>個人GM 前ちゃん (東京) <a
+      href="https://x.com/hjhs3113">@hjhs3113</a></li>
       <li>個人GM 高橋マシュー様 (岩手) <a
       href="https://x.com/Matthew_tkhs">@Matthew_tkhs</a></li>
       <li>個人GM ひふく様 (香川) <a
