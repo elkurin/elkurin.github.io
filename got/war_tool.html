@@ -1,0 +1,2033 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>戦塵のレガストリア：最終戦争集計ツール v17</title>
+  <style>
+    :root{
+      --bd:#ddd;
+      --muted:#666;
+      --shadow: 0 10px 24px rgba(0,0,0,.06);
+
+      --central:#ff4d4d;      /* 赤 */
+      --southriver:#a855f7;   /* 紫 */
+      --northland:#67c8ff;    /* 水色 */
+      --kaneka:#ffd84d;       /* 黄色 */
+      --gray:#9aa0a6;         /* 灰 */
+
+      --atk:#ff4d4d;
+      --def:#3b82f6;          /* 防衛ゲージ：青 */
+    }
+
+    body{
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiragyo,sans-serif;
+      margin:18px; line-height:1.35; background:#fafafa;
+    }
+    h1{font-size:18px;margin:0 0 10px;}
+    h2{font-size:15px;margin:14px 0 8px;}
+    .muted{color:var(--muted); font-size:12px;}
+    .card{
+      border:1px solid var(--bd); border-radius:14px; padding:12px; margin:10px 0;
+      max-width:1700px; background:#fff; box-shadow: var(--shadow);
+    }
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    button,input,select{font:inherit;}
+    input[type="number"]{width:110px;}
+    button{border:1px solid var(--bd); background:#fff; padding:8px 10px; border-radius:12px; cursor:pointer;}
+    button:hover{background:#f6f6f6;}
+    button.primary{background:#111; color:#fff; border-color:#111;}
+    button.primary:hover{background:#222;}
+    button.warn{background:#fff6f6; border-color:#ffb3b3;}
+    button.warn:hover{background:#ffecec;}
+    .layout{display:grid; grid-template-columns: 420px 1fr; gap:12px; max-width:1700px;}
+    @media (max-width: 1200px){ .layout{grid-template-columns:1fr;} }
+
+    .list{
+      display:flex; flex-direction:column; gap:8px;
+      max-height:64vh; overflow:auto; padding-right:4px;
+    }
+
+    .itemCard{
+      border:1px solid var(--bd); border-radius:12px;
+      padding:10px 10px 10px 18px;
+      background:white;
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+      cursor:grab; user-select:none; position:relative;
+    }
+    .itemCard.nodrag{ cursor:default; }
+    .itemCard:active{cursor:grabbing;}
+    .itemCard.nodrag:active{cursor:default;}
+    .itemCard.disabled{ opacity:.55; filter:grayscale(.25); }
+    .left{min-width:0; flex:1;}
+    .name{font-weight:900;}
+    .value{font-weight:900; text-align:right;}
+    .tiny{font-size:12px;}
+    .inline{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;}
+
+    .itemCard::before{
+      content:""; position:absolute; left:0; top:0; bottom:0; width:10px;
+      border-radius:12px 0 0 12px; background:var(--gray);
+    }
+
+    .itemCard.compact{ padding:6px 8px 6px 18px; gap:8px; }
+    .itemCard.compact .name{font-size:12px;}
+    .itemCard.compact .value{font-size:14px;}
+    .itemCard.compact .muted.tiny{display:none;}
+    .itemCard.compact .inline.tiny{display:none;}
+    .itemCard.compact details{display:block; margin-top:6px;}
+    .itemCard.compact details summary{cursor:pointer; font-size:12px; color:var(--muted);}
+    .itemCard.compact details .inline.tiny{display:flex;}
+
+    .tag{
+      display:inline-flex; align-items:center; gap:6px;
+      padding:2px 8px; border-radius:999px; border:1px solid var(--bd);
+      font-size:12px; background:#fff;
+    }
+    .dot{width:10px; height:10px; border-radius:999px; background:var(--gray); display:inline-block;}
+    .pill{
+      display:inline-block; padding:2px 10px; border-radius:999px;
+      border:1px solid var(--bd); font-size:12px; background:#fff;
+    }
+
+    .dropZone{
+      border:2px dashed #d6d6d6; border-radius:14px; background:#fcfcfc;
+      padding:10px;
+    }
+    .dropZoneHeader{
+      display:flex; justify-content:space-between; align-items:baseline; gap:8px;
+      margin-bottom:8px;
+    }
+    .dropZoneTitle{font-weight:900;}
+    .dropOver{outline:3px solid #7aa7ff55; background:#f2f7ff;}
+
+    .board{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+    @media (max-width: 1200px){ .board{grid-template-columns:1fr;} }
+
+    .fieldCard{
+      border:1px solid var(--bd); border-radius:16px; padding:12px; background:white; box-shadow: var(--shadow);
+      position:relative; overflow:hidden;
+    }
+    .fieldHeader{display:flex; flex-direction:column; gap:10px; margin-bottom:10px;}
+    .fieldTitleRow{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;}
+    .fieldTitle{font-weight:1000; font-size:16px; display:flex; align-items:center; gap:8px;}
+    .fieldBadge{width:12px; height:12px; border-radius:999px; display:inline-block; background:var(--gray);}
+
+    .resultBanner{
+      border-radius:14px;
+      padding:10px 12px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      border:1px solid var(--bd);
+      background: linear-gradient(90deg, rgba(0,0,0,.03), rgba(0,0,0,.00));
+    }
+    .winner{font-weight:1100; font-size:16px;}
+    .scoreLine{font-size:12px; color:var(--muted);}
+    .bigScore{
+      font-size:22px; font-weight:1100; letter-spacing:.5px;
+      display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+    }
+    .bigScore span{white-space:nowrap;}
+
+    .laneGrid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+    .lane{
+      border:1px dashed #d7d7d7; border-radius:14px; padding:10px;
+      min-height:160px; background:#fafafa;
+    }
+    .laneTitle{display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:6px; font-weight:900;}
+    .laneTotals{display:flex; gap:6px; flex-wrap:wrap; align-items:center; font-size:12px;}
+    .dropHint{font-size:12px; color:var(--muted); margin-top:2px;}
+    .laneList{margin-top:8px; display:flex; flex-direction:column; gap:6px;}
+    details{margin-top:8px;}
+
+    .tint-central{border-left:10px solid var(--central);}
+    .tint-southriver{border-left:10px solid var(--southriver);}
+    .tint-northland{border-left:10px solid var(--northland);}
+    .tint-kaneka{border-left:10px solid var(--kaneka);}
+
+    .c-central::before{background:var(--central);}
+    .c-southriver::before{background:var(--southriver);}
+    .c-northland::before{background:var(--northland);}
+    .c-kaneka::before{background:var(--kaneka);}
+    .c-gray::before{background:var(--gray);}
+
+    .dot.central{background:var(--central);}
+    .dot.southriver{background:var(--southriver);}
+    .dot.northland{background:var(--northland);}
+    .dot.kaneka{background:var(--kaneka);}
+    .dot.gray{background:var(--gray);}
+
+    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+    @media (max-width: 900px){ .grid2{grid-template-columns:1fr;} }
+
+    .occupyBox{
+      display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+      padding:8px 10px; border:1px solid var(--bd); border-radius:12px; background:#fff;
+    }
+    .occupyLabel{font-weight:900;}
+    .log{
+      max-height:160px; overflow:auto; border:1px solid var(--bd); border-radius:12px;
+      padding:8px; background:#fff;
+      font-size:12px; color:#333;
+    }
+    .logLine{margin:0 0 6px;}
+    .logLine:last-child{margin:0;}
+
+    .checkGrid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:6px 10px;
+      align-items:center;
+    }
+    @media (max-width: 520px){ .checkGrid{grid-template-columns:1fr;} }
+    .miniBox{
+      border:1px solid var(--bd);
+      border-radius:12px;
+      padding:8px;
+      background:#fff;
+    }
+
+    /* === 戦果報告モーダルUI（横並び4枚） === */
+    .overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      z-index: 999;
+      display: flex; align-items: center; justify-content: center;
+      padding: 18px;
+      overflow:auto;
+    }
+    .resultModal {
+      background: #fff; padding: 16px; border-radius: 16px;
+      width: min(1600px, 100%);
+      max-height: calc(100vh - 36px);
+      overflow:auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      animation: slideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes slideUp { from{transform:translateY(18px);opacity:0;} to{transform:translateY(0);opacity:1;} }
+
+    .res-title { text-align: center; font-size: 20px; margin: 0 0 10px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+
+    /* 4枚横並び（狭い画面は折り返し） */
+    .res-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(260px, 1fr));
+      gap: 12px;
+      align-items: start;
+    }
+    @media (max-width: 1400px){ .res-grid { grid-template-columns: repeat(2, minmax(260px, 1fr)); } }
+    @media (max-width: 760px){ .res-grid { grid-template-columns: 1fr; } }
+
+    .res-card {
+      border: 1px solid #ddd; border-radius: 14px; padding: 12px;
+      position: relative; overflow: hidden; background: #fafafa;
+    }
+    .res-card.atk-win { border: 2px solid var(--atk); background: #fff5f5; }
+    .res-card.def-win { border: 2px solid var(--def); background: #f3f7ff; }
+
+    .res-header { display: flex; justify-content: space-between; align-items: center; font-weight: 900; font-size: 14px; margin-bottom: 8px; gap:10px; flex-wrap:wrap;}
+    .res-scores { display: flex; justify-content: center; align-items: baseline; gap: 10px; font-size: 18px; font-weight: 1100; margin: 6px 0; }
+    .res-vs { font-size: 12px; color: #999; font-weight: normal; }
+
+    /* 勝敗ゲージ */
+    .gaugeWrap{
+      border:1px solid #e5e5e5; border-radius:999px; overflow:hidden;
+      height:14px; background:#fff;
+      display:flex;
+      margin-top:10px;
+    }
+    .gAtk, .gDef{
+      height:100%;
+      width:0%;
+    }
+    .gAtk{ background: linear-gradient(90deg, rgba(255,77,77,.35), rgba(255,77,77,1)); }
+    .gDef{ background: linear-gradient(90deg, rgba(59,130,246,.35), rgba(59,130,246,1)); }
+
+    .gLabelRow{
+      margin-top:6px;
+      display:flex; justify-content:space-between; gap:10px;
+      font-size:12px; color:#333;
+    }
+    .gLabelRow b{font-weight:1100;}
+    .gMini{ font-size:11px; color:var(--muted); margin-top:4px; }
+
+    .stamp {
+      position: absolute; right: -10px; bottom: -5px;
+      font-size: 30px; font-weight: 1100; opacity: 0.14;
+      transform: rotate(-12deg); pointer-events: none;
+    }
+    .st-win { color: var(--atk); }
+    .st-lose { color: var(--def); }
+
+    .res-alert {
+      background: #ffd700; color: #000; font-weight: 1000; font-size: 12px;
+      text-align: center; padding: 6px; border-radius: 10px; margin-top: 10px;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse { 0%{opacity:1;} 50%{opacity:0.65;} 100%{opacity:1;} }
+
+    .res-ribbon{
+      margin-top:10px;
+      border-radius:12px;
+      padding:8px 10px;
+      font-weight:1100;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      border:1px solid #e5e5e5;
+      background:#fff;
+    }
+    .res-ribbon.atk{ border-color: rgba(255,77,77,.35); background: rgba(255,77,77,.08); }
+    .res-ribbon.def{ border-color: rgba(59,130,246,.35); background: rgba(59,130,246,.08); }
+
+    .res-sideLists{
+      margin-top:10px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 520px){ .res-sideLists{grid-template-columns:1fr;} }
+
+    .res-sideBox{
+      border:1px solid #e6e6e6;
+      border-radius:12px;
+      background:#fff;
+      padding:8px;
+    }
+    .res-sideBox .t{
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+      font-weight:1100; font-size:12px;
+      margin-bottom:6px;
+    }
+    .res-sideBox.atk .t{ color: var(--atk); }
+    .res-sideBox.def .t{ color: var(--def); }
+    .res-line{
+      font-size:12px;
+      display:flex; justify-content:space-between; gap:10px;
+      border-top:1px dashed #eee;
+      padding-top:6px; margin-top:6px;
+    }
+    .res-line:first-child{ border-top:none; padding-top:0; margin-top:0; }
+    .res-line .nm{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .res-line .pv{ font-weight:1100; }
+
+    .res-footer { margin-top: 14px; text-align: center; }
+    .res-news { font-size: 13px; color: #333; margin-bottom: 12px; text-align: left; background: #f2f2f2; padding: 10px; border-radius: 12px; }
+    .newsBlock{ margin:0 0 8px; }
+    .newsBlock:last-child{ margin:0; }
+
+    .newsBoom{
+      border:2px solid #ff4d4d55;
+      background: #fff5f5;
+      border-radius:12px;
+      padding:10px;
+      margin-top:10px;
+    }
+    .newsBoom .hd{ font-weight:1100; color:#c00; margin-bottom:6px; }
+    .newsBoom .li{ font-size:12px; margin:0 0 6px; }
+    .newsBoom .li:last-child{ margin:0; }
+
+    .newsSab{
+      border:2px solid rgba(168,85,247,.35);
+      background: rgba(168,85,247,.08);
+      border-radius:12px;
+      padding:10px;
+      margin-top:10px;
+    }
+    .newsSab .hd{ font-weight:1100; color:#6d28d9; margin-bottom:6px; }
+    .newsSab .li{ font-size:12px; margin:0 0 6px; }
+    .newsSab .li:last-child{ margin:0; }
+
+    /* 勝った側ゲージを一瞬伸ばす */
+    @keyframes winStretch { from{transform:scaleX(.86);} to{transform:scaleX(1);} }
+    .winStretch { transform-origin:left; animation: winStretch .35s ease; }
+    .winStretchRight { transform-origin:right; animation: winStretch .35s ease; }
+  </style>
+</head>
+<body>
+  <h1>戦塵のレガストリア：戦争集計ツール v17（リザルト横並び4枚）</h1>
+  <div class="muted">
+    ✅ 忠誠心はデフォルト0。<b>忠誠心が20増減するたびに兵力が10増減</b>（増：回復／減：脱走）<br/>
+    ✅ 「忠誠心変動→兵力増減」は<b>戦争決着前に反映</b>します（支援・自由の同志増加・リベレーター戦闘時-10）<br/>
+    ✅ <b>キャラはRound3のみ参戦可能</b>（Round1/2はキャラ配置・キャラスキル・支援効果すべて無効）<br/>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="pill"><b>戦争ラウンド：</b> <span id="roundText" class="mono"></span></div>
+      <button id="btnFinalizeRound" class="primary">この戦争を確定（忠誠心→兵力増減→勝敗→忠誠心→兵力増減／占拠更新等）</button>
+      <button id="btnPrevRound">←前の戦争へ</button>
+      <button id="btnNextRound">次の戦争へ→</button>
+    </div>
+    <div class="grid2" style="margin-top:10px;">
+      <div class="occupyBox">
+        <span class="occupyLabel">現在の占拠者（GM編集可）：</span>
+
+        <span class="pill">セントラル： <select id="occCentralSel"></select></span>
+        <span class="pill">サウスリバー： <select id="occSouthSel"></select></span>
+        <span class="pill">ノースランド： <select id="occNorthSel"></select></span>
+        <span class="pill">金華： <select id="occKanekaSel"></select></span>
+      </div>
+      <div>
+        <div class="muted" style="margin-bottom:6px;">確定ログ（上が最新）</div>
+        <div id="logBox" class="log"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="muted">
+        城壁：通常 +30（セントラル +100、六芒星で0） / 同値は防衛勝ち
+      </div>
+      <div style="margin-left:auto" class="row">
+        <button id="btnClearChars">キャラ配置クリア</button>
+        <button id="btnClearArmies">軍配置クリア</button>
+        <button id="btnResetAll" class="warn">全データ消去</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="card dropZone" id="armyWaitingZone">
+        <div class="dropZoneHeader">
+          <div>
+            <div class="dropZoneTitle">待機：軍本体（不参加）</div>
+            <div class="muted">ここへドロップで「不参加」に戻る</div>
+          </div>
+          <div class="muted">ドラッグ可</div>
+        </div>
+        <div id="armyList" class="list"></div>
+      </div>
+
+      <div class="card dropZone" id="charWaitingZone">
+        <div class="dropZoneHeader">
+          <div>
+            <div class="dropZoneTitle">待機：キャラ（不参加）</div>
+            <div class="muted" id="charWaitingHint"></div>
+          </div>
+          <div class="muted">Round3のみドラッグ可</div>
+        </div>
+        <div id="charList" class="list"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>戦場ボード（攻撃/防衛へドロップ）</h2>
+      <div id="board" class="board" style="margin-top:10px;"></div>
+    </div>
+  </div>
+
+  <div id="resultOverlay" class="overlay" style="display:none;">
+    <div class="resultModal" id="resultModalRoot">
+      <h2 class="res-title">戦果報告書：Round <span id="resRoundNum"></span></h2>
+      <div id="resGrid" class="res-grid"></div>
+
+      <div class="res-footer">
+        <div id="resNews" class="res-news"></div>
+        <div class="row" style="justify-content:center;">
+          <button id="btnSaveResultHtml">結果をHTML保存</button>
+          <button onclick="closeResult()" class="primary">閉じる</button>
+        </div>
+        <div class="muted" style="margin-top:8px;">※「HTML保存」は、表示中の戦果報告書を1枚のHTMLとしてダウンロードします。</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* ========= constants ========= */
+const STORAGE_KEY = "regastria_war_tool_v17";
+
+/* ---- armies ---- */
+const ARMIES = [
+  "王室騎士団","アメジスト魔術師団","ノースランド弓兵隊","北部貴族連合残党",
+  "金華傭兵団","金華公家軍","ケイオス領私兵","ノワール騎馬隊残党","リベレーター同志"
+];
+const ACTIVE_FIELDS = ["セントラル","サウスリバー","ノースランド","金華"];
+const FIELD_LABEL = { "セントラル":"セントラル", "サウスリバー":"サウスリバー", "ノースランド":"ノースランド", "金華":"金華公国" };
+const SIDES = ["攻撃","防衛"];
+const MAX_ROUNDS = 3;
+
+/* ---- colors ---- */
+const COLOR = {
+  central: { key:"central", label:"赤", cssClass:"c-central" },
+  southriver:{ key:"southriver", label:"紫", cssClass:"c-southriver" },
+  northland:{ key:"northland", label:"水色", cssClass:"c-northland" },
+  kaneka:{ key:"kaneka", label:"黄色", cssClass:"c-kaneka" },
+  gray:{ key:"gray", label:"灰", cssClass:"c-gray" },
+};
+const FIELD_TO_COLORKEY = {
+  "セントラル":"central",
+  "サウスリバー":"southriver",
+  "ノースランド":"northland",
+  "金華":"kaneka",
+};
+
+/* Army color binding */
+const ARMY_COLORKEY = {
+  "王室騎士団":"central",
+  "アメジスト魔術師団":"southriver",
+  "ノースランド弓兵隊":"northland",
+  "北部貴族連合残党":"northland",
+  "金華傭兵団":"kaneka",
+  "金華公家軍":"kaneka",
+  "ケイオス領私兵":"gray",
+  "リベレーター同志":"gray",
+  "ノワール騎馬隊残党":"gray",
+};
+
+/* 忠誠心 初期値：全部0 */
+const DEFAULT_LOYALTY = {};
+
+/* 自由の同志増加で下がる量（1人につき） */
+function loyaltyDropPerMember(armyName){
+  if(["王室騎士団","アメジスト魔術師団","ノースランド弓兵隊","金華傭兵団"].includes(armyName)) return 10;
+  return 5;
+}
+
+/* ========= characters =========
+   supportOnly=true のキャラは「個人兵力0」だが、参戦（Round3で配置）していれば支援効果が発動する
+*/
+const CHAR_PRESETS = [
+  { id:"maria", name:"マリア", colorKey:"central", supportOnly:true,
+    extraSchema:[{type:"label", text:"支援：参戦中のみ「王室騎士団 兵力+20（この戦闘のみ）」"}],
+  },
+  { id:"lion", name:"リオン", colorKey:"central", supportOnly:true,
+    extraSchema:[
+      {type:"label", text:"支援：参戦中のみ「指定軍の忠誠心 +40（永続／兵力増減は決着前に反映）」"},
+      {type:"targetArmy", key:"targetArmy", label:"対象軍"}
+    ],
+  },
+  { id:"serin", name:"セリン", colorKey:"central", supportOnly:true,
+    extraSchema:[{type:"label", text:"支援：参戦中のみ「リベレーター同志 兵力+30（この戦闘のみ）」"}],
+  },
+  { id:"gail", name:"ゲイル", colorKey:"central", supportOnly:false,
+    extraSchema:[{type:"label", text:"出撃：英雄の出撃（個人+20）"}],
+    basePersonal:()=>20
+  },
+
+  { id:"karuna", name:"カルーナ", colorKey:"southriver", supportOnly:false,
+    extraSchema:[{type:"label", text:"出撃：女傑の出撃（個人+20）"}],
+    basePersonal:()=>20
+  },
+  { id:"noelis", name:"ノエリス", colorKey:"southriver", supportOnly:true,
+    extraSchema:[{type:"label", text:"支援：参戦中のみ「アメジスト魔術師団 忠誠心 +40（永続／兵力増減は決着前に反映）」"}],
+  },
+  { id:"emil", name:"エミール", colorKey:"southriver", supportOnly:false,
+    extraSchema:[{type:"label", text:"出撃：黒の錬金術（同戦場の敵軍すべて-20／戦闘中のみ）※Round3のみ"}],
+    basePersonal:()=>0
+  },
+  { id:"helena", name:"ヘレナ", colorKey:"southriver", supportOnly:false,
+    extraSchema:[{type:"label", text:"出撃：騎士の出撃（個人+10）"}],
+    basePersonal:()=>10
+  },
+
+  { id:"rito", name:"リト", colorKey:"northland", supportOnly:false,
+    extraSchema:[
+      {type:"label", text:"出撃：氷竜顕現（個人+100 / 完全顕現+300）"},
+      {type:"checkbox", key:"ritoFull", label:"完全顕現（+300）"}
+    ],
+    basePersonal:(meta)=> meta.flags?.ritoFull ? 300 : 100
+  },
+  { id:"rata", name:"ラタ", colorKey:"northland", supportOnly:false,
+    extraSchema:[{type:"label", text:"出撃：火竜顕現（個人+40）"}],
+    basePersonal:()=>40
+  },
+  { id:"ruri", name:"ルリ", colorKey:"northland", supportOnly:false,
+    extraSchema:[{type:"label", text:"出撃：格闘技（個人+10）"}],
+    basePersonal:()=>10
+  },
+  { id:"seno", name:"セノ", colorKey:"northland", supportOnly:true,
+    extraSchema:[
+      {type:"label", text:"支援：参戦中のみ「対象軍の忠誠心 -20（永続／兵力増減は決着前に反映）」"},
+      {type:"targetArmy", key:"targetArmy", label:"対象軍"}
+    ],
+  },
+
+  { id:"gentoku", name:"玄徳", colorKey:"kaneka", supportOnly:true,
+    extraSchema:[
+      {type:"label", text:"支援：参戦中のみ「支払×5 を対象軍に加算（この戦闘のみ）」"},
+      {type:"payx5", key:"pay", label:"支払額（×5）", min:0},
+      {type:"targetArmy", key:"targetArmy", label:"強化する軍"}
+    ],
+  },
+  { id:"ryusei", name:"流星", colorKey:"kaneka", supportOnly:false,
+    extraSchema:[{type:"label", text:"出撃：槍の名手（個人+15）"}],
+    basePersonal:()=>15
+  },
+  { id:"suiran", name:"翠嵐", colorKey:"kaneka", supportOnly:true,
+    extraSchema:[
+      {type:"label", text:"支援：参戦中のみ「対象軍 兵力+30（戦闘のみ）／忠誠心+20（永続）」"},
+      {type:"targetArmy", key:"targetArmy", label:"対象軍"}
+    ],
+  },
+  { id:"il", name:"イル", colorKey:"kaneka", supportOnly:true,
+    extraSchema:[
+      {type:"label", text:"支援：参戦中のみ「対象軍の忠誠心 -20（永続／兵力増減は決着前に反映）」"},
+      {type:"targetArmy", key:"targetArmy", label:"対象軍"}
+    ],
+  },
+
+  { id:"yuris", name:"ユリス", colorKey:"gray", supportOnly:false,
+    extraSchema:[{type:"label", text:"出撃：錬金術攻撃（個人+10）"}],
+    basePersonal:()=>10
+  },
+  { id:"lorentz", name:"ローレンツ", colorKey:"gray", supportOnly:false,
+    extraSchema:[{type:"label", text:"出撃：ノワールの騎士（個人+20）"}],
+    basePersonal:()=>20
+  },
+  { id:"reni", name:"レニ", colorKey:"gray", supportOnly:false,
+    extraSchema:[{type:"label", text:"出撃：風竜顕現（個人+60）"}],
+    basePersonal:()=>60
+  },
+  { id:"sebastian", name:"セバスチャン", colorKey:"gray", supportOnly:true,
+    extraSchema:[
+      {type:"label", text:"支援：参戦中のみ「支払×5 を対象軍に加算（この戦闘のみ）」"},
+      {type:"payx5", key:"pay", label:"支払額（×5）", min:0},
+      {type:"targetArmy", key:"targetArmy", label:"強化する軍"}
+    ],
+  },
+];
+
+function allPeopleList(){ return CHAR_PRESETS.map(p=>({ id:p.id, name:p.name })); }
+
+/* ========= state ========= */
+const state = { roundIndex: 1, occupation: {}, rounds: {}, armiesMeta: {}, charsMeta: {}, log: [] };
+
+/* ========= utils ========= */
+const el = (id)=>document.getElementById(id);
+const escapeHtml = (s)=>String(s).replace(/[&<>"']/g, c=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+function randPick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function cssEscape(s){ return String(s).replace(/"/g,'\\"'); }
+function isRound3(){ return state.roundIndex === 3; }
+function isCharParticipating(charId, round){ if(round !== 3) return false; return !!state.rounds[round].chars[charId]?.placed; }
+const monoTs = ()=>{ const d=new Date(); const pad=(n)=>String(n).padStart(2,"0"); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`; };
+function colorTagHtml(colorKey){ const key = colorKey || "gray"; return `<span class="tag"><span class="dot ${key}"></span>${escapeHtml(COLOR[key].label)}</span>`; }
+function cardColorClass(colorKey){ const key = colorKey || "gray"; return COLOR[key].cssClass; }
+
+/* ========= persistence ========= */
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+function initRoundIfMissing(r){
+  if(!state.rounds[r]) state.rounds[r] = { armies:{}, chars:{}, fieldFlags:{} };
+  state.rounds[r].armies ||= {};
+  state.rounds[r].chars ||= {};
+  state.rounds[r].fieldFlags ||= {};
+  if(typeof state.rounds[r].fieldFlags.centralWallOff !== "boolean") state.rounds[r].fieldFlags.centralWallOff = false;
+
+  for(const a of ARMIES){
+    state.rounds[r].armies[a] ||= { placed:null };
+    if(!("placed" in state.rounds[r].armies[a])) state.rounds[r].armies[a].placed = null;
+  }
+  for(const p of CHAR_PRESETS){
+    state.rounds[r].chars[p.id] ||= { placed:null };
+    if(!("placed" in state.rounds[r].chars[p.id])) state.rounds[r].chars[p.id].placed = null;
+  }
+}
+
+function initDefaults(){
+  state.roundIndex = 1;
+  state.occupation = { "セントラル":"王室騎士団", "サウスリバー":"アメジスト魔術師団", "ノースランド":"ノースランド弓兵隊", "金華":"金華傭兵団" };
+  state.rounds = {};
+  for(let r=1;r<=MAX_ROUNDS;r++) initRoundIfMissing(r);
+
+  state.armiesMeta = {};
+  for(const a of ARMIES){
+    state.armiesMeta[a] = { flags:{}, params:{}, delta:0 };
+    state.armiesMeta[a].params.loyalty = 0;
+    state.armiesMeta[a].params.chaosMode ||= "戦モード";
+  }
+  state.armiesMeta["リベレーター同志"].params.libMembers = ["seno"];
+  state.armiesMeta["リベレーター同志"].params.prevLibCount = 1;
+
+  state.charsMeta = {};
+  for(const p of CHAR_PRESETS){
+    state.charsMeta[p.id] = { flags:{}, extra:{ pay:0, targetArmy:"" } };
+  }
+
+  state.log = [];
+}
+
+function load(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw){ initDefaults(); return; }
+  try{
+    const obj = JSON.parse(raw);
+    if(!obj || !obj.roundIndex || !obj.occupation || !obj.rounds || !obj.armiesMeta || !obj.charsMeta){
+      initDefaults(); return;
+    }
+    Object.assign(state, obj);
+
+    for(let r=1;r<=MAX_ROUNDS;r++) initRoundIfMissing(r);
+
+    for(const a of ARMIES){
+      if(!state.armiesMeta[a]) state.armiesMeta[a] = { flags:{}, params:{}, delta:0 };
+      state.armiesMeta[a].flags ||= {};
+      state.armiesMeta[a].params ||= {};
+      if(typeof state.armiesMeta[a].delta !== "number") state.armiesMeta[a].delta = 0;
+
+      if(typeof state.armiesMeta[a].params.loyalty !== "number") state.armiesMeta[a].params.loyalty = 0;
+      if(a==="ケイオス領私兵" && !state.armiesMeta[a].params.chaosMode) state.armiesMeta[a].params.chaosMode = "戦モード";
+    }
+
+    for(const p of CHAR_PRESETS){
+      if(!state.charsMeta[p.id]) state.charsMeta[p.id] = { flags:{}, extra:{ pay:0, targetArmy:"" } };
+      state.charsMeta[p.id].flags ||= {};
+      state.charsMeta[p.id].extra ||= { pay:0, targetArmy:"" };
+      if(typeof state.charsMeta[p.id].extra.pay !== "number") state.charsMeta[p.id].extra.pay = Number(state.charsMeta[p.id].extra.pay||0);
+      if(typeof state.charsMeta[p.id].extra.targetArmy !== "string") state.charsMeta[p.id].extra.targetArmy = "";
+    }
+
+    if(!state.armiesMeta["リベレーター同志"]) state.armiesMeta["リベレーター同志"] = { flags:{}, params:{}, delta:0 };
+    state.armiesMeta["リベレーター同志"].params ||= {};
+    if(!Array.isArray(state.armiesMeta["リベレーター同志"].params.libMembers)){
+      state.armiesMeta["リベレーター同志"].params.libMembers = ["seno"];
+    }else if(state.armiesMeta["リベレーター同志"].params.libMembers.length===0){
+      state.armiesMeta["リベレーター同志"].params.libMembers = ["seno"];
+    }
+    if(typeof state.armiesMeta["リベレーター同志"].params.prevLibCount !== "number"){
+      state.armiesMeta["リベレーター同志"].params.prevLibCount = state.armiesMeta["リベレーター同志"].params.libMembers.length;
+    }
+
+    state.log ||= [];
+  }catch(_){ initDefaults(); }
+}
+
+/* ========= GM占拠手動変更 ========= */
+function buildOccSelect(selectEl, fieldName){
+  const options = [...ARMIES, ...CHAR_PRESETS.map(p=>p.name)];
+  selectEl.innerHTML = "";
+  for(const name of options){
+    const o = document.createElement("option");
+    o.value = name; o.textContent = name;
+    selectEl.appendChild(o);
+  }
+  const cur = state.occupation[fieldName] || "";
+  selectEl.value = options.includes(cur) ? cur : (options[0] || "");
+  selectEl.onchange = ()=>{ state.occupation[fieldName] = selectEl.value; save(); renderAll(); };
+}
+
+/* ========= wall bonus（常に存在） ========= */
+function wallBonus(field, round){
+  if(field==="セントラル"){
+    const off = !!state.rounds[round].fieldFlags.centralWallOff;
+    return off ? 0 : 100;
+  }
+  return 30;
+}
+
+/* ========= army base + current ========= */
+function calcArmyBaseRaw(armyName){
+  switch(armyName){
+    case "王室騎士団": return 90;
+    case "アメジスト魔術師団": return 100;
+    case "ノースランド弓兵隊": return 50;
+    case "北部貴族連合残党": return 30;
+    case "金華傭兵団": return 60;
+    case "金華公家軍": return 50;
+    case "ケイオス領私兵": return 30;
+    case "ノワール騎馬隊残党": return 30;
+    case "リベレーター同志":{
+      const members = state.armiesMeta[armyName]?.params?.libMembers || [];
+      return 10 * Math.max(0, members.length);
+    }
+    default: return 0;
+  }
+}
+function getArmyCurrentBase(armyName){
+  const base = calcArmyBaseRaw(armyName);
+  const delta = Number(state.armiesMeta[armyName]?.delta || 0);
+  return base + delta;
+}
+function setArmyCurrentBase(armyName, desired){
+  const base = calcArmyBaseRaw(armyName);
+  state.armiesMeta[armyName].delta = Number(desired) - base;
+}
+
+/* snapshot for cross-army conditions */
+function makeSnapshot(round){
+  const set = new Set();
+  return { add:(a,f,s)=>set.add(`${a}||${f}||${s}`), has:(a,f,s)=>set.has(`${a}||${f}||${s}`) };
+}
+
+/* ========= display name（結果画面でケイオス破壊工作は正体不明） ========= */
+function getArmyDisplayName(name, round, forResult){
+  if(!forResult) return name;
+  if(name==="ケイオス領私兵"){
+    const mode = state.armiesMeta[name]?.params?.chaosMode || "戦モード";
+    if(mode==="破壊工作モード") return "正体不明の軍";
+  }
+  return name;
+}
+
+/* ========= support effects (Round3 & participating only) ========= */
+function getSupportPowerBonusMap(round){
+  const bonus = {}; for(const a of ARMIES) bonus[a]=0;
+  if(round !== 3) return bonus;
+  const meta = state.charsMeta;
+
+  if(isCharParticipating("gentoku", round)){
+    const pay = Math.max(0, Number(meta["gentoku"]?.extra?.pay||0));
+    const t = meta["gentoku"]?.extra?.targetArmy || "";
+    if(ARMIES.includes(t)) bonus[t] += pay*5;
+  }
+  if(isCharParticipating("sebastian", round)){
+    const pay = Math.max(0, Number(meta["sebastian"]?.extra?.pay||0));
+    const t = meta["sebastian"]?.extra?.targetArmy || "";
+    if(ARMIES.includes(t)) bonus[t] += pay*5;
+  }
+  if(isCharParticipating("suiran", round)){
+    const t = meta["suiran"]?.extra?.targetArmy || "";
+    if(ARMIES.includes(t)) bonus[t] += 30;
+  }
+  if(isCharParticipating("serin", round)) bonus["リベレーター同志"] += 30;
+  if(isCharParticipating("maria", round)) bonus["王室騎士団"] += 20;
+
+  return bonus;
+}
+
+function getSupportLoyaltyDeltaList(round){
+  const deltas = [];
+  if(round !== 3) return deltas;
+
+  const meta = state.charsMeta;
+
+  if(isCharParticipating("suiran", round)){
+    const t = meta["suiran"]?.extra?.targetArmy || "";
+    if(ARMIES.includes(t)) deltas.push({army:t, delta:+20, reason:"翠嵐(+20)"});
+  }
+  if(isCharParticipating("il", round)){
+    const t = meta["il"]?.extra?.targetArmy || "";
+    if(ARMIES.includes(t)) deltas.push({army:t, delta:-20, reason:"イル(-20)"});
+  }
+  if(isCharParticipating("seno", round)){
+    const t = meta["seno"]?.extra?.targetArmy || "";
+    if(ARMIES.includes(t)) deltas.push({army:t, delta:-20, reason:"セノ(-20)"});
+  }
+  if(isCharParticipating("lion", round)){
+    const t = meta["lion"]?.extra?.targetArmy || "";
+    if(ARMIES.includes(t)) deltas.push({army:t, delta:+40, reason:"リオン(+40)"});
+  }
+  if(isCharParticipating("noelis", round)){
+    deltas.push({army:"アメジスト魔術師団", delta:+40, reason:"ノエリス(+40)"});
+  }
+
+  return deltas;
+}
+
+/* ========= Emil effect (Round3 only) ========= */
+function emilDebuffForArmy(armyName, round){
+  if(round !== 3) return 0;
+  const emilPlaced = state.rounds[round].chars["emil"]?.placed;
+  if(!emilPlaced) return 0;
+
+  const aPlaced = state.rounds[round].armies[armyName]?.placed;
+  if(!aPlaced) return 0;
+
+  if(aPlaced.field !== emilPlaced.field) return 0;
+  if(aPlaced.side === emilPlaced.side) return 0;
+
+  return -20;
+}
+
+/* ========= Dragon presence (Round3 only) ========= */
+const DRAGON_IDS = ["rito","rata","reni"];
+function hasEnemyDragonInField(field, side, round){
+  if(round !== 3) return false;
+  for(const id of DRAGON_IDS){
+    const p = state.rounds[round].chars[id]?.placed;
+    if(!p) continue;
+    if(p.field===field && p.side!==side) return true;
+  }
+  return false;
+}
+
+/* ========= army modifier logic ========= */
+function armyModifier(armyName, snap, round, supportPowerBonus){
+  const placed = state.rounds[round].armies[armyName].placed;
+  if(!placed) return 0;
+
+  const field = placed.field;
+  const side  = placed.side;
+  const enemySide = (side==="攻撃") ? "防衛" : "攻撃";
+
+  let mod = 0;
+
+  switch(armyName){
+    case "王室騎士団": mod += snap.has("アメジスト魔術師団", field, enemySide) ? 30 : 0; break;
+    case "アメジスト魔術師団": mod += snap.has("王室騎士団", field, enemySide) ? 30 : 0; break;
+    case "ノースランド弓兵隊": mod += (field==="ノースランド") ? 30 : 0; break;
+    case "北部貴族連合残党": mod += hasEnemyDragonInField(field, side, round) ? 40 : 0; break;
+    case "金華傭兵団": mod += (side==="攻撃") ? 30 : 0; break;
+    case "金華公家軍": mod += (state.occupation["金華"] === "金華公家軍") ? 30 : 0; break;
+    case "ノワール騎馬隊残党": mod += state.armiesMeta[armyName].flags?.noirHexagram ? 50 : 0; break;
+    case "ケイオス領私兵":{
+      const mode = state.armiesMeta[armyName].params?.chaosMode || "戦モード";
+      if(mode==="破壊工作モード"){ mod += -getArmyCurrentBase("ケイオス領私兵"); }
+      break;
+    }
+  }
+
+  mod += (supportPowerBonus?.[armyName] || 0);
+  mod += emilDebuffForArmy(armyName, round);
+
+  return mod;
+}
+
+function calcArmyPower(armyName, snap, round, supportPowerBonus){
+  const baseCurrent = getArmyCurrentBase(armyName);
+  const mod = armyModifier(armyName, snap, round, supportPowerBonus);
+  const value = Math.max(0, baseCurrent + mod);
+  return { baseCurrent, mod, value };
+}
+
+/* ========= personal power ========= */
+function calcPersonalPower(preset){
+  const meta = state.charsMeta[preset.id];
+  if(preset.supportOnly) return 0;
+  const fn = preset.basePersonal || (()=>0);
+  return Number(fn(meta)||0);
+}
+
+/* ========= compute totals for current round ========= */
+function compute(round){
+  const snap = makeSnapshot(round);
+  for(const name of ARMIES){
+    const placed = state.rounds[round].armies[name].placed;
+    if(placed) snap.add(name, placed.field, placed.side);
+  }
+
+  const supportPowerBonus = getSupportPowerBonusMap(round);
+
+  const totals = {};
+  for(const f of ACTIVE_FIELDS){
+    totals[f] = { atk:{army:0, personal:0, armyBreak:[], personalBreak:[]}, def:{army:0, personal:0, armyBreak:[], personalBreak:[]} };
+  }
+
+  for(const name of ARMIES){
+    const placed = state.rounds[round].armies[name].placed;
+    if(!placed) continue;
+    const bucket = (placed.side==="攻撃") ? "atk" : "def";
+    const { baseCurrent, mod, value } = calcArmyPower(name, snap, round, supportPowerBonus);
+    totals[placed.field][bucket].army += value;
+    totals[placed.field][bucket].armyBreak.push({ name, baseCurrent, mod, value });
+  }
+
+  if(round === 3){
+    for(const preset of CHAR_PRESETS){
+      const placed = state.rounds[round].chars[preset.id].placed;
+      if(!placed) continue;
+
+      const bucket = (placed.side==="攻撃") ? "atk" : "def";
+      if(preset.supportOnly){
+        totals[placed.field][bucket].personalBreak.push({ id:preset.id, name:`${preset.name}(支援)`, value:0 });
+        continue;
+      }
+      const p = calcPersonalPower(preset);
+      totals[placed.field][bucket].personal += p;
+      totals[placed.field][bucket].personalBreak.push({ id:preset.id, name:preset.name, value:p });
+    }
+  }
+
+  const results = ACTIVE_FIELDS.map(field=>{
+    const atkTotal = totals[field].atk.army + totals[field].atk.personal;
+    const defBase  = totals[field].def.army + totals[field].def.personal;
+    const bonus = wallBonus(field, round);
+    const defTotal = defBase + bonus;
+    const winner = (atkTotal > defTotal) ? "攻撃側の勝利" : "防衛側の勝利（同値含む）";
+    return { field, atkTotal, defBase, bonus, defTotal, winner, attackWon:(atkTotal>defTotal) };
+  });
+
+  return { totals, results, snap, supportPowerBonus };
+}
+
+/* ========= loyalty -> troop change (20刻みで±10) ========= */
+function step20(x){ return Math.floor(Number(x||0) / 20); }
+
+function applyLoyaltyDelta(army, delta, reason){
+  const meta = state.armiesMeta[army];
+  if(!meta) return [];
+
+  const before = Number(meta.params?.loyalty ?? 0);
+  const after  = before + delta;
+  meta.params.loyalty = after;
+
+  const logs = [`忠誠心：${army} ${before}→${after}（${reason}）`];
+
+  const bStep = step20(before);
+  const aStep = step20(after);
+  const diff = aStep - bStep;
+
+  if(diff !== 0){
+    const cur = getArmyCurrentBase(army);
+    const next = Math.max(0, cur + (diff * 10));
+    setArmyCurrentBase(army, next);
+
+    if(diff > 0){
+      logs.push(`✨兵力回復：${army} +${diff*10}（${cur}→${next}）`);
+    }else{
+      logs.push(`💥脱走：${army} ${(-diff)*10}（${cur}→${next}）`);
+    }
+  }
+  return logs;
+}
+
+/* ========= Liberator battle-time loyalty debuff ========= */
+function applyLiberatorBattleDebuff(round){
+  const logs = [];
+  const lib = "リベレーター同志";
+  const pLib = state.rounds[round].armies[lib]?.placed;
+  if(!pLib) return logs;
+
+  const field = pLib.field;
+  const enemySide = (pLib.side==="攻撃") ? "防衛" : "攻撃";
+
+  let hit = 0;
+  for(const a of ARMIES){
+    if(a===lib) continue;
+    const p = state.rounds[round].armies[a]?.placed;
+    if(!p) continue;
+    if(p.field===field && p.side===enemySide){
+      logs.push(...applyLoyaltyDelta(a, -10, `リベレーター同志（戦闘時-10）@${field}`));
+      hit++;
+    }
+  }
+  if(hit===0) logs.push(`リベレーター同志（戦闘時-10）：${field} の敵軍がいないため不発`);
+  return logs;
+}
+
+/* ========= pre-battle loyalty changes ========= */
+function applyPreBattleLoyaltyChanges(round){
+  const logs = [];
+
+  const lib = state.armiesMeta["リベレーター同志"].params;
+  const nowCount = (lib.libMembers || []).length;
+  const prevCount = Number(lib.prevLibCount ?? nowCount);
+  const diff = nowCount - prevCount;
+
+  if(diff > 0){
+    for(const a of ARMIES){
+      if(a==="リベレーター同志") continue;
+      const drop = loyaltyDropPerMember(a) * diff;
+      logs.push(...applyLoyaltyDelta(a, -drop, `自由の同志増加(${diff}人)`));
+    }
+    lib.prevLibCount = nowCount;
+  }else{
+    lib.prevLibCount = nowCount;
+  }
+
+  const deltas = getSupportLoyaltyDeltaList(round);
+  if(deltas.length){
+    for(const d of deltas) logs.push(...applyLoyaltyDelta(d.army, d.delta, d.reason));
+  }else{
+    logs.push("忠誠心（支援）：変化なし（Round3以外／未参戦／対象未選択など）");
+  }
+
+  logs.push(...applyLiberatorBattleDebuff(round));
+  return logs;
+}
+
+/* ========= post-battle loyalty changes ========= */
+function applyOutcomeLoyaltyChanges(round, results){
+  const logs = [];
+  for(const res of results){
+    const attackWon = (res.atkTotal > res.defTotal);
+    if(!attackWon) continue;
+    const field = res.field;
+
+    for(const a of ARMIES){
+      const p = state.rounds[round].armies[a].placed;
+      if(p && p.field===field && p.side==="攻撃") logs.push(...applyLoyaltyDelta(a, +10, `${field} 攻撃勝利(+10)`));
+    }
+    for(const a of ARMIES){
+      const p = state.rounds[round].armies[a].placed;
+      if(p && p.field===field && p.side==="防衛") logs.push(...applyLoyaltyDelta(a, -10, `${field} 防衛敗北(-10)`));
+    }
+  }
+  if(!logs.length) logs.push("忠誠心（勝敗）：変化なし（攻撃勝利がない）");
+  return logs;
+}
+
+/* ========= chaos sabotage (after war, does NOT affect this battle) ========= */
+function applyChaosSabotageAfterWar(round, snap, supportPowerBonus){
+  const chaos = "ケイオス領私兵";
+  const placed = state.rounds[round].armies[chaos].placed;
+  const mode = state.armiesMeta[chaos].params?.chaosMode || "戦モード";
+  if(!placed || mode!=="破壊工作モード") return [];
+
+  const field = placed.field;
+  const enemySide = (placed.side==="攻撃") ? "防衛" : "攻撃";
+
+  const enemies = [];
+  for(const name of ARMIES){
+    if(name===chaos) continue;
+    const p = state.rounds[round].armies[name].placed;
+    if(!p) continue;
+    if(p.field!==field || p.side!==enemySide) continue;
+
+    const { value } = calcArmyPower(name, snap, round, supportPowerBonus);
+    enemies.push({ name, value });
+  }
+  if(!enemies.length) return [`破壊工作：${field} 敵側に軍がいないため不発`];
+
+  const maxVal = Math.max(...enemies.map(x=>x.value));
+  const maxOnes = enemies.filter(x=>x.value===maxVal);
+  const target = randPick(maxOnes).name;
+
+  const cur = getArmyCurrentBase(target);
+  const next = Math.max(0, cur - 20);
+  setArmyCurrentBase(target, next);
+
+  return [`💣破壊工作：${field} の敵最大軍「${target}」を恒久-20（${cur}→${next}）`];
+}
+
+/* ========= occupation update ========= */
+function updateOccupationFromAttackWinners(round, snap, supportPowerBonus){
+  const { results } = compute(round);
+  const changes = [];
+
+  for(const r of results){
+    if(!(r.atkTotal > r.defTotal)) continue;
+
+    const entities = [];
+
+    for(const a of ARMIES){
+      const placed = state.rounds[round].armies[a].placed;
+      if(!placed) continue;
+      if(placed.field !== r.field) continue;
+      if(placed.side !== "攻撃") continue;
+
+      const { value } = calcArmyPower(a, snap, round, supportPowerBonus);
+      entities.push({ name:a, value, kind:"army" });
+    }
+
+    if(round === 3){
+      for(const p of CHAR_PRESETS){
+        const placed = state.rounds[round].chars[p.id].placed;
+        if(!placed) continue;
+        if(placed.field !== r.field) continue;
+        if(placed.side !== "攻撃") continue;
+
+        const val = p.supportOnly ? 0 : calcPersonalPower(p);
+        entities.push({ name:p.name, value:val, kind:"person" });
+      }
+    }
+
+    if(!entities.length) continue;
+
+    const maxVal = Math.max(...entities.map(x=>x.value));
+    const maxOnes = entities.filter(x=>x.value===maxVal);
+    const chosen = randPick(maxOnes).name;
+
+    const prev = state.occupation[r.field];
+    if(prev !== chosen){
+      state.occupation[r.field] = chosen;
+      changes.push(`占拠更新：${r.field} ${prev} → ${chosen}（最大兵力 ${maxVal}）`);
+    }else{
+      changes.push(`占拠維持：${r.field} ${prev}（最大兵力 ${maxVal}）`);
+    }
+  }
+  return changes;
+}
+
+/* ========= drag & drop ========= */
+let dragPayload = null;
+
+function onDragStart(e, payload){
+  dragPayload = payload;
+  e.dataTransfer.setData("text/plain", JSON.stringify(payload));
+  e.dataTransfer.effectAllowed = "move";
+}
+
+function enableDropZone(zoneEl, onDropFn){
+  zoneEl.addEventListener("dragover",(e)=>{
+    e.preventDefault();
+    zoneEl.classList.add("dropOver");
+    e.dataTransfer.dropEffect="move";
+  });
+  zoneEl.addEventListener("dragleave", ()=> zoneEl.classList.remove("dropOver"));
+  zoneEl.addEventListener("drop",(e)=>{
+    e.preventDefault();
+    zoneEl.classList.remove("dropOver");
+    let payload=null;
+    try{ payload=JSON.parse(e.dataTransfer.getData("text/plain")||""); }catch(_){}
+    payload=payload||dragPayload;
+    if(!payload) return;
+    onDropFn(payload);
+    save(); renderAll();
+  });
+}
+
+function enableLaneDrop(lane){
+  enableDropZone(lane, (payload)=>{
+    const round = state.roundIndex;
+    const field = lane.dataset.field;
+    const side  = lane.dataset.side;
+
+    if(payload.type==="char"){
+      if(round !== 3) return;
+      state.rounds[round].chars[payload.id].placed = { field, side };
+    } else if(payload.type==="army"){
+      state.rounds[round].armies[payload.name].placed = { field, side };
+    }
+  });
+}
+
+/* ========= render: extras ========= */
+function armyExtraHint(name){
+  if(name==="金華公家軍") return "金華占拠が金華公家軍なら+30（自動）";
+  if(name==="ノワール騎馬隊残党") return "六芒星解放で+50";
+  if(name==="リベレーター同志") return "兵力=10×（名簿の人数）／戦闘時：同戦場の敵軍の忠誠心-10";
+  if(name==="王室騎士団") return "敵にアメジストがいる戦場で+30";
+  if(name==="アメジスト魔術師団") return "敵に王室がいる戦場で+30";
+  if(name==="ノースランド弓兵隊") return "戦場がノースランドで+30";
+  if(name==="北部貴族連合残党") return "敵に竜（リト/ラタ/レニ）がいる戦場で+40";
+  if(name==="金華傭兵団") return "攻撃側なら+30";
+  if(name==="ケイオス領私兵") return "破壊工作モード：戦闘中0＋戦後に敵最大軍へ恒久-20（結果画面では正体不明の軍）";
+  return "-";
+}
+
+function renderLiberatorMemberPicker(){
+  const members = state.armiesMeta["リベレーター同志"].params.libMembers || [];
+  const box = document.createElement("div");
+  box.className = "miniBox";
+
+  const title = document.createElement("div");
+  title.className = "tiny";
+  title.innerHTML = `<b>自由の同志 名簿</b>（兵力=10×人数）`;
+  box.appendChild(title);
+
+  const grid = document.createElement("div");
+  grid.className = "checkGrid";
+  const people = allPeopleList();
+
+  for(const p of people){
+    const label = document.createElement("label");
+    label.className = "inline tiny";
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = members.includes(p.id);
+
+    cb.addEventListener("change", ()=>{
+      let next = new Set(state.armiesMeta["リベレーター同志"].params.libMembers || []);
+      if(cb.checked) next.add(p.id);
+      else next.delete(p.id);
+      state.armiesMeta["リベレーター同志"].params.libMembers = Array.from(next);
+      save(); renderAll();
+    });
+
+    label.appendChild(cb);
+    label.appendChild(document.createTextNode(" " + p.name));
+    grid.appendChild(label);
+  }
+
+  box.appendChild(grid);
+
+  const line = document.createElement("div");
+  line.className="muted tiny";
+  const names = people.filter(p=>members.includes(p.id)).map(p=>p.name);
+  line.textContent = `現在：${names.length ? names.join("、") : "（なし）"}（prev=${state.armiesMeta["リベレーター同志"].params.prevLibCount ?? names.length}）`;
+  box.appendChild(line);
+
+  return box;
+}
+
+function renderArmyExtrasInputs(name){
+  const meta = state.armiesMeta[name];
+  const wrap = document.createElement("div");
+  wrap.className="inline tiny";
+
+  const baseRaw = calcArmyBaseRaw(name);
+  const cur = getArmyCurrentBase(name);
+
+  const gmBox = document.createElement("span");
+  gmBox.className = "pill";
+  gmBox.innerHTML = `GM現在兵力`;
+  const inp = document.createElement("input");
+  inp.type="number";
+  inp.value = cur;
+  inp.title = `基礎(${baseRaw}) + 差分(delta=${meta.delta}) = 現在兵力`;
+  inp.addEventListener("change", ()=>{
+    setArmyCurrentBase(name, Number(inp.value||0));
+    save(); renderAll();
+  });
+  gmBox.appendChild(inp);
+  wrap.appendChild(gmBox);
+
+  const loyBox = document.createElement("span");
+  loyBox.className="pill";
+  loyBox.innerHTML = `忠誠心`;
+  const loy = document.createElement("input");
+  loy.type="number";
+  loy.value = Number(meta.params?.loyalty ?? 0);
+  loy.addEventListener("change", ()=>{
+    meta.params.loyalty = Number(loy.value||0);
+    save(); renderAll();
+  });
+  loyBox.appendChild(loy);
+  wrap.appendChild(loyBox);
+
+  const stepPill = document.createElement("span");
+  stepPill.className="pill";
+  stepPill.textContent = `段（忠誠心/20）：${step20(Number(meta.params?.loyalty ?? 0))}`;
+  wrap.appendChild(stepPill);
+
+  if(name==="ノワール騎馬隊残党"){
+    const label=document.createElement("label"); label.className="inline tiny";
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=!!meta.flags.noirHexagram;
+    cb.addEventListener("change", ()=>{ meta.flags.noirHexagram=cb.checked; save(); renderAll(); });
+    label.appendChild(cb); label.appendChild(document.createTextNode(" 六芒星解放"));
+    wrap.appendChild(label);
+  }
+
+  if(name==="リベレーター同志"){
+    wrap.appendChild(renderLiberatorMemberPicker());
+  }
+
+  if(name==="ケイオス領私兵"){
+    const sel=document.createElement("select");
+    ["戦モード","破壊工作モード"].forEach(x=>{
+      const o=document.createElement("option"); o.value=x; o.textContent=x; sel.appendChild(o);
+    });
+    sel.value = meta.params.chaosMode || "戦モード";
+    sel.addEventListener("change", ()=>{ meta.params.chaosMode=sel.value; save(); renderAll(); });
+    wrap.appendChild(sel);
+  }
+
+  const resetBtn = document.createElement("button");
+  resetBtn.textContent="兵力リセット";
+  resetBtn.title="この軍の差分(delta)を0に戻す";
+  resetBtn.addEventListener("click", ()=>{
+    meta.delta = 0; save(); renderAll();
+  });
+  wrap.appendChild(resetBtn);
+
+  return wrap;
+}
+
+function renderArmyTargetSelect(charId){
+  const meta = state.charsMeta[charId];
+  const sel=document.createElement("select");
+  const blank=document.createElement("option");
+  blank.value=""; blank.textContent="（未選択）";
+  sel.appendChild(blank);
+
+  for(const a of ARMIES){
+    const o=document.createElement("option");
+    o.value=a; o.textContent=a;
+    sel.appendChild(o);
+  }
+  sel.value = meta.extra?.targetArmy || "";
+  sel.addEventListener("change", ()=>{ meta.extra.targetArmy = sel.value; save(); renderAll(); });
+  return sel;
+}
+
+function renderCharExtrasInputs(preset){
+  const meta = state.charsMeta[preset.id];
+  const wrap=document.createElement("div");
+  wrap.className="inline tiny";
+
+  for(const item of (preset.extraSchema||[])){
+    if(item.type==="checkbox"){
+      const l=document.createElement("label"); l.className="inline tiny";
+      const c=document.createElement("input"); c.type="checkbox"; c.checked=!!meta.flags[item.key];
+      c.addEventListener("change", ()=>{ meta.flags[item.key]=c.checked; save(); renderAll(); });
+      l.appendChild(c); l.appendChild(document.createTextNode(" " + item.label));
+      wrap.appendChild(l);
+    }
+    if(item.type==="payx5"){
+      const n=document.createElement("input");
+      n.type="number"; n.min=String(item.min ?? 0);
+      n.value=Number(meta.extra?.pay||0);
+      n.addEventListener("change", ()=>{ meta.extra.pay=Number(n.value||0); save(); renderAll(); });
+      wrap.appendChild(document.createTextNode("支払"));
+      wrap.appendChild(n);
+      const hint=document.createElement("span"); hint.className="muted"; hint.textContent="×5";
+      wrap.appendChild(hint);
+    }
+    if(item.type==="targetArmy"){
+      const lab=document.createElement("span"); lab.className="muted"; lab.textContent = item.label + "：";
+      wrap.appendChild(lab);
+      wrap.appendChild(renderArmyTargetSelect(preset.id));
+    }
+    if(item.type==="label"){
+      const s=document.createElement("span"); s.className="muted"; s.textContent=item.text;
+      wrap.appendChild(s);
+    }
+  }
+  return wrap;
+}
+
+/* ========= render ========= */
+function formatArmyBreakdown(arr){
+  if(!arr?.length) return "なし";
+  return arr.map(x=>`${x.name}=${x.value}（現在${x.baseCurrent}${x.mod?` ${x.mod>=0?"+":""}${x.mod}`:""}）`).join(" / ");
+}
+function formatPersonalBreakdown(arr){
+  if(!arr?.length) return "なし";
+  return arr.map(x=>`${x.name}（${x.value}）`).join(" / ");
+}
+
+function renderTop(){
+  el("roundText").textContent = `${state.roundIndex} / ${MAX_ROUNDS}`;
+  buildOccSelect(el("occCentralSel"), "セントラル");
+  buildOccSelect(el("occSouthSel"),   "サウスリバー");
+  buildOccSelect(el("occNorthSel"),   "ノースランド");
+  buildOccSelect(el("occKanekaSel"),  "金華");
+
+  el("charWaitingHint").textContent = (state.roundIndex===3)
+    ? "ここから戦場へドラッグで参戦（支援キャラも参戦が必要）／待機へ戻すならここへドロップ"
+    : "Round1/2ではキャラは参戦できません（配置しても無効）。Round3でのみ有効。";
+
+  const box = el("logBox");
+  box.innerHTML = "";
+  if(!state.log.length){
+    box.innerHTML = `<div class="muted">（まだ確定ログはありません）</div>`;
+    return;
+  }
+  for(const item of state.log.slice(0,30)){
+    const p = document.createElement("div");
+    p.className="logLine";
+    p.innerHTML = `<span class="muted">${escapeHtml(item.ts)}</span> — ${escapeHtml(item.text)}`;
+    box.appendChild(p);
+  }
+}
+
+function renderWaitingArmies(){
+  const list = el("armyList");
+  list.innerHTML="";
+  const round = state.roundIndex;
+
+  for(const name of ARMIES){
+    const placed = state.rounds[round].armies[name].placed;
+    if(placed) continue;
+
+    const baseRaw = calcArmyBaseRaw(name);
+    const cur = getArmyCurrentBase(name);
+    const colorKey = ARMY_COLORKEY[name] || "gray";
+    const loy = Number(state.armiesMeta[name].params?.loyalty ?? 0);
+
+    const card=document.createElement("div");
+    card.className = `itemCard ${cardColorClass(colorKey)}`;
+    card.draggable=true;
+    card.addEventListener("dragstart",(e)=>onDragStart(e,{type:"army", name}));
+
+    card.innerHTML = `
+      <div class="left">
+        <div class="name">${escapeHtml(name)} ${colorTagHtml(colorKey)}</div>
+        <div class="muted tiny">
+          基礎：<b>${baseRaw}</b> ／ 現在：<b>${cur}</b>
+          <span class="pill">delta ${state.armiesMeta[name].delta}</span>
+          <span class="pill">忠誠心 <b>${loy}</b></span>
+          <span class="pill">段 ${step20(loy)}</span>
+        </div>
+        <div class="muted tiny" style="margin-top:4px;">${escapeHtml(armyExtraHint(name))}</div>
+        <div class="inline tiny" style="margin-top:8px;" id="armyExtras_${escapeHtml(name)}"></div>
+      </div>
+      <div class="value">${cur}</div>
+    `;
+    card.querySelector(`#armyExtras_${cssEscape(name)}`).appendChild(renderArmyExtrasInputs(name));
+    list.appendChild(card);
+  }
+
+  if(!list.children.length){
+    const p=document.createElement("div"); p.className="muted"; p.textContent="（待機中の軍はありません）";
+    list.appendChild(p);
+  }
+}
+
+function renderWaitingChars(){
+  const list = el("charList");
+  list.innerHTML="";
+  const round = state.roundIndex;
+  const canDrag = (round === 3);
+
+  for(const preset of CHAR_PRESETS){
+    const placed = state.rounds[round].chars[preset.id].placed;
+    if(placed) continue;
+
+    const pwr = preset.supportOnly ? 0 : calcPersonalPower(preset);
+    const colorKey = preset.colorKey || "gray";
+
+    const card=document.createElement("div");
+    card.className = `itemCard ${cardColorClass(colorKey)} ${canDrag ? "" : "nodrag disabled"}`;
+    if(canDrag){
+      card.draggable=true;
+      card.addEventListener("dragstart",(e)=>onDragStart(e,{type:"char", id:preset.id}));
+    }
+
+    card.innerHTML = `
+      <div class="left">
+        <div class="name">${escapeHtml(preset.name)} ${colorTagHtml(colorKey)} ${preset.supportOnly?`<span class="pill">支援</span>`:""}</div>
+        <div class="inline tiny" style="margin-top:8px;" id="charExtras_${escapeHtml(preset.id)}"></div>
+      </div>
+      <div class="value">
+        <div class="muted tiny">${preset.supportOnly ? "参戦で支援発動" : "個人兵力"}</div>
+        ${preset.supportOnly ? "0" : pwr}
+      </div>
+    `;
+    card.querySelector(`#charExtras_${cssEscape(preset.id)}`).appendChild(renderCharExtrasInputs(preset));
+    list.appendChild(card);
+  }
+
+  if(!list.children.length){
+    const p=document.createElement("div"); p.className="muted"; p.textContent="（待機中のキャラはありません）";
+    list.appendChild(p);
+  }
+}
+
+function renderPlacedArmies(field, side, snap, supportPowerBonus){
+  const wrap=document.createElement("div");
+  wrap.className="laneList";
+  const round = state.roundIndex;
+
+  for(const name of ARMIES){
+    const placed = state.rounds[round].armies[name].placed;
+    if(!placed) continue;
+    if(placed.field!==field || placed.side!==side) continue;
+
+    const colorKey = ARMY_COLORKEY[name] || "gray";
+    const { value } = calcArmyPower(name, snap, round, supportPowerBonus);
+
+    const card=document.createElement("div");
+    card.className = `itemCard compact ${cardColorClass(colorKey)}`;
+    card.draggable=true;
+    card.addEventListener("dragstart",(e)=>onDragStart(e,{type:"army", name}));
+    card.addEventListener("dblclick", ()=>{ state.rounds[round].armies[name].placed=null; save(); renderAll(); });
+
+    card.innerHTML = `
+      <div class="left">
+        <div class="name">【軍】${escapeHtml(name)} ${colorTagHtml(colorKey)}</div>
+        <details>
+          <summary>編集（GM兵力/忠誠心/特殊設定）</summary>
+          <div class="inline tiny" style="margin-top:8px;" id="armyPlacedExtras_${escapeHtml(name)}"></div>
+          <div class="muted tiny" style="margin-top:6px;">${escapeHtml(armyExtraHint(name))}</div>
+        </details>
+      </div>
+      <div class="value">${value}</div>
+    `;
+    card.querySelector(`#armyPlacedExtras_${cssEscape(name)}`).appendChild(renderArmyExtrasInputs(name));
+    wrap.appendChild(card);
+  }
+  return wrap;
+}
+
+function renderPlacedChars(field, side){
+  const wrap=document.createElement("div");
+  wrap.className="laneList";
+  const round = state.roundIndex;
+  if(round !== 3) return wrap;
+
+  for(const preset of CHAR_PRESETS){
+    const placed = state.rounds[round].chars[preset.id].placed;
+    if(!placed) continue;
+    if(placed.field!==field || placed.side!==side) continue;
+
+    const pwr = preset.supportOnly ? 0 : calcPersonalPower(preset);
+    const colorKey = preset.colorKey || "gray";
+
+    const card=document.createElement("div");
+    card.className = `itemCard compact ${cardColorClass(colorKey)}`;
+    card.draggable=true;
+    card.addEventListener("dragstart",(e)=>onDragStart(e,{type:"char", id:preset.id}));
+    card.addEventListener("dblclick", ()=>{ state.rounds[round].chars[preset.id].placed=null; save(); renderAll(); });
+
+    card.innerHTML = `
+      <div class="left">
+        <div class="name">【個】${escapeHtml(preset.name)} ${colorTagHtml(colorKey)} ${preset.supportOnly?`<span class="pill">支援</span>`:""}</div>
+        <details>
+          <summary>編集（スキル設定）</summary>
+          <div class="inline tiny" style="margin-top:8px;" id="charPlacedExtras_${escapeHtml(preset.id)}"></div>
+        </details>
+      </div>
+      <div class="value">${pwr}</div>
+    `;
+    card.querySelector(`#charPlacedExtras_${cssEscape(preset.id)}`).appendChild(renderCharExtrasInputs(preset));
+    wrap.appendChild(card);
+  }
+  return wrap;
+}
+
+function renderBoard(){
+  const board = el("board");
+  board.innerHTML="";
+  const round = state.roundIndex;
+  const { totals, results, snap, supportPowerBonus } = compute(round);
+
+  for(const field of ACTIVE_FIELDS){
+    const r = results.find(x=>x.field===field);
+    const fieldColorKey = FIELD_TO_COLORKEY[field];
+    const tintClass =
+      field==="セントラル" ? "tint-central" :
+      field==="サウスリバー" ? "tint-southriver" :
+      field==="ノースランド" ? "tint-northland" :
+      "tint-kaneka";
+
+    const card=document.createElement("div");
+    card.className = `fieldCard ${tintClass}`;
+
+    const occ = state.occupation[field] || "-";
+
+    card.innerHTML = `
+      <div class="fieldHeader">
+        <div class="fieldTitleRow">
+          <div class="fieldTitle">
+            <span class="fieldBadge" style="background: var(--${fieldColorKey});"></span>
+            ${escapeHtml(FIELD_LABEL[field])}
+            <span class="pill">占拠：<b>${escapeHtml(occ)}</b></span>
+          </div>
+          <div class="pill mono">Round ${round}</div>
+        </div>
+
+        ${field==="セントラル" ? `
+          <div class="inline tiny">
+            <label class="inline tiny">
+              <input type="checkbox" id="centralWallOff_${round}" ${state.rounds[round].fieldFlags.centralWallOff ? "checked":""}/>
+              六芒星：セントラル城壁を無効（+100→0）
+            </label>
+          </div>
+        ` : ""}
+
+        <div class="resultBanner">
+          <div>
+            <div class="winner">${escapeHtml(r.winner)}</div>
+            <div class="scoreLine">防衛は城壁ボーナス：${r.bonus}（防衛素点 ${r.defBase}）</div>
+          </div>
+          <div class="bigScore">
+            <span>攻撃 <b>${r.atkTotal}</b></span>
+            <span class="muted">vs</span>
+            <span>防衛 <b>${r.defTotal}</b></span>
+            <span class="pill">防衛=${r.defBase}+${r.bonus}</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    if(field==="セントラル"){
+      const cb = card.querySelector(`#centralWallOff_${round}`);
+      cb.addEventListener("change", ()=>{ state.rounds[round].fieldFlags.centralWallOff = cb.checked; save(); renderAll(); });
+    }
+
+    const grid=document.createElement("div");
+    grid.className="laneGrid";
+
+    for(const side of SIDES){
+      const bucket = (side==="攻撃") ? "atk" : "def";
+      const lane=document.createElement("div");
+      lane.className="lane";
+      lane.dataset.field = field;
+      lane.dataset.side = side;
+
+      const aSum = totals[field][bucket].army;
+      const pSum = totals[field][bucket].personal;
+
+      lane.innerHTML = `
+        <div class="laneTitle">
+          <span>${escapeHtml(side)}</span>
+          <span class="laneTotals">
+            <span class="pill">軍 ${aSum}</span>
+            <span class="pill">キャラ ${pSum}</span>
+            <span class="pill"><b>合計 ${aSum+pSum}</b></span>
+          </span>
+        </div>
+        <div class="dropHint">${round===3 ? "ここに「軍」or「キャラ（支援含む）」をドロップ" : "ここに「軍」をドロップ（Round1/2はキャラ不可）"}</div>
+        <div class="laneList"></div>
+        <details>
+          <summary class="muted">内訳</summary>
+          <div class="muted" style="margin-top:6px;">
+            <div><b>軍：</b>${formatArmyBreakdown(totals[field][bucket].armyBreak)}</div>
+            <div style="margin-top:4px;"><b>キャラ：</b>${formatPersonalBreakdown(totals[field][bucket].personalBreak)}</div>
+          </div>
+        </details>
+      `;
+      enableLaneDrop(lane);
+
+      const list = lane.querySelector(".laneList");
+      list.appendChild(renderPlacedArmies(field, side, snap, supportPowerBonus));
+      list.appendChild(renderPlacedChars(field, side));
+
+      grid.appendChild(lane);
+    }
+
+    card.appendChild(grid);
+    board.appendChild(card);
+  }
+}
+
+/* ========= finalize ========= */
+function step20(x){ return Math.floor(Number(x||0) / 20); } // (上書き安全)
+
+function applyPreBattleLoyaltyChanges(round){
+  const logs = [];
+
+  const lib = state.armiesMeta["リベレーター同志"].params;
+  const nowCount = (lib.libMembers || []).length;
+  const prevCount = Number(lib.prevLibCount ?? nowCount);
+  const diff = nowCount - prevCount;
+
+  if(diff > 0){
+    for(const a of ARMIES){
+      if(a==="リベレーター同志") continue;
+      const drop = loyaltyDropPerMember(a) * diff;
+      logs.push(...applyLoyaltyDelta(a, -drop, `自由の同志増加(${diff}人)`));
+    }
+    lib.prevLibCount = nowCount;
+  }else{
+    lib.prevLibCount = nowCount;
+  }
+
+  const deltas = getSupportLoyaltyDeltaList(round);
+  if(deltas.length){
+    for(const d of deltas) logs.push(...applyLoyaltyDelta(d.army, d.delta, d.reason));
+  }else{
+    logs.push("忠誠心（支援）：変化なし（Round3以外／未参戦／対象未選択など）");
+  }
+
+  logs.push(...applyLiberatorBattleDebuff(round));
+  return logs;
+}
+
+function applyOutcomeLoyaltyChanges(round, results){
+  const logs = [];
+  for(const res of results){
+    if(!(res.atkTotal > res.defTotal)) continue;
+    const field = res.field;
+
+    for(const a of ARMIES){
+      const p = state.rounds[round].armies[a].placed;
+      if(p && p.field===field && p.side==="攻撃") logs.push(...applyLoyaltyDelta(a, +10, `${field} 攻撃勝利(+10)`));
+    }
+    for(const a of ARMIES){
+      const p = state.rounds[round].armies[a].placed;
+      if(p && p.field===field && p.side==="防衛") logs.push(...applyLoyaltyDelta(a, -10, `${field} 防衛敗北(-10)`));
+    }
+  }
+  if(!logs.length) logs.push("忠誠心（勝敗）：変化なし（攻撃勝利がない）");
+  return logs;
+}
+
+function updateOccupationFromAttackWinners(round, snap, supportPowerBonus){
+  const { results } = compute(round);
+  const changes = [];
+
+  for(const r of results){
+    if(!(r.atkTotal > r.defTotal)) continue;
+
+    const entities = [];
+    for(const a of ARMIES){
+      const placed = state.rounds[round].armies[a].placed;
+      if(!placed || placed.field !== r.field || placed.side !== "攻撃") continue;
+      const { value } = calcArmyPower(a, snap, round, supportPowerBonus);
+      entities.push({ name:a, value });
+    }
+    if(round === 3){
+      for(const p of CHAR_PRESETS){
+        const placed = state.rounds[round].chars[p.id].placed;
+        if(!placed || placed.field !== r.field || placed.side !== "攻撃") continue;
+        const val = p.supportOnly ? 0 : calcPersonalPower(p);
+        entities.push({ name:p.name, value:val });
+      }
+    }
+    if(!entities.length) continue;
+
+    const maxVal = Math.max(...entities.map(x=>x.value));
+    const maxOnes = entities.filter(x=>x.value===maxVal);
+    const chosen = randPick(maxOnes).name;
+
+    const prev = state.occupation[r.field];
+    if(prev !== chosen){
+      state.occupation[r.field] = chosen;
+      changes.push(`占拠更新：${r.field} ${prev} → ${chosen}（最大兵力 ${maxVal}）`);
+    }else{
+      changes.push(`占拠維持：${r.field} ${prev}（最大兵力 ${maxVal}）`);
+    }
+  }
+  return changes;
+}
+
+function finalizeRound(){
+  const round = state.roundIndex;
+
+  const preLogs = applyPreBattleLoyaltyChanges(round);
+  const { results, snap, supportPowerBonus } = compute(round);
+  const postLogs = applyOutcomeLoyaltyChanges(round, results);
+  const occChanges = updateOccupationFromAttackWinners(round, snap, supportPowerBonus);
+  const chaosLogs = applyChaosSabotageAfterWar(round, snap, supportPowerBonus);
+
+  const lines = [...preLogs, ...postLogs, ...occChanges, ...chaosLogs];
+  state.log.unshift({ round, text:`Round ${round} 確定：${lines.join(" / ")}`, ts: monoTs() });
+
+  save();
+  renderAll();
+  showPlayerResult(round, results, occChanges, chaosLogs, [...preLogs, ...postLogs]);
+}
+
+/* ========= waiting-zone drop ========= */
+function setupWaitingDrops(){
+  enableDropZone(el("charWaitingZone"), (payload)=>{
+    const round = state.roundIndex;
+    if(payload.type==="char") state.rounds[round].chars[payload.id].placed = null;
+  });
+  enableDropZone(el("armyWaitingZone"), (payload)=>{
+    const round = state.roundIndex;
+    if(payload.type==="army") state.rounds[round].armies[payload.name].placed = null;
+  });
+}
+
+/* ========= Result helpers ========= */
+function listSideEntities(round, field, side){
+  const arr = [];
+  for(const a of ARMIES){
+    const p = state.rounds[round].armies[a]?.placed;
+    if(p && p.field===field && p.side===side){
+      arr.push({ name: getArmyDisplayName(a, round, true), rawName: a, type:"army" });
+    }
+  }
+  if(round === 3){
+    for(const c of CHAR_PRESETS){
+      const p = state.rounds[round].chars[c.id]?.placed;
+      if(p && p.field===field && p.side===side){
+        arr.push({ name: c.supportOnly ? `${c.name}(支援)` : c.name, rawName: c.name, type:"char", supportOnly: !!c.supportOnly });
+      }
+    }
+  }
+  return arr;
+}
+
+function getArmyPowerForDisplay(round, armyName){
+  const { snap, supportPowerBonus } = compute(round);
+  const { value } = calcArmyPower(armyName, snap, round, supportPowerBonus);
+  return value;
+}
+function getCharPowerForDisplay(round, charName){
+  if(round !== 3) return 0;
+  const preset = CHAR_PRESETS.find(x=>x.name===charName);
+  if(!preset) return 0;
+  return preset.supportOnly ? 0 : calcPersonalPower(preset);
+}
+
+function buildSideListHtml(round, field, side){
+  const entities = listSideEntities(round, field, side);
+  const rows = entities.map(e=>{
+    const p = (e.type==="army") ? getArmyPowerForDisplay(round, e.rawName) : getCharPowerForDisplay(round, e.rawName);
+    return { name:e.name, power:p };
+  }).sort((a,b)=>b.power-a.power);
+
+  const sum = rows.reduce((s,x)=>s+x.power,0);
+
+  const cls = (side==="攻撃") ? "atk" : "def";
+  const sideLabel = (side==="攻撃") ? "攻撃側" : "防衛側";
+
+  const box = document.createElement("div");
+  box.className = `res-sideBox ${cls}`;
+  box.innerHTML = `
+    <div class="t">
+      <span>${sideLabel}</span>
+      <span>合計 <b>${sum}</b></span>
+    </div>
+    <div>
+      ${rows.length ? rows.map(r=>`
+        <div class="res-line">
+          <span class="nm">${escapeHtml(r.name)}</span>
+          <span class="pv">${r.power}</span>
+        </div>
+      `).join("") : `<div class="muted tiny">（なし）</div>`}
+    </div>
+  `;
+  return box;
+}
+
+/* ========= Player UI Modal ========= */
+function showPlayerResult(round, results, occupationChanges, chaosLogs, loyaltyLogs){
+  const grid = document.getElementById("resGrid");
+  grid.innerHTML = "";
+  document.getElementById("resRoundNum").textContent = round;
+
+  // ここで "セントラル→サウスリバー→ノースランド→金華" の順に固定
+  const order = ["セントラル","サウスリバー","ノースランド","金華"];
+  const resultsOrdered = order.map(f=>results.find(x=>x.field===f)).filter(Boolean);
+
+  const deserters = (loyaltyLogs||[]).filter(x=>String(x).includes("💥脱走"));
+  const healers   = (loyaltyLogs||[]).filter(x=>String(x).includes("✨兵力回復"));
+
+  resultsOrdered.forEach(r => {
+    const isAtkWon = (r.atkTotal > r.defTotal);
+    const fieldKey = FIELD_TO_COLORKEY[r.field];
+
+    const occChange = occupationChanges.find(c => c.includes(r.field) && c.includes("占拠更新"));
+    const currentOcc = state.occupation[r.field] || "-";
+
+    const total = Math.max(1, r.atkTotal + r.defTotal);
+    const atkPct = Math.round((r.atkTotal / total) * 100);
+    const defPct = 100 - atkPct;
+
+    const div = document.createElement("div");
+    div.className = `res-card ${isAtkWon ? "atk-win" : "def-win"}`;
+
+    div.innerHTML = `
+      <div class="res-header">
+        <span><span class="dot ${fieldKey}"></span> ${escapeHtml(FIELD_LABEL[r.field] || r.field)}</span>
+        <span class="pill">占拠: ${escapeHtml(currentOcc)}</span>
+      </div>
+
+      <div class="res-scores">
+        <span style="color:var(--atk)">${r.atkTotal}</span>
+        <span class="res-vs">vs</span>
+        <span style="color:var(--def)">${r.defTotal}</span>
+      </div>
+
+      <div class="muted tiny" style="text-align:center">
+        (防衛素点 ${r.defBase} + 城壁 ${r.bonus})
+      </div>
+
+      <div class="gaugeWrap" aria-label="勝敗ゲージ">
+        <div class="gAtk" style="width:${atkPct}%"></div>
+        <div class="gDef" style="width:${defPct}%"></div>
+      </div>
+      <div class="gLabelRow">
+        <span>攻撃 <b>${atkPct}%</b></span>
+        <span>防衛 <b>${defPct}%</b></span>
+      </div>
+      <div class="gMini">※比率表示（合計値に対する割合）</div>
+
+      <div class="res-ribbon ${isAtkWon ? "atk" : "def"}">
+        <span>${isAtkWon ? "⚔️ 攻撃勝利！" : "🛡️ 防衛成功！"}</span>
+        <span>${isAtkWon ? "攻撃側が押し切った" : "防衛側が守り切った"}</span>
+      </div>
+
+      <div class="res-sideLists" id="sideLists_${cssEscape(r.field)}"></div>
+
+      <div class="stamp ${isAtkWon ? "st-win" : "st-lose"}">
+        ${isAtkWon ? "ATTACK WIN" : "DEFENDED"}
+      </div>
+
+      ${occChange ? `<div class="res-alert">⚠️ 占拠者が変わりました！</div>` : ""}
+    `;
+
+    const lists = div.querySelector(`#sideLists_${cssEscape(r.field)}`);
+    lists.appendChild(buildSideListHtml(round, r.field, "攻撃"));
+    lists.appendChild(buildSideListHtml(round, r.field, "防衛"));
+
+    const gAtk = div.querySelector(".gAtk");
+    const gDef = div.querySelector(".gDef");
+    if(isAtkWon) gAtk.classList.add("winStretch");
+    else gDef.classList.add("winStretchRight");
+
+    grid.appendChild(div);
+  });
+
+  // ニュース欄（描写）
+  const newsBox = document.getElementById("resNews");
+  newsBox.innerHTML = "";
+
+  if(occupationChanges.length > 0){
+    const blk = document.createElement("div");
+    blk.className="newsBlock";
+    blk.innerHTML = occupationChanges.map(t=>`<div><b>【速報】</b> ${escapeHtml(t)}</div>`).join("");
+    newsBox.appendChild(blk);
+  }
+
+  // 脱走：描写を「自由の機運が高まっている」
+  if(deserters.length){
+    const box = document.createElement("div");
+    box.className="newsBoom";
+    box.innerHTML = `
+      <div class="hd">💥 兵の脱走が発生！</div>
+      <div class="li"><b>【情勢】</b> 自由の機運が高まり、前線の統制が揺らいでいる。命令系統は乱れ、兵は隊を離脱し始めた。</div>
+      ${deserters.slice(0,12).map(t=>`<div class="li">${escapeHtml(t)}</div>`).join("")}
+      ${deserters.length>12 ? `<div class="li muted">…他 ${deserters.length-12} 件</div>` : ``}
+    `;
+    newsBox.appendChild(box);
+  }
+
+  if(healers.length){
+    const box = document.createElement("div");
+    box.className="newsBoom";
+    box.style.borderColor = "rgba(34,197,94,.35)";
+    box.style.background = "rgba(34,197,94,.08)";
+    box.innerHTML = `
+      <div class="hd" style="color:#15803d;">✨ 兵力回復が発生！</div>
+      <div class="li"><b>【情勢】</b> 士気が持ち直し、離脱していた兵が部隊へ戻り始めた。補給線もかろうじて維持されている。</div>
+      ${healers.slice(0,12).map(t=>`<div class="li">${escapeHtml(t)}</div>`).join("")}
+      ${healers.length>12 ? `<div class="li muted">…他 ${healers.length-12} 件</div>` : ``}
+    `;
+    newsBox.appendChild(box);
+  }
+
+  if(chaosLogs && chaosLogs.length > 0){
+    const box = document.createElement("div");
+    box.className="newsSab";
+    box.innerHTML = `
+      <div class="hd">🕵️ 暗躍：破壊工作</div>
+      <div class="li"><b>【情勢】</b> 陣地の背後で不審な動きが確認された。補給と通信に綻びが生じている。</div>
+      ${chaosLogs.map(t=>`<div class="li">${escapeHtml(t)}</div>`).join("")}
+    `;
+    newsBox.appendChild(box);
+  }
+
+  if(!occupationChanges.length && (!chaosLogs || !chaosLogs.length) && !deserters.length && !healers.length){
+    newsBox.textContent = "特筆すべき戦後変動はありません。";
+  }
+
+  document.getElementById("resultOverlay").style.display = "flex";
+}
+
+/* ========= close & save result ========= */
+function closeResult(){ document.getElementById("resultOverlay").style.display = "none"; }
+
+function saveResultAsHtml(){
+  const modal = document.getElementById("resultModalRoot");
+  const html = `
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>戦果報告書（保存）</title>
+<style>${document.querySelector("style").textContent}</style>
+</head>
+<body style="margin:18px;background:#fafafa;">
+<div class="resultModal" style="max-height:none; overflow:visible;">
+${modal.innerHTML}
+</div>
+</body>
+</html>`.trim();
+
+  const blob = new Blob([html], {type:"text/html"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `regastria_result_round${document.getElementById("resRoundNum").textContent}.html`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
+
+/* ========= renderAll ========= */
+function renderAll(){
+  renderTop();
+  renderWaitingArmies();
+  renderWaitingChars();
+  renderBoard();
+}
+
+/* ========= buttons ========= */
+el("btnFinalizeRound").addEventListener("click", ()=>{
+  if(!confirm(`Round ${state.roundIndex} を確定します。\n忠誠心→兵力増減→勝敗→忠誠心→兵力増減→占拠/破壊工作 を適用します。よろしいですか？`)) return;
+  finalizeRound();
+});
+el("btnPrevRound").addEventListener("click", ()=>{ state.roundIndex = Math.max(1, state.roundIndex - 1); save(); renderAll(); });
+el("btnNextRound").addEventListener("click", ()=>{ state.roundIndex = Math.min(MAX_ROUNDS, state.roundIndex + 1); save(); renderAll(); });
+el("btnClearChars").addEventListener("click", ()=>{ const round = state.roundIndex; for(const p of CHAR_PRESETS) state.rounds[round].chars[p.id].placed=null; save(); renderAll(); });
+el("btnClearArmies").addEventListener("click", ()=>{ const round = state.roundIndex; for(const name of ARMIES) state.rounds[round].armies[name].placed=null; save(); renderAll(); });
+el("btnResetAll").addEventListener("click", ()=>{ if(!confirm("全データ（占拠・兵力・忠誠心・配置・ログ）を消去します。よろしいですか？")) return; localStorage.removeItem(STORAGE_KEY); initDefaults(); save(); renderAll(); });
+el("btnSaveResultHtml").addEventListener("click", saveResultAsHtml);
+
+/* ========= init ========= */
+load();
+setupWaitingDrops();
+renderAll();
+</script>
+</body>
+</html>
+
