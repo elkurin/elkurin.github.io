@@ -488,8 +488,9 @@ function loyaltyDropPerMember(armyName){
    supportOnly=true のキャラは「個人兵力0」だが、参戦（Round3で配置）していれば支援効果が発動する
 */
 const CHAR_PRESETS = [
-  { id:"maria", name:"マリア", colorKey:"central", supportOnly:true,
-    extraSchema:[{type:"label", text:"支援：参戦中のみ「王室騎士団 兵力+20（この戦闘のみ）」"}],
+  { id:"maria", name:"マリア", colorKey:"central", supportOnly:false,
+    extraSchema:[{type:"label", text:"出撃：前線指揮（個人+10）"}],
+    basePersonal:()=>10
   },
   { id:"lion", name:"リオン", colorKey:"central", supportOnly:true,
     extraSchema:[
@@ -498,7 +499,10 @@ const CHAR_PRESETS = [
     ],
   },
   { id:"serin", name:"セリン", colorKey:"central", supportOnly:true,
-    extraSchema:[{type:"label", text:"支援：参戦中のみ「リベレーター同志 兵力+30（この戦闘のみ）」"}],
+    extraSchema:[
+      {type:"label", text:"支援：参戦中のみ「指定軍の忠誠心 -40（永続）」／この効果で減った兵力はリベレーター同志へ合流（決着前に反映）"},
+      {type:"targetArmy", key:"targetArmy", label:"対象軍"}
+    ],
   },
   { id:"gail", name:"ゲイル", colorKey:"central", supportOnly:false,
     extraSchema:[{type:"label", text:"出撃：英雄の出撃（個人+30）"}],
@@ -510,7 +514,10 @@ const CHAR_PRESETS = [
     basePersonal:()=>30
   },
   { id:"noelis", name:"ノエリス", colorKey:"southriver", supportOnly:true,
-    extraSchema:[{type:"label", text:"支援：参戦中のみ「アメジスト魔術師団 忠誠心 +40（永続／兵力増減は決着前に反映）」"}],
+    extraSchema:[
+      {type:"label", text:"支援：参戦中のみ「指定軍の忠誠心 +40（永続／兵力増減は決着前に反映）」"},
+      {type:"targetArmy", key:"targetArmy", label:"対象軍"}
+    ],
   },
   { id:"emil", name:"エミール", colorKey:"southriver", supportOnly:false,
     extraSchema:[{type:"label", text:"出撃：黒の錬金術（同戦場の敵軍すべて-20／戦闘中のみ）※Round3のみ"}],
@@ -562,14 +569,12 @@ const CHAR_PRESETS = [
   },
   { id:"il", name:"イル", colorKey:"kaneka", supportOnly:true,
     extraSchema:[
-      {type:"label", text:"支援：参戦中のみ「対象軍の忠誠心 -20（永続／兵力増減は決着前に反映）」"},
+      {type:"label", text:"支援：参戦中のみ「対象軍の忠誠心 -40（永続／兵力増減は決着前に反映）」"},
       {type:"targetArmy", key:"targetArmy", label:"対象軍"}
     ],
   },
-
-  { id:"yuris", name:"ユリス", colorKey:"gray", supportOnly:false,
-    extraSchema:[{type:"label", text:"出撃：致死毒（※王室騎士団と同陣営・同戦場なら王室騎士団の兵力-30／戦闘のみ／使用判定はGM）"}],
-    basePersonal:()=>0
+  { id:"yuris", name:"ユリス", colorKey:"gray", supportOnly:true,
+    extraSchema:[{type:"label", text:"支援：致死毒混入（セントラル防衛側で参戦中のみ、セントラル防衛側の各軍 兵力-10／戦闘のみ）"}],
   },
   { id:"lorentz", name:"ローレンツ", colorKey:"gray", supportOnly:false,
     extraSchema:[{type:"label", text:"出撃：ノワールの騎士（個人+20）"}],
@@ -763,27 +768,36 @@ function getArmyDisplayName(name, round, forResult){
 function getSupportPowerBonusMap(round){
   const bonus = {}; for(const a of ARMIES) bonus[a]=0;
   if(round !== 3) return bonus;
+
   const meta = state.charsMeta;
 
-  if(isCharParticipating("maria", round)) bonus["王室騎士団"] += 20;
-  if(isCharParticipating("serin", round)) bonus["リベレーター同志"] += 30;
+  // 玄徳
   if(isCharParticipating("gentoku", round)){
     const pay = Math.max(0, Number(meta["gentoku"]?.extra?.pay||0));
     const t = meta["gentoku"]?.extra?.targetArmy || "";
     if(ARMIES.includes(t)) bonus[t] += pay*5;
   }
+
+  // 翠嵐（兵力+30は戦闘のみ）
   if(isCharParticipating("suiran", round)){
     const t = meta["suiran"]?.extra?.targetArmy || "";
     if(ARMIES.includes(t)) bonus[t] += 30;
   }
+
+  // ユリス：セントラル防衛側で参戦している時、セントラル防衛側の各軍を-10（戦闘のみ）
   if(isCharParticipating("yuris", round)){
-    // ユリス：王室騎士団と同じ戦場・同じ陣営なら「王室騎士団 -30（戦闘のみ）」
     const yPlaced = state.rounds[round].chars["yuris"]?.placed;
-    const kPlaced = state.rounds[round].armies["王室騎士団"]?.placed;
-    if(yPlaced && kPlaced && yPlaced.field === kPlaced.field && yPlaced.side === kPlaced.side){
-      bonus["王室騎士団"] -= 30;
+    if(yPlaced && yPlaced.field==="セントラル" && yPlaced.side==="防衛"){
+      for(const a of ARMIES){
+        const p = state.rounds[round].armies[a]?.placed;
+        if(p && p.field==="セントラル" && p.side==="防衛"){
+          bonus[a] -= 10;
+        }
+      }
     }
   }
+
+  // セバスチャン
   if(isCharParticipating("sebastian", round)){
     const pay = Math.max(0, Number(meta["sebastian"]?.extra?.pay||0));
     const t = meta["sebastian"]?.extra?.targetArmy || "";
@@ -799,24 +813,40 @@ function getSupportLoyaltyDeltaList(round){
 
   const meta = state.charsMeta;
 
+  // 翠嵐：忠誠心 +20
   if(isCharParticipating("suiran", round)){
     const t = meta["suiran"]?.extra?.targetArmy || "";
     if(ARMIES.includes(t)) deltas.push({army:t, delta:+20, reason:"翠嵐(+20)"});
   }
+
+  // イル：忠誠心 -20（-40ではなく-20）
   if(isCharParticipating("il", round)){
     const t = meta["il"]?.extra?.targetArmy || "";
     if(ARMIES.includes(t)) deltas.push({army:t, delta:-20, reason:"イル(-20)"});
   }
+
+  // セノ：忠誠心 -20 ＆ この効果で減った兵力をリベレーター同志に加算
   if(isCharParticipating("seno", round)){
     const t = meta["seno"]?.extra?.targetArmy || "";
-    if(ARMIES.includes(t)) deltas.push({army:t, delta:-20, reason:"セノ(-20)"});
+    if(ARMIES.includes(t)) deltas.push({army:t, delta:-20, reason:"セノ(-20)", transferTo:"リベレーター同志"});
   }
+
+  // リオン：忠誠心 +40
   if(isCharParticipating("lion", round)){
     const t = meta["lion"]?.extra?.targetArmy || "";
     if(ARMIES.includes(t)) deltas.push({army:t, delta:+40, reason:"リオン(+40)"});
   }
+
+  // ノエリス：指定軍 忠誠心 +40（リオンと同じ）
   if(isCharParticipating("noelis", round)){
-    deltas.push({army:"アメジスト魔術師団", delta:+40, reason:"ノエリス(+40)"});
+    const t = meta["noelis"]?.extra?.targetArmy || "";
+    if(ARMIES.includes(t)) deltas.push({army:t, delta:+40, reason:"ノエリス(+40)"});
+  }
+
+  // セリン：指定軍 忠誠心 -40 ＆ この効果で減った兵力をリベレーター同志に加算
+  if(isCharParticipating("serin", round)){
+    const t = meta["serin"]?.extra?.targetArmy || "";
+    if(ARMIES.includes(t)) deltas.push({army:t, delta:-40, reason:"セリン(-40)", transferTo:"リベレーター同志"});
   }
 
   return deltas;
@@ -952,7 +982,7 @@ function step20(x){
   return Math.trunc(Number(x || 0) / 20);
 }
 
-function applyLoyaltyDelta(army, delta, reason){
+function applyLoyaltyDelta(army, delta, reason, transferTo=null){
   const meta = state.armiesMeta[army];
   if(!meta) return [];
 
@@ -967,16 +997,33 @@ function applyLoyaltyDelta(army, delta, reason){
   const diff = aStep - bStep;
 
   if(diff !== 0){
+    // diff * 10 が「この軍の兵力増減量」
+    const troopDelta = diff * 10;
+
+    // 対象軍の兵力反映
     const cur = getArmyCurrentBase(army);
-    const next = Math.max(0, cur + (diff * 10));
+    const next = Math.max(0, cur + troopDelta);
     setArmyCurrentBase(army, next);
 
-    if(diff > 0){
-      logs.push(`✨兵力回復：${army} +${diff*10}（${cur}→${next}）`);
+    if(troopDelta > 0){
+      logs.push(`✨兵力回復：${army} +${troopDelta}（${cur}→${next}）`);
     }else{
-      logs.push(`💥脱走：${army} ${(-diff)*10}（${cur}→${next}）`);
+      logs.push(`💥脱走：${army} ${(-troopDelta)}（${cur}→${next}）`);
+    }
+
+    // 「減った兵力を別軍へ合流」：troopDelta がマイナスの時だけ
+    if(transferTo && troopDelta < 0 && state.armiesMeta[transferTo]){
+      const gain = -troopDelta;
+      const cur2 = getArmyCurrentBase(transferTo);
+      const next2 = Math.max(0, cur2 + gain);
+      setArmyCurrentBase(transferTo, next2);
+
+      // 兵力回復のログ形式にしておくと、結果画面の「✨兵力回復」枠に載る
+      // logs.push(`✨兵力回復：${transferTo} +${gain}（${cur2}→${next2}）`);
+      logs.push(`🪽合流：${army} から離脱した兵 ${gain} が ${transferTo} に吸収された`);
     }
   }
+
   return logs;
 }
 
@@ -996,7 +1043,12 @@ function applyLiberatorBattleDebuff(round){
     const p = state.rounds[round].armies[a]?.placed;
     if(!p) continue;
     if(p.field===field && p.side===enemySide){
-      logs.push(...applyLoyaltyDelta(a, -10, `リベレーター同志（戦闘時-10）@${field}`));
+      logs.push(...applyLoyaltyDelta(
+        a,
+        -10,
+        `リベレーター同志（戦闘時-10）@${field}`,
+        "リベレーター同志"   // ←この脱走だけ合流
+      ));
       hit++;
     }
   }
@@ -1014,6 +1066,8 @@ function applyPreBattleLoyaltyChanges(round){
   const diff = nowCount - prevCount;
 
   if(diff > 0){
+    logs.push(`🕊️自由の同志：${diff}人がリベレーター同志に合流（名簿増加／兵力+${diff*10}）`);
+
     for(const a of ARMIES){
       if(a==="リベレーター同志") continue;
       const drop = loyaltyDropPerMember(a) * diff;
@@ -1026,7 +1080,9 @@ function applyPreBattleLoyaltyChanges(round){
 
   const deltas = getSupportLoyaltyDeltaList(round);
   if(deltas.length){
-    for(const d of deltas) logs.push(...applyLoyaltyDelta(d.army, d.delta, d.reason));
+    for(const d of deltas){
+      logs.push(...applyLoyaltyDelta(d.army, d.delta, d.reason, d.transferTo || null));
+    }
   }else{
     logs.push("忠誠心（支援）：変化なし（Round3以外／未参戦／対象未選択など）");
   }
@@ -1662,99 +1718,6 @@ function renderBoard(){
   }
 }
 
-/* ========= finalize ========= */
-function step20(x){
-  return Math.trunc(Number(x || 0) / 20);
-}
-
-function applyPreBattleLoyaltyChanges(round){
-  const logs = [];
-
-  const lib = state.armiesMeta["リベレーター同志"].params;
-  const nowCount = (lib.libMembers || []).length;
-  const prevCount = Number(lib.prevLibCount ?? nowCount);
-  const diff = nowCount - prevCount;
-
-  if(diff > 0){
-    for(const a of ARMIES){
-      if(a==="リベレーター同志") continue;
-      const drop = loyaltyDropPerMember(a) * diff;
-      logs.push(...applyLoyaltyDelta(a, -drop, `自由の同志増加(${diff}人)`));
-    }
-    lib.prevLibCount = nowCount;
-  }else{
-    lib.prevLibCount = nowCount;
-  }
-
-  const deltas = getSupportLoyaltyDeltaList(round);
-  if(deltas.length){
-    for(const d of deltas) logs.push(...applyLoyaltyDelta(d.army, d.delta, d.reason));
-  }else{
-    logs.push("忠誠心（支援）：変化なし（Round3以外／未参戦／対象未選択など）");
-  }
-
-  logs.push(...applyLiberatorBattleDebuff(round));
-  return logs;
-}
-
-function applyOutcomeLoyaltyChanges(round, results){
-  const logs = [];
-  for(const res of results){
-    if(!(res.atkTotal > res.defTotal)) continue;
-    const field = res.field;
-
-    for(const a of ARMIES){
-      const p = state.rounds[round].armies[a].placed;
-      if(p && p.field===field && p.side==="攻撃") logs.push(...applyLoyaltyDelta(a, +10, `${field} 攻撃勝利(+10)`));
-    }
-    for(const a of ARMIES){
-      const p = state.rounds[round].armies[a].placed;
-      if(p && p.field===field && p.side==="防衛") logs.push(...applyLoyaltyDelta(a, -10, `${field} 防衛敗北(-10)`));
-    }
-  }
-  if(!logs.length) logs.push("忠誠心（勝敗）：変化なし（攻撃勝利がない）");
-  return logs;
-}
-
-function updateOccupationFromAttackWinners(round, snap, supportPowerBonus){
-  const { results } = compute(round);
-  const changes = [];
-
-  for(const r of results){
-    if(!(r.atkTotal > r.defTotal)) continue;
-
-    const entities = [];
-    for(const a of ARMIES){
-      const placed = state.rounds[round].armies[a].placed;
-      if(!placed || placed.field !== r.field || placed.side !== "攻撃") continue;
-      const { value } = calcArmyPower(a, snap, round, supportPowerBonus);
-      entities.push({ name:a, value });
-    }
-    if(round === 3){
-      for(const p of CHAR_PRESETS){
-        const placed = state.rounds[round].chars[p.id].placed;
-        if(!placed || placed.field !== r.field || placed.side !== "攻撃") continue;
-        const val = p.supportOnly ? 0 : calcPersonalPower(p);
-        entities.push({ name:p.name, value:val });
-      }
-    }
-    if(!entities.length) continue;
-
-    const maxVal = Math.max(...entities.map(x=>x.value));
-    const maxOnes = entities.filter(x=>x.value===maxVal);
-    const chosen = randPick(maxOnes).name;
-
-    const prev = state.occupation[r.field];
-    if(prev !== chosen){
-      state.occupation[r.field] = chosen;
-      changes.push(`占拠更新：${r.field} ${prev} → ${chosen}（最大兵力 ${maxVal}）`);
-    }else{
-      changes.push(`占拠維持：${r.field} ${prev}（最大兵力 ${maxVal}）`);
-    }
-  }
-  return changes;
-}
-
 function finalizeRound(){
   const round = state.roundIndex;
 
@@ -1859,6 +1822,7 @@ function showPlayerResult(round, results, occupationChanges, chaosLogs, loyaltyL
 
   const deserters = (loyaltyLogs||[]).filter(x=>String(x).includes("💥脱走"));
   const healers   = (loyaltyLogs||[]).filter(x=>String(x).includes("✨兵力回復"));
+  const freeJoiners = (loyaltyLogs||[]).filter(x=>String(x).includes("🕊️自由の同志："));
 
   resultsOrdered.forEach(r => {
     const isAtkWon = (r.atkTotal > r.defTotal);
@@ -1950,6 +1914,17 @@ function showPlayerResult(round, results, occupationChanges, chaosLogs, loyaltyL
     newsBox.appendChild(box);
   }
 
+  if(freeJoiners.length){
+    const box = document.createElement("div");
+    box.className="newsSab";
+    box.innerHTML = `
+      <div class="hd">🕊️ 自由の同志が合流</div>
+      <div class="li"><b>【情勢】</b> 鎖を断ち切った者たちが“リベレーター同志”へ身を投じ始めた。前線の噂は一気に広がっている。</div>
+      ${freeJoiners.map(t=>`<div class="li">${escapeHtml(t)}</div>`).join("")}
+    `;
+    newsBox.appendChild(box);
+  }
+
   if(healers.length){
     const box = document.createElement("div");
     box.className="newsBoom";
@@ -2024,7 +1999,7 @@ function renderAll(){
 
 /* ========= buttons ========= */
 el("btnFinalizeRound").addEventListener("click", ()=>{
-  if(!confirm(`Round ${state.roundIndex} を確定します。\n忠誠心→兵力増減→勝敗→忠誠心→兵力増減→占拠/破壊工作 を適用します。よろしいですか？`)) return;
+  if(!confirm(`Round ${state.roundIndex} を確定します。\n忠誠心→兵力増減→勝敗→占拠/破壊工作 を適用します。よろしいですか？`)) return;
   finalizeRound();
 });
 el("btnPrevRound").addEventListener("click", ()=>{ state.roundIndex = Math.max(1, state.roundIndex - 1); save(); renderAll(); });
