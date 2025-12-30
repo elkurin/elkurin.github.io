@@ -501,13 +501,13 @@ const CHAR_PRESETS = [
     extraSchema:[{type:"label", text:"支援：参戦中のみ「リベレーター同志 兵力+30（この戦闘のみ）」"}],
   },
   { id:"gail", name:"ゲイル", colorKey:"central", supportOnly:false,
-    extraSchema:[{type:"label", text:"出撃：英雄の出撃（個人+20）"}],
-    basePersonal:()=>20
+    extraSchema:[{type:"label", text:"出撃：英雄の出撃（個人+30）"}],
+    basePersonal:()=>30
   },
 
   { id:"karuna", name:"カルーナ", colorKey:"southriver", supportOnly:false,
-    extraSchema:[{type:"label", text:"出撃：女傑の出撃（個人+20）"}],
-    basePersonal:()=>20
+    extraSchema:[{type:"label", text:"出撃：女傑の出撃（個人+30）"}],
+    basePersonal:()=>30
   },
   { id:"noelis", name:"ノエリス", colorKey:"southriver", supportOnly:true,
     extraSchema:[{type:"label", text:"支援：参戦中のみ「アメジスト魔術師団 忠誠心 +40（永続／兵力増減は決着前に反映）」"}],
@@ -517,8 +517,8 @@ const CHAR_PRESETS = [
     basePersonal:()=>0
   },
   { id:"helena", name:"ヘレナ", colorKey:"southriver", supportOnly:false,
-    extraSchema:[{type:"label", text:"出撃：騎士の出撃（個人+10）"}],
-    basePersonal:()=>10
+    extraSchema:[{type:"label", text:"出撃：騎士の出撃（個人+20）"}],
+    basePersonal:()=>20
   },
 
   { id:"rito", name:"リト", colorKey:"northland", supportOnly:false,
@@ -551,8 +551,8 @@ const CHAR_PRESETS = [
     ],
   },
   { id:"ryusei", name:"流星", colorKey:"kaneka", supportOnly:false,
-    extraSchema:[{type:"label", text:"出撃：槍の名手（個人+15）"}],
-    basePersonal:()=>15
+    extraSchema:[{type:"label", text:"出撃：槍の名手（個人+20）"}],
+    basePersonal:()=>20
   },
   { id:"suiran", name:"翠嵐", colorKey:"kaneka", supportOnly:true,
     extraSchema:[
@@ -568,8 +568,8 @@ const CHAR_PRESETS = [
   },
 
   { id:"yuris", name:"ユリス", colorKey:"gray", supportOnly:false,
-    extraSchema:[{type:"label", text:"出撃：錬金術攻撃（個人+10）"}],
-    basePersonal:()=>10
+    extraSchema:[{type:"label", text:"出撃：致死毒（※王室騎士団と同陣営・同戦場なら王室騎士団の兵力-30／戦闘のみ／使用判定はGM）"}],
+    basePersonal:()=>0
   },
   { id:"lorentz", name:"ローレンツ", colorKey:"gray", supportOnly:false,
     extraSchema:[{type:"label", text:"出撃：ノワールの騎士（個人+20）"}],
@@ -765,22 +765,30 @@ function getSupportPowerBonusMap(round){
   if(round !== 3) return bonus;
   const meta = state.charsMeta;
 
+  if(isCharParticipating("maria", round)) bonus["王室騎士団"] += 20;
+  if(isCharParticipating("serin", round)) bonus["リベレーター同志"] += 30;
   if(isCharParticipating("gentoku", round)){
     const pay = Math.max(0, Number(meta["gentoku"]?.extra?.pay||0));
     const t = meta["gentoku"]?.extra?.targetArmy || "";
-    if(ARMIES.includes(t)) bonus[t] += pay*5;
-  }
-  if(isCharParticipating("sebastian", round)){
-    const pay = Math.max(0, Number(meta["sebastian"]?.extra?.pay||0));
-    const t = meta["sebastian"]?.extra?.targetArmy || "";
     if(ARMIES.includes(t)) bonus[t] += pay*5;
   }
   if(isCharParticipating("suiran", round)){
     const t = meta["suiran"]?.extra?.targetArmy || "";
     if(ARMIES.includes(t)) bonus[t] += 30;
   }
-  if(isCharParticipating("serin", round)) bonus["リベレーター同志"] += 30;
-  if(isCharParticipating("maria", round)) bonus["王室騎士団"] += 20;
+  if(isCharParticipating("yuris", round)){
+    // ユリス：王室騎士団と同じ戦場・同じ陣営なら「王室騎士団 -30（戦闘のみ）」
+    const yPlaced = state.rounds[round].chars["yuris"]?.placed;
+    const kPlaced = state.rounds[round].armies["王室騎士団"]?.placed;
+    if(yPlaced && kPlaced && yPlaced.field === kPlaced.field && yPlaced.side === kPlaced.side){
+      bonus["王室騎士団"] -= 30;
+    }
+  }
+  if(isCharParticipating("sebastian", round)){
+    const pay = Math.max(0, Number(meta["sebastian"]?.extra?.pay||0));
+    const t = meta["sebastian"]?.extra?.targetArmy || "";
+    if(ARMIES.includes(t)) bonus[t] += pay*5;
+  }
 
   return bonus;
 }
@@ -853,7 +861,6 @@ function armyModifier(armyName, snap, round, supportPowerBonus){
   let mod = 0;
 
   switch(armyName){
-    case "王室騎士団": mod += snap.has("アメジスト魔術師団", field, enemySide) ? 30 : 0; break;
     case "アメジスト魔術師団": mod += snap.has("王室騎士団", field, enemySide) ? 30 : 0; break;
     case "ノースランド弓兵隊": mod += (field==="ノースランド") ? 30 : 0; break;
     case "北部貴族連合残党": mod += hasEnemyDragonInField(field, side, round) ? 40 : 0; break;
