@@ -948,7 +948,9 @@ function compute(round){
 }
 
 /* ========= loyalty -> troop change (20刻みで±10) ========= */
-function step20(x){ return Math.floor(Number(x||0) / 20); }
+function step20(x){
+  return Math.trunc(Number(x || 0) / 20);
+}
 
 function applyLoyaltyDelta(army, delta, reason){
   const meta = state.armiesMeta[army];
@@ -1661,7 +1663,9 @@ function renderBoard(){
 }
 
 /* ========= finalize ========= */
-function step20(x){ return Math.floor(Number(x||0) / 20); } // (上書き安全)
+function step20(x){
+  return Math.trunc(Number(x || 0) / 20);
+}
 
 function applyPreBattleLoyaltyChanges(round){
   const logs = [];
