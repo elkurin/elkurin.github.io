@@ -1,0 +1,148 @@
+const fs = require('fs');
+const vm = require('vm');
+const assert = require('assert/strict');
+const html = fs.readFileSync(require('path').join(__dirname, 'war_tool.html'),'utf8');
+const script = html.match(/<script>([\s\S]*)<\/script>/)[1];
+new vm.Script(script);
+const storage = new Map();
+let failSaving = false;
+const sandbox = {console, assert, localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>{if(failSaving)throw Error('quota');storage.set(k,v);}},
+  alert:()=>{}, document:{addEventListener:()=>{},getElementById:()=>({addEventListener:()=>{}})}};
+vm.createContext(sandbox);
+vm.runInContext(script.slice(0,script.lastIndexOf('/* ========= init ========= */')) + '\nrenderAll=()=>{}; reopenResult=()=>{}; closeResult=()=>{};',sandbox);
+let total=0;
+function test(name, code){ storage.clear();failSaving=false; vm.runInContext('initDefaults();',sandbox);vm.runInContext('{'+code+'}',sandbox);total++;console.log('PASS',name); }
+test('Royal and Amethyst bonuses apply only against each other', `
+state.rounds[1].armies['王室騎士団'].placed={field:'金華',side:'攻撃'};
+state.rounds[1].armies['アメジスト魔術師団'].placed={field:'金華',side:'防衛'};
+assert.equal(compute(1).results[3].atkTotal,120);
+assert.equal(compute(1).results[3].defTotal,160);
+state.rounds[1].armies['アメジスト魔術師団'].placed.side='攻撃';
+assert.equal(compute(1).results[3].atkTotal,190);
+`);
+test('Il -40 mirrors Lion +40, round-3 participation required', `
+state.roundIndex=3;
+state.rounds[3].chars.il.placed={field:'金華',side:'攻撃'};
+state.charsMeta.il.extra.targetArmy='王室騎士団';
+state.rounds[3].chars.lion.placed={field:'金華',side:'防衛'};
+state.charsMeta.lion.extra.targetArmy='アメジスト魔術師団';
+const deltas=getSupportLoyaltyDeltaList(3);
+assert.equal(deltas.find(x=>x.army==='王室騎士団').delta,-40);
+assert.equal(deltas.find(x=>x.army==='アメジスト魔術師団').delta,40);
+assert.equal(getSupportLoyaltyDeltaList(2).length,0);
+state.rounds[3].chars.il.placed=null;
+assert.equal(getSupportLoyaltyDeltaList(3).length,1);
+`);
+test('Absorption conserves actual troops, including empty and self target', `
+setArmyCurrentBase('王室騎士団',5);
+const before=getArmyCurrentBase('リベレーター同志');
+const logs=applyLoyaltyDelta('王室騎士団',-40,'test','リベレーター同志');
+assert.equal(getArmyCurrentBase('王室騎士団'),0);
+assert.equal(getArmyCurrentBase('リベレーター同志'),before+5);
+assert(logs.some(x=>x.includes('離脱した兵 5')));
+applyLoyaltyDelta('王室騎士団',-40,'test','リベレーター同志');
+assert.equal(getArmyCurrentBase('リベレーター同志'),before+5);
+applyLoyaltyDelta('リベレーター同志',-40,'test','リベレーター同志');
+assert.equal(getArmyCurrentBase('リベレーター同志'),before+5);
+`);
+test('Sabotage always has zero battle power, even when supported', `
+state.roundIndex=3;
+state.rounds[3].armies['ケイオス領私兵'].placed={field:'金華',side:'攻撃'};
+state.armiesMeta['ケイオス領私兵'].params.chaosMode='破壊工作モード';
+state.rounds[3].chars.gentoku.placed={field:'金華',side:'攻撃'};
+state.charsMeta.gentoku.extra={pay:20,targetArmy:'ケイオス領私兵'};
+assert.equal(compute(3).results[3].atkTotal,0);
+`);
+test('Preview is pure and equals finalized battle including support', `
+state.roundIndex=3;
+state.rounds[3].armies['王室騎士団'].placed={field:'サウスリバー',side:'攻撃'};
+state.rounds[3].chars.lion.placed={field:'サウスリバー',side:'攻撃'};
+state.charsMeta.lion.extra.targetArmy='王室騎士団';
+const serialized=JSON.stringify(state);
+const meta=state.armiesMeta['王室騎士団'];
+const preview=previewBattle(3);
+assert.equal(JSON.stringify(state),serialized);
+assert.equal(state.armiesMeta['王室騎士団'],meta);
+assert.equal(preview.results[1].atkTotal,110);
+assert.equal(finalizeRound(),true);
+assert.equal(JSON.stringify(preview.results),JSON.stringify(state.finalizations[3].battle.results));
+const finalized=JSON.stringify(state);
+assert.equal(finalizeRound(),false);
+assert.equal(JSON.stringify(state),finalized);
+assert.equal(undoRound(),true);
+assert.equal(JSON.stringify(state),serialized);
+assert.equal(finalizeRound(),true);
+assert.equal(state.finalizations[3].battle.results[1].atkTotal,110);
+`);
+test('Occupation and result rows use decision time, not victory bonuses', `
+state.rounds[1].armies['王室騎士団'].placed={field:'金華',side:'攻撃'};
+state.rounds[1].armies['アメジスト魔術師団'].placed={field:'金華',side:'攻撃'};
+setArmyCurrentBase('王室騎士団',95);
+state.armiesMeta['王室騎士団'].params.loyalty=10;
+finalizeRound();
+assert.equal(getArmyCurrentBase('王室騎士団'),105);
+assert.equal(state.occupation['金華'],'アメジスト魔術師団');
+const record=state.finalizations[1];
+assert.equal(record.battle.results[3].atkTotal,195);
+assert.equal(resultRows(record.battle,'金華','攻撃').reduce((s,x)=>s+x.power,0),195);
+setArmyCurrentBase('王室騎士団',999);
+assert.equal(resultRows(record.battle,'金華','攻撃').reduce((s,x)=>s+x.power,0),195);
+`);
+test('Earlier undo removes later results and all intervening edits', `
+const initial=JSON.stringify(state);
+finalizeRound();
+state.roundIndex=2;
+state.rounds[2].armies['金華傭兵団'].placed={field:'金華',side:'攻撃'};
+finalizeRound();
+state.roundIndex=3;
+state.charsMeta.rito.flags.ritoFull=true;
+assert(undoRound(1));
+assert.equal(JSON.stringify(state),initial);
+assert.equal(Object.keys(state.finalizations).length,0);
+`);
+test('Undo preserves earlier results and reload preserves undo data', `
+finalizeRound();
+const first=JSON.stringify(state.finalizations[1]);
+state.roundIndex=2;
+const before=JSON.stringify(state);
+finalizeRound();
+initDefaults();load();
+assert.equal(JSON.stringify(state.finalizations[1]),first);
+assert(undoRound(2));
+assert.equal(JSON.stringify(state),before);
+`);
+test('Ties defend; characters inactive in rounds 1/2; empty roster persists', `
+state.rounds[1].armies['北部貴族連合残党'].placed={field:'サウスリバー',side:'攻撃'};
+state.rounds[1].chars.rito.placed={field:'サウスリバー',side:'攻撃'};
+assert.equal(compute(1).results[1].attackWon,false);
+state.armiesMeta['リベレーター同志'].params.libMembers=[];
+save();load();
+assert.equal(getArmyCurrentBase('リベレーター同志'),0);
+`);
+test('Legacy confirmed rounds cannot be applied again', `
+state.log=[{round:1,text:'Round 1 確定：test',ts:'old'}];
+const old=clone(state);delete old.schemaVersion;delete old.finalizations;delete old.legacyRounds;
+localStorage.setItem(LEGACY_STORAGE_KEY,JSON.stringify(old));
+initDefaults();load();
+assert.equal(isRoundLocked(1),true);
+assert.equal(finalizeRound(),false);
+assert.equal(undoRound(),false);
+assert.equal(isRoundLocked(2),false);
+assert.equal(localStorage.getItem(LEGACY_STORAGE_KEY),JSON.stringify(old));
+`);
+test('Finalizing out of sequence cannot change earlier rounds', `
+state.roundIndex=3;finalizeRound();
+state.roundIndex=1;
+assert.equal(finalizeRound(),false);
+assert.equal(isRoundLocked(),true);
+`);
+storage.clear();vm.runInContext('initDefaults(); var beforeFailure=JSON.stringify(state);',sandbox);
+failSaving=true;
+vm.runInContext('assert.equal(finalizeRound(),false); assert.equal(JSON.stringify(state),beforeFailure);',sandbox);
+failSaving=false;
+vm.runInContext('finalizeRound(); var confirmedBeforeFailure=JSON.stringify(state);',sandbox);
+failSaving=true;
+vm.runInContext('assert.equal(undoRound(),false);assert.equal(JSON.stringify(state),confirmedBeforeFailure);',sandbox);
+total++;
+console.log('PASS storage failure rolls back confirm and undo');
+console.log(total+' scenario groups passed; JavaScript syntax valid.');
