@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>戦塵のレガストリア：最終戦争集計ツール v17</title>
+  <title>戦塵のレガストリア｜戦争集計</title>
   <style>
     :root{
       --bd:#ddd;
@@ -340,24 +340,353 @@
     @keyframes winStretch { from{transform:scaleX(.86);} to{transform:scaleX(1);} }
     .winStretch { transform-origin:left; animation: winStretch .35s ease; }
     .winStretchRight { transform-origin:right; animation: winStretch .35s ease; }
+  
+/* v18: clear command hierarchy and faction-colored working surface */
+:root{--bd:#d8dee8;--muted:#556477;--shadow:0 5px 20px #15243b08;--atk:#c73a42;--def:#2563af;}
+*{box-sizing:border-box;}
+body{margin:0;padding:24px clamp(14px,2.5vw,44px) 48px;background:#eef2f7;color:#1c2b40;font-size:16px;line-height:1.6;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans JP","Meiryo",sans-serif;}
+body>*,.layout{max-width:1800px;margin-left:auto;margin-right:auto;}
+.appHeader{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0 22px;border-bottom:2px solid #23364e;}
+.eyebrow{font-size:12px;font-weight:750;letter-spacing:.18em;color:#556477;}
+h1{font-size:clamp(21px,2.2vw,30px);letter-spacing:.03em;margin:4px 0 0;font-weight:800;line-height:1.4;}
+h1 span{font-size:16px;color:#556477;display:inline-block;font-weight:500;margin-left:12px;}
+.versionLabel{font-size:12px;font-family:ui-monospace,monospace;white-space:nowrap;color:#556477;}
+h2{font-size:18px;margin:0 0 16px;}
+.rules{margin:12px auto;color:#556477;font-size:14px;}
+.rules>.muted{padding:12px 0;line-height:1.9;}
+summary{cursor:pointer;font-size:14px;font-weight:600;}
+summary:hover{color:#185ea8;}
+.muted,.tiny,.pill,.inline.tiny,.res-line,.res-sideBox .t,.res-ribbon,.newsBoom .li,.newsSab .li{font-size:14px;}
+.scoreLine,.dropHint,.tag,.gMini,.gLabelRow,.eyebrow,.versionLabel{font-size:12px;}
+.card{max-width:1800px;border-radius:12px;padding:18px;margin-top:14px;margin-bottom:14px;}
+.commandCard{border-top:4px solid #23364e;}
+.commandCard>.row{gap:8px;}
+.commandCard #btnPrevRound{margin-left:auto;}
+#roundHelp{margin:12px 0 0;}
+.gmPanel{border-top:1px solid var(--bd);margin-top:14px;padding-top:12px;}
+.statusBadge{font-size:13px;font-weight:700;padding:5px 10px;border-radius:6px;margin-right:8px;white-space:nowrap;}
+.statusBadge.draft{background:#fff3cb;color:#755108;}
+.statusBadge.done{background:#dfece9;color:#21564b;}
+button{font-size:14px;min-height:42px;border-radius:8px;padding:8px 14px;line-height:1.5;font-weight:600;transition:background .15s;}
+button.primary{background:#243a56;border-color:#243a56;color:white;}
+button.primary:hover{background:#345475;}
+button.warn{color:#a42e3d;background:#fff;border-color:#edc2c8;}
+button:disabled{opacity:.45;cursor:not-allowed;}
+button:disabled:hover{background:revert;}
+button.primary:disabled:hover{background:#243a56;}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #417dd8;outline-offset:3px;}
+input,select{max-width:100%;min-width:0;min-height:38px;padding:5px 7px;border:1px solid #c4cedc;border-radius:6px;background:#fff;color:#1c2b40;}
+input[type=checkbox]{min-height:18px;width:18px;accent-color:#243a56;}
+input[type=number]{width:90px;}
+.pill{padding:3px 8px;border-radius:6px;background:#f7f9fc;}
+.occupyBox{align-content:start;}
+.occupyBox>.pill{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.log{max-height:190px;line-height:1.8;}
+.logLine{padding:6px 0;border-bottom:1px solid #e8edf3;}
+.utilityCard{background:transparent;box-shadow:none;border:0;padding:0;margin:12px auto;}
+.layout{grid-template-columns:340px minmax(0,1fr);gap:20px;align-items:start;}
+.layout>div{min-width:0;}
+.layout>.card{margin:0;padding:0;border:0;background:transparent;box-shadow:none;}
+.layout>div>.card:first-child{margin-top:0;}
+.dropZone{border:1px solid var(--bd);padding:14px;}
+.dropZoneHeader{align-items:start;padding-bottom:12px;border-bottom:1px solid #e6ebf2;}
+.dropZoneHeader>.muted{display:none;}
+.dropZoneTitle{font-size:15px;font-weight:750;}
+.list{max-height:65vh;padding-right:4px;gap:10px;}
+.itemCard{border-radius:8px;padding:12px 10px 12px 16px;gap:8px;}
+.itemCard::before{width:5px;border-radius:8px 0 0 8px;}
+.itemCard .name{font-size:14px;line-height:1.7;overflow-wrap:anywhere;}
+.itemCard .tag{display:none;}
+.itemCard .value{font-size:22px;font-variant-numeric:tabular-nums;}
+.itemCard>.value{max-width:90px;overflow-wrap:anywhere;}
+.itemCard .inline{gap:7px;}
+.itemCard details{padding-top:5px;}
+.itemCard.compact{padding:9px 8px 9px 14px;}
+.itemCard.compact .name{font-size:14px;}
+.itemCard.compact .value{font-size:20px;}
+.itemCard.compact details summary{font-size:14px;}
+.placementSelect{width:100%;flex-basis:100%;}
+.board{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start;}
+.fieldCard{border-radius:12px;padding:16px;border-left-width:5px;min-width:0;}
+.fieldTitle{font-size:18px;flex-wrap:wrap;gap:8px;}
+.fieldTitle .pill{font-size:12px;font-weight:500;}
+.fieldHeader{gap:12px;}
+.resultBanner{border:0;border-radius:8px;background:#f0f4f9;display:block;padding:12px;}
+.winner{font-size:14px;font-weight:750;}
+.bigScore{font-size:23px;margin-top:7px;gap:12px;font-variant-numeric:tabular-nums;}
+.bigScore>span:first-child{color:var(--atk);}
+.bigScore>span:nth-child(3){color:var(--def);}
+.bigScore>.pill{display:none;}
+.laneGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.lane{padding:10px;min-width:0;background:#fff;border-radius:8px;}
+.lane[data-side="攻撃"]{border-top:3px solid var(--atk);}
+.lane[data-side="防衛"]{border-top:3px solid var(--def);}
+.laneTitle{display:block;font-size:14px;}
+.laneTotals{margin-top:6px;gap:4px;}
+.laneTotals .pill{font-size:12px;padding:1px 5px;}
+.dropHint{line-height:1.6;margin:8px 0;}
+.lane .itemCard{display:block;}
+.lane .itemCard>.value{max-width:none;text-align:right;}
+.lane .inline{width:100%;}
+.lane .pill{max-width:100%;}
+.lane .pill input{display:block;width:100%;}
+.checkGrid{grid-template-columns:1fr;}
+.notice{background:#fff4d3;border:1px solid #e5cb7e;padding:12px 16px;border-radius:8px;font-size:14px;margin-top:14px;}
+.notice[hidden]{display:none;}
+.res-title{font-size:24px;text-align:left;border-bottom:2px solid #243a56;padding-bottom:16px;}
+.resultModal{padding:24px;border-radius:14px;}
+.res-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+.res-card{min-width:0;}
+.res-scores{font-size:28px;font-variant-numeric:tabular-nums;}
+.res-sideLists{grid-template-columns:1fr;}
+.res-ribbon{display:block;}
+.res-ribbon>span{display:block;}
+.res-ribbon>span+span{font-size:12px;font-weight:500;}
+.res-line .nm{white-space:normal;overflow-wrap:anywhere;}
+.res-alert{animation:none;background:#ffefb2;color:#6b4e0d;}
+.stamp{display:none;}
+.exportedResult{padding:24px;}
+.exportedResult>.resultModal{max-width:1700px;width:100%;}
+@media(max-width:1500px){.board{grid-template-columns:1fr;}.layout{grid-template-columns:320px minmax(0,1fr);}.lane .itemCard{display:flex;}.lane .pill input{display:inline-block;width:80px;}.res-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:900px){.layout{grid-template-columns:1fr;}.layout>.card{order:-1;}.board{grid-template-columns:1fr;}.grid2{grid-template-columns:1fr;}.commandCard #btnPrevRound{margin-left:0;}.appHeader{align-items:start;}.versionLabel{display:none;}.list{max-height:50vh;}}
+@media(max-width:520px){body{padding:14px 10px 32px;}h1 span{display:block;margin:4px 0 0;}.card{padding:12px;}.commandCard>.row>button{flex:1 1 42%;}.laneGrid,.res-grid{grid-template-columns:1fr;}.fieldCard{padding:12px;}.fieldTitle{font-size:17px;}.overlay{padding:8px;}.resultModal{padding:14px;max-height:calc(100dvh - 16px);}.res-title{font-size:20px;}.res-sideLists{grid-template-columns:1fr;}.utilityCard{padding:0;}.utilityCard .row{margin-left:0!important;}.occupyBox{padding:8px;}.occupyBox>.pill{width:100%;}.res-header{font-size:16px;}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;}}
+@media print{body{background:white;padding:0;}.res-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.res-card{break-inside:avoid;}.resultModal{box-shadow:none;}}
+
+/* Keep the source roster beside the drop targets at every scroll position. */
+.layout{height:calc(100dvh - 24px);min-height:360px;grid-template-columns:300px minmax(0,1fr);align-items:stretch;gap:14px;}
+.reservePane{display:flex;flex-direction:column;min-height:0;overflow:hidden;}
+.reserveTabs{display:flex;gap:6px;flex-shrink:0;margin-bottom:8px;}
+.reserveTabs button{flex:1;background:#e1e7ef;}
+.reserveTabs button[aria-pressed="true"]{background:#243a56;color:#fff;border-color:#243a56;}
+.reservePane>.card.dropZone{display:flex;flex-direction:column;flex:1;min-height:0;margin:0;}
+.reservePane>.card.dropZone[hidden]{display:none;}
+.reservePane .dropZoneHeader{flex-shrink:0;}
+.reservePane .list{min-height:0;max-height:none;flex:1;overflow-y:auto;overscroll-behavior:contain;}
+.layout>.battlePane{order:0;min-height:0;overflow:auto;overscroll-behavior:contain;padding:0 6px 16px 0;}
+.battlePane>h2{position:sticky;top:0;z-index:2;background:#eef2f7;margin:0;padding:8px 0 12px;}
+@media(min-width:1501px){.layout{grid-template-columns:340px minmax(0,1fr);}}
+@media(max-width:900px){.layout{grid-template-columns:240px minmax(0,1fr);}.laneGrid{grid-template-columns:1fr;}.lane .itemCard{display:block;}}
+@media(max-width:600px){
+  .layout{grid-template-columns:1fr;grid-template-rows:minmax(0,38fr) minmax(0,62fr);gap:10px;}
+  .reservePane{background:#eef2f7;}
+  .reserveTabs{margin-bottom:4px;}
+  .reserveTabs button{min-height:34px;padding:4px 8px;}
+  .reservePane>.card.dropZone{padding:8px;}
+  .reservePane .dropZoneHeader{display:none;}
+  .reservePane .list{flex-direction:row;overflow-x:auto;overflow-y:auto;align-items:flex-start;gap:8px;}
+  .reservePane .itemCard{flex:0 0 230px;min-height:100px;}
+  .battlePane>h2{font-size:16px;padding:4px 0 8px;}
+}
+/* Player-facing battle chronicle; also included in standalone exports. */
+.overlay{background:rgba(7,15,27,.82);backdrop-filter:blur(7px);}
+.resultModal{--report-gold:#e7c982;--report-ink:#eff3f9;--muted:#a9b8cc;--atk:#ff9191;--def:#92c4ff;color:var(--report-ink);background:#111e30;border:1px solid #b596585e;border-radius:12px;padding:clamp(18px,2.8vw,40px);box-shadow:0 24px 90px #0008;line-height:1.7;}
+.reportMasthead{display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:2px solid var(--report-gold);border-bottom:1px solid #e7c98250;padding:22px 0 24px;}
+.reportEyebrow{font-size:12px;letter-spacing:.17em;color:var(--report-gold);font-weight:600;}
+.resultModal .res-title{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:clamp(28px,3vw,40px);font-weight:700;letter-spacing:.13em;color:#fff7e3;line-height:1.4;border:0;margin:10px 0 4px;padding:0;text-align:left;}
+.reportSubtitle{font-size:14px;color:#b7c2d2;margin:0;letter-spacing:.07em;}
+.reportRound{display:flex;flex-direction:column;align-items:center;min-width:82px;border-left:1px solid #e7c98250;padding-left:24px;}
+.reportRound>span{font-size:12px;letter-spacing:.14em;color:var(--report-gold);}
+.reportRound>b{font-family:Georgia,serif;font-size:48px;line-height:1.3;font-weight:400;color:#fff7e3;}
+.reportRound>small{font-size:12px;color:#b7c2d2;}
+.reportSummary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid #ffffff20;margin:0 0 26px;padding:17px 0;}
+.reportSummary>div{display:flex;justify-content:center;align-items:center;gap:14px;border-right:1px solid #ffffff20;}
+.reportSummary>div:last-child{border:0;}
+.reportSummary span{font-size:14px;color:#b7c2d2;}
+.reportSummary b{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;color:#fff7e3;}
+.resultModal .res-grid{gap:16px;align-items:stretch;}
+.resultModal .res-card{background:#192a40;border:1px solid #ffffff20;border-top:3px solid var(--field-accent,#e7c982);border-radius:6px;padding:18px;display:flex;flex-direction:column;}
+.resultModal .res-card.atk-win,.resultModal .res-card.def-win{background:#192a40;border-width:1px;border-top-width:3px;}
+.resultModal .res-header{display:block;margin-bottom:15px;}
+.reportFieldNumber{font-size:12px;letter-spacing:.1em;color:#a9b8cc;display:block;}
+.res-header h3{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:23px;font-weight:700;letter-spacing:.04em;margin:5px 0 13px;color:#fff7e3;}
+.reportOccupation{font-size:12px;color:#a9b8cc;display:block;border-top:1px solid #ffffff15;padding-top:9px;}
+.reportOccupation b{display:block;color:#e6ecf5;font-size:14px;font-weight:600;overflow-wrap:anywhere;}
+.resultModal .res-scores{display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr);gap:8px;align-items:center;margin:4px 0 6px;}
+.reportScore{text-align:center;min-width:0;}
+.reportScore>span{display:block;font-size:12px;letter-spacing:.1em;font-weight:500;}
+.reportScore>b{display:block;font-size:clamp(28px,3vw,42px);font-weight:650;line-height:1.3;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;}
+.reportScore.atk{color:var(--atk);}.reportScore.def{color:var(--def);}
+.resultModal .res-vs{color:#8093ac;font-size:12px;font-weight:400;text-align:center;}
+.resultModal .muted{color:#a9b8cc;}
+.resultModal .gaugeWrap{height:6px;margin-top:16px;border:0;background:#30435c;border-radius:2px;}
+.resultModal .gAtk{background:#dc6970;}.resultModal .gDef{background:#6597d2;}
+.resultModal .gLabelRow{color:#bcc9db;margin-top:6px;}
+.resultModal .gMini{font-size:12px;color:#8fa2bb;}
+.resultModal .res-ribbon{display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;border-radius:4px;padding:10px 12px;margin-top:16px;}
+.resultModal .res-ribbon.atk{background:#e65b6a1c;color:#ffb1b6;}
+.resultModal .res-ribbon.def{background:#5b9fe622;color:#afd4ff;}
+.resultModal .res-ribbon>span:first-child{font-size:16px;font-weight:750;letter-spacing:.07em;}
+.resultModal .res-ribbon>span+span{font-size:12px;font-weight:500;text-align:right;}
+.resultModal .res-header .res-ribbon{display:block;margin:12px -8px 16px;padding:14px 16px;border-radius:6px;border:1px solid #ffffff40;}
+.resultModal .res-header .res-ribbon.atk{background:#a52e40;color:#fff;}
+.resultModal .res-header .res-ribbon.def{background:#225d9f;color:#fff;}
+.resultModal .res-header .res-ribbon>span:first-child{font-size:clamp(22px,2.2vw,28px);font-weight:850;letter-spacing:.03em;line-height:1.45;}
+.resultModal .res-header .res-ribbon>span+span{font-size:14px;text-align:left;color:#fff;margin-top:4px;}
+.resultModal .reportScore{padding:10px 4px;border:2px solid transparent;border-radius:6px;}
+.resultModal .reportScore.scoreWinner{border-color:currentColor;background:#ffffff0a;}
+.resultModal .reportScore:not(.scoreWinner)>b{font-size:28px;color:#a9b8cc;}
+.resultModal .res-sideLists{gap:12px;margin-top:16px;}
+.resultModal .res-sideBox{padding:0;background:transparent;border:0;border-radius:0;}
+.resultModal .res-sideBox .t{font-size:14px;padding-bottom:7px;margin-bottom:0;border-bottom:1px solid #ffffff25;}
+.resultModal .res-line{font-size:14px;border-top:1px solid #ffffff10;padding-top:6px;margin-top:5px;gap:12px;align-items:baseline;color:#cfdaea;}
+.resultModal .res-line .pv{font-variant-numeric:tabular-nums;font-weight:600;color:#fff;}
+.resultModal .res-alert{border:1px solid #e7c98255;background:#e7c98212;color:#e7c982;padding:8px;margin-top:16px;font-size:12px;font-weight:600;}
+.resultModal .res-footer{margin-top:30px;}
+.reportNewsTitle{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #e7c98250;padding-bottom:10px;margin-bottom:16px;text-align:left;}
+.reportNewsTitle>span{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:22px;color:#fff7e3;letter-spacing:.1em;}
+.reportNewsTitle>small{font-size:12px;letter-spacing:.14em;color:var(--report-gold);}
+.resultModal .res-news{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;background:transparent;padding:0;color:#cfdaea;font-size:14px;}
+.resultModal .newsBlock{grid-column:1/-1;background:#e7c9820c;border-left:2px solid #e7c982;padding:12px 16px;line-height:1.9;}
+.resultModal .newsBoom,.resultModal .newsSab{border:1px solid #ffffff20!important;border-radius:5px;background:#192a40!important;padding:16px;margin:0;}
+.resultModal .newsBoom .hd,.resultModal .newsSab .hd{font-size:15px;color:#e7c982!important;margin-bottom:10px;font-weight:700;}
+.resultModal .newsBoom .li,.resultModal .newsSab .li{font-size:14px;color:#cfdaea;line-height:1.8;}
+.resultModal .res-footer>.row{border-top:1px solid #ffffff20;margin-top:24px;padding-top:20px;}
+.resultModal button{background:#20334d;border:1px solid #91a6c14d;color:#e8eef8;}
+.resultModal button:hover{background:#304967;}
+.resultModal button.primary{background:#e7c982;border-color:#e7c982;color:#172337;}
+.resultModal button.primary:hover{background:#f4dba5;}
+.exportedResult{background:#0b1523;}
+@media(max-width:760px){.resultModal .res-grid{grid-template-columns:1fr;}.resultModal .res-news{grid-template-columns:1fr;}.resultModal .res-sideLists{grid-template-columns:repeat(2,minmax(0,1fr));}.reportSummary>div{gap:7px;}.reportSummary span{font-size:12px;}.reportSummary b{font-size:22px;}}
+@media(max-width:440px){.reportMasthead{gap:12px;}.reportRound{min-width:58px;padding-left:12px;}.reportEyebrow{font-size:12px;letter-spacing:.03em;}.reportSummary>div{flex-direction:column;gap:0;}.resultModal .res-sideLists{grid-template-columns:1fr;}.reportScore>b{font-size:38px;}}
+@media print{.resultModal{-webkit-print-color-adjust:exact;print-color-adjust:exact;}.resultModal .res-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.resultModal .res-card{break-inside:avoid;}.resultModal .res-footer>.row,.resultModal .exportHint{display:none;}}
+/* Occupation is the primary outcome; battle victory explains how it happened. */
+.resultModal .reportOccupation{display:block;margin:12px 0 16px;padding:16px;background:#e7c98210;border:1px solid #e7c98265;border-left:4px solid #e7c982;border-radius:5px;}
+.resultModal .reportOccupation.changed{background:#e7c9821c;border-color:#e7c982;}
+.reportOccupationLabel{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;color:#e7c982;font-weight:600;}
+.reportOccupationLabel em{font-style:normal;font-size:12px;padding:2px 7px;border:1px solid #e7c98270;border-radius:4px;white-space:nowrap;}
+.resultModal .reportOccupation b{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:clamp(24px,2.5vw,32px);line-height:1.5;color:#fff1c8;font-weight:800;margin:9px 0 0;overflow-wrap:anywhere;}
+.reportPreviousOwner{display:block;margin-top:10px;padding-top:9px;border-top:1px solid #e7c98230;font-size:14px;color:#c3cee0;font-weight:400;}
+.resultModal .res-header .res-ribbon{margin:0;padding:10px 12px;}
+.resultModal .res-header .res-ribbon>span:first-child{font-size:18px;}
+.resultModal .res-header .res-ribbon>span+span{font-size:12px;}
+/* Compact report typography, preserving occupation as the primary result. */
+.resultModal{padding:clamp(16px,2vw,28px);}
+.reportMasthead{padding:16px 0 18px;}
+.resultModal .res-title{font-size:clamp(24px,2.4vw,30px);}
+.reportRound>b{font-size:36px;}
+.reportSummary{padding:12px 0;margin-bottom:18px;}
+.reportSummary b{font-size:22px;}
+.resultModal .res-card{padding:14px;}
+.resultModal .res-header h3{font-size:20px;margin:4px 0 10px;}
+.resultModal .reportOccupation{padding:12px;margin:10px 0 12px;}
+.resultModal .reportOccupation b{font-size:clamp(20px,1.8vw,24px);line-height:1.45;margin-top:6px;}
+.resultModal .reportScore>b{font-size:30px;}
+.resultModal .reportScore:not(.scoreWinner)>b{font-size:24px;}
+.resultModal .res-header .res-ribbon>span:first-child{font-size:16px;}
+.reportNewsTitle>span{font-size:19px;}
+.resultModal .res-footer{margin-top:22px;}
+/* Keep attack on the left and defense on the right, including narrow screens. */
+.resultModal .res-sideLists{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:12px;}
+.resultModal .res-sideBox{min-width:0;}
+.resultModal .res-sideBox.def{border-left:1px solid #ffffff25;padding-left:12px;}
+.resultModal .res-sideBox .t{flex-wrap:wrap;gap:4px 8px;}
+.resultModal .res-line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;}
+.resultModal .res-line .nm{white-space:normal;overflow-wrap:anywhere;}
+@media(max-width:440px){.resultModal .res-sideLists{gap:8px;}.resultModal .res-sideBox.def{padding-left:8px;}}
+.c-central{--faction-rgb:235,70,78;}
+.c-southriver{--faction-rgb:156,78,224;}
+.c-northland{--faction-rgb:49,164,226;}
+.c-kaneka{--faction-rgb:232,181,31;}
+.c-gray{--faction-rgb:133,145,163;}
+.itemCard[class*="c-"]{background:linear-gradient(rgba(var(--faction-rgb),.13),rgba(var(--faction-rgb),.13)),#fff;border-color:rgba(var(--faction-rgb),.4);}
+.resultModal .res-line.armyTint{background:rgba(var(--faction-rgb),.2);border:1px solid rgba(var(--faction-rgb),.32);border-left:3px solid rgb(var(--faction-rgb));border-radius:5px;padding:8px;margin-top:7px;color:#f0f4fa;}
+.reservePane .list,.layout>.battlePane{scrollbar-gutter:stable;scroll-behavior:auto;overscroll-behavior:auto;}
+.phaseTabs{display:flex;gap:8px;margin:16px auto;max-width:1800px;}
+.phaseTabs button[aria-pressed="true"]{background:#243a56;border-color:#243a56;color:#fff;}
+#warSection[hidden],#intrigueSection[hidden]{display:none;}
+.iHeading{display:flex;justify-content:space-between;gap:16px;align-items:start;flex-wrap:wrap;}
+.iHeading h2{font-size:23px;margin:0;}.iHeading p{margin:4px 0 14px;}
+.iCustody{display:flex;gap:12px 20px;align-items:center;flex-wrap:wrap;background:#eef3fb;padding:14px;border-left:4px solid #426998;border-radius:6px;font-size:14px;}
+.iCustody label{font-weight:700;}.iSetup{border:1px solid var(--bd);padding:14px;margin:14px 0;border-radius:8px;background:#fff;}
+.iSetup>summary{font-size:15px;}.iPeople{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-top:16px;}
+.iPerson{display:flex;flex-direction:column;gap:6px;padding:12px;border:1px solid #d9e1ec;border-left:4px solid rgb(var(--faction-rgb));border-radius:6px;background:rgba(var(--faction-rgb),.07);min-width:0;}
+.iPerson label{font-size:14px;display:flex;align-items:center;gap:7px;}.iState{font-size:13px;color:#1d6355;}.iState.unavailable{color:#a12e43;font-weight:700;}
+.iForm{display:flex;align-items:end;flex-wrap:wrap;gap:12px;margin-top:16px;}.iForm>label{display:flex;flex-direction:column;gap:4px;font-size:14px;}.iForm>label:has(input[type="checkbox"]){flex-direction:row;align-items:center;}
+.iForm select,.iForm input:not([type="checkbox"]){width:100%;}.iForm>label{min-width:150px;}.iForm input[type=number]{max-width:130px;}
+.iForm.iVertical{display:flex;flex-direction:column;align-items:stretch;}.iVertical details label{display:block;font-size:14px;margin:8px 0;}
+.iColumns{display:grid;grid-template-columns:minmax(250px,340px) minmax(0,1fr);gap:18px;align-items:start;margin-top:16px;}
+.iPanel{padding:18px;border:1px solid var(--bd);border-radius:10px;background:#f8fafc;min-width:0;}.iPanel h3{font-size:17px;margin:0 0 12px;}
+.iControls{display:flex;gap:12px;flex-wrap:wrap;padding:10px 0;font-size:14px;}.iControls label{display:flex;align-items:center;gap:6px;}
+.iDefenseRegistry{display:flex;flex-direction:column;gap:7px;margin-top:12px;}.iDefenseRegistry>div{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap;padding:10px;border-bottom:1px solid #e1e6ee;font-size:14px;}
+.iActive{border:2px solid #557fae;border-radius:8px;padding:16px;background:white;margin-bottom:20px;}.iActiveTitle{font-size:23px;font-weight:800;}.iActive>p{margin:8px 0;}
+.iTimer{font-variant-numeric:tabular-nums;font-size:14px;background:#eef3fa;padding:8px;border-radius:5px;}.iConfirm{display:flex;gap:8px;align-items:center;padding:10px 0;font-size:14px;font-weight:700;}
+.iCandidates{display:flex;flex-direction:column;gap:8px;margin:8px 0 16px;}.iCandidate{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #bacfc8;border-left:4px solid #448071;padding:12px;border-radius:6px;background:#eff7f3;}
+.iCandidate>div{display:flex;flex-direction:column;gap:3px;min-width:0;}.iCandidate span{font-size:14px;}.iCandidate small{font-size:13px;color:#4d635a;}.iCandidate button{flex-shrink:0;background:#2c6256;color:white;border-color:#2c6256;}
+.iCandidate.unavailable{background:#f3f4f6;border-color:#d8dde5;}.iCandidate.unavailable small{color:#a23949;}.iCandidate.unavailable button{background:#7c8796;border-color:#7c8796;}
+.iQueue{display:flex;flex-direction:column;gap:10px;}.iAction{display:flex;flex-direction:column;gap:6px;padding:13px;background:white;border:1px solid var(--bd);border-radius:7px;}.iAction>span,.iAction>label{font-size:14px;}
+.iWarning{color:#a32e43;font-weight:600;}.iFatal{padding:14px;background:#fff1f1;border:1px solid #e6b8bf;border-radius:6px;}.iFatal>b{color:#a32e43;font-size:18px;}
+.iEmpty{padding:28px 12px;border:1px dashed #bac6d6;border-radius:6px;color:#556477;margin-bottom:20px;font-size:14px;}
+.iHistory{max-height:320px;overflow:auto;font-size:14px;}.iHistory p{border-bottom:1px solid #e5e9f0;padding-bottom:7px;}
+.charUnavailable{display:inline-block;font-size:12px;color:#a12e43;background:#fff0f2;border:1px solid #ebc5ce;padding:2px 6px;border-radius:4px;}
+.iGuardOverview{margin:22px 0;padding:20px;background:#f5f7fa;border:1px solid #dbe2eb;border-radius:12px;}
+.iGuardTitle{display:flex;align-items:center;justify-content:space-between;gap:12px;}.iGuardTitle h3{margin:0;font-size:19px;}.iGuardTitle>span{font-size:13px;color:#526277;}
+.iGuardOverview>p{font-size:13px;margin:8px 0 18px;}.iGuardGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px;align-items:start;}
+.iGuardGroup{min-width:0;border:1px solid #d7dfe9;border-radius:10px;background:#fff;overflow:hidden;}.iGuardGroup>h4{display:flex;align-items:center;gap:10px;margin:0;padding:13px 16px;background:rgba(var(--faction-rgb,75,97,125),.1);border-bottom:1px solid #dbe2eb;font-size:19px;}.iGuardGroup h4>span{font-size:11px;font-weight:500;}.iGuardGroup h4>small{margin-left:auto;font-size:12px;font-weight:500;}
+.iGuardCard{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 14px;padding:16px;}.iGuardStack>.iGuardCard+.iGuardCard{border-top:1px solid #dbe2eb;}.iGuardIdentity{display:flex;flex-wrap:wrap;align-items:center;gap:5px 8px;font-size:13px;}.iGuardIdentity>strong{font-size:17px;}.iGuardIdentity>span:last-child{flex-basis:100%;color:#536177;}.iGuardKind{font-size:11px;border:1px solid #d7dfe9;border-radius:4px;padding:2px 6px;color:#526277;}
+.iGuardRemaining{text-align:right;display:flex;flex-direction:column;line-height:1.2;}.iGuardRemaining>span{font-size:11px;color:#66758a;}.iGuardRemaining>strong{font-size:30px;font-variant-numeric:tabular-nums;color:#245c50;}.iGuardRemaining small{font-size:13px;font-weight:400;color:#778396;}.needsCheck .iGuardRemaining>strong{color:#677386;}
+.iGuardMeta{grid-column:1/-1;display:flex;gap:7px 10px;align-items:center;flex-wrap:wrap;font-size:12px;color:#66758a;}.iGuardStatus{padding:3px 7px;border-radius:4px;background:#f4e9df;color:#8a5423;}.iGuardStatus.ready{background:#e4f1eb;color:#28634c;}.iGuardCheck{grid-column:1/-1;display:flex;align-items:center;gap:7px;font-size:13px;padding-top:6px;}
+.iGuardCard>.iEdit,.iGuardCard>small{grid-column:1/-1;}.iEdit{border-top:1px dashed #d8e0ea;padding-top:10px;margin-top:3px;}.iEdit>summary{font-size:12px;color:#526277;}.iEdit>label{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;margin:10px 0;}.iEdit>label select,.iEdit>label input:not([type=checkbox]){max-width:100%;min-width:0;}.iEdit>button{margin:4px 6px 0 0;}.iWatchHeading{margin:24px 0 0;font-size:17px;}
+@media(max-width:800px){.iColumns{grid-template-columns:1fr;}.iCandidate{align-items:start;}.iActiveTitle{font-size:20px;}}
+@media(max-width:440px){.iCandidate{flex-direction:column;}.iCandidate button{width:100%;}.iPanel{padding:12px;}.iPerson select{max-width:145px;}}
+
+/* Dense GM view: preserve native scrolling and readable key numbers. */
+.iAutoWatchNotice{margin:0 0 14px;padding:14px;border:2px solid #368774;border-radius:9px;background:#eaf7f1;color:#214c41;}.iAutoWatchNotice h3{font-size:17px;margin:9px 0!important;}.iAutoWatchNotice p{margin:7px 0;font-size:13px;}.iAutoWatchNotice small{font-size:12px;}.iAutoWatchBadge{display:inline-block;background:#286753;color:white;padding:3px 7px;border-radius:4px;font-size:11px;font-weight:700;}
+.iAntidote{margin:12px 0;padding:10px;border:1px solid #a8cfc0;background:#edf7f2;border-radius:7px;}.iAntidote>b{color:#27614d;}.iAntidote p{font-size:12px;margin:5px 0 8px;}.iAntidote button{background:#2c6256;color:white;}
+.iUseControls{align-items:flex-end;gap:7px!important;max-width:210px;}.iUseControls>label{font-size:12px;display:flex;align-items:start;gap:6px;}.iUseControls input{flex-shrink:0;}
+.iUndoPreview{max-width:420px;min-width:0;}.iUndoPreview>p{font-size:12px;margin:5px 0 0;overflow-wrap:anywhere;}
+.iAttackPicker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;}
+.iAttackChoice{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:3px;padding:8px;min-width:0;border-radius:7px;border-left:3px solid rgb(var(--faction-rgb,75,97,125));background:white;}
+.iAttackChoice strong{font-size:13px;}.iAttackChoice span{font-size:11px;}.iAttackChoice small{font-size:11px;color:#5a6b7f;white-space:normal;}
+.iAttackChoice[aria-pressed="true"]{background:#e7f0fa;border-color:#345b85;box-shadow:inset 0 0 0 1px #345b85;}
+.iAttackChoice:disabled{opacity:.6;background:#edf0f4;cursor:not-allowed;}.iAttackSelection{font-size:12px;font-weight:700;color:#294e75;margin:0;padding:8px;background:#edf3fa;border-radius:5px;}
+body{font-size:13px;padding:12px 14px 28px;}
+button,input,select,textarea{font-size:12px;}
+button{padding:6px 9px;min-height:30px;}
+.card{padding:10px;margin:8px auto;}.row{gap:7px;}
+.phaseTabs{margin:10px auto;gap:6px;}
+.iHeading h2{font-size:18px;}.iHeading p{font-size:12px;margin:3px 0 9px;}
+.iCustody{padding:10px;gap:8px 14px;font-size:12px;}
+.iSetup{padding:10px;margin:10px 0;}.iSetup>summary{font-size:13px;}
+.iPeople{gap:8px;margin-top:10px;}.iPerson{padding:9px;gap:4px;}.iPerson label{font-size:12px;}
+.iState,.iForm>label,.iVertical details label,.iControls,.iQueue .iAction>label,.iQueue .iAction>span{font-size:12px;}
+.iForm{gap:8px;margin-top:10px;}.iForm>label{min-width:130px;}
+.iColumns{grid-template-columns:minmax(230px,290px) minmax(0,1fr);gap:12px;margin-top:10px;}
+.iPanel{padding:12px;}.iPanel h3{font-size:14px;margin-bottom:8px;}
+.iActive{padding:11px;margin-bottom:12px;}.iActiveTitle{font-size:18px;}
+.iTimer,.iConfirm{font-size:12px;padding:7px;}.iCandidate{padding:9px;gap:8px;}.iCandidate span,.iCandidate small{font-size:12px;}
+.iQueue{gap:7px;}.iAction{padding:9px;gap:4px;}.iFatal{padding:10px;}.iFatal>b{font-size:15px;}
+.iGuardOverview{margin:14px 0;padding:12px;}.iGuardTitle h3{font-size:16px;}.iGuardOverview>p{font-size:12px;margin:6px 0 12px;}
+.iGuardGrid{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:10px;}
+.iGuardGroup>h4{padding:9px 11px;font-size:16px;gap:7px;}.iGuardCard{padding:11px;gap:7px 10px;}
+.iGuardIdentity>strong{font-size:14px;}.iGuardIdentity,.iGuardCheck{font-size:12px;}.iGuardRemaining>strong{font-size:24px;}
+.iEdit>label{font-size:12px;margin:7px 0;}.iWatchHeading{font-size:15px;}
+.itemCard .name,.fieldTitle{font-size:14px;}.itemCard .value,.itemCard.compact .value,.bigScore{font-size:18px;}
+.fieldCard{padding:10px;}.lane{padding:8px;}.winner{font-size:14px;}
+.resultModal .res-header h3{font-size:17px;}.resultModal .reportScore>b{font-size:26px;}.resultModal .reportScore:not(.scoreWinner)>b{font-size:21px;}
+.reportRound>b{font-size:30px;}.reportSummary b{font-size:19px;}
+@media(max-width:800px){.iColumns{grid-template-columns:1fr;}}
+@media(max-width:440px){body{padding:8px;}.iGuardOverview{padding:9px;}}
+
   </style>
 </head>
 <body>
-  <h1>戦塵のレガストリア：戦争集計ツール v17（リザルト横並び4枚）</h1>
+  <header class="appHeader"><div><div class="eyebrow">REGASTRIA · WAR ROOM</div><h1>戦塵のレガストリア <span>戦争集計</span></h1></div><span class="versionLabel">GM TOOL / v18</span></header><nav class="phaseTabs" aria-label="フェーズ"><button id="tab_war" aria-pressed="true">戦争</button><button id="tab_intrigue" aria-pressed="false">暗殺・護衛</button></nav><section id="intrigueSection" class="card" hidden><div id="intrigueRoot"></div></section><div id="warSection"><div id="ritoWarPanel"></div><div id="legacyNotice" class="notice" hidden>旧版のデータを引き継いでいます。旧版で確定した戦争は確定前の記録がないため取り消せません。旧版の保存データは残しています。</div><details class="rules"><summary>戦争のルール・計算順序</summary>
   <div class="muted">
     ✅ 忠誠心はデフォルト0。<b>忠誠心が20増減するたびに兵力が10増減</b>（増：回復／減：脱走）<br/>
     ✅ 「忠誠心変動→兵力増減」は<b>戦争決着前に反映</b>します（支援・自由の同志増加・リベレーター戦闘時-10）<br/>
     ✅ <b>キャラはRound3のみ参戦可能</b>（Round1/2はキャラ配置・キャラスキル・支援効果すべて無効）<br/>
   </div>
 
-  <div class="card">
+  </details>
+  <div class="card commandCard">
     <div class="row">
       <div class="pill"><b>戦争ラウンド：</b> <span id="roundText" class="mono"></span></div>
-      <button id="btnFinalizeRound" class="primary">この戦争を確定（忠誠心→兵力増減→勝敗→忠誠心→兵力増減／占拠更新等）</button>
+      <span id="roundStatus" class="statusBadge"></span><button id="btnFinalizeRound" class="primary">この戦争を確定</button><button id="btnUndoRound">確定を取り消す</button><button id="btnShowResult">戦果報告を見る</button>
       <button id="btnPrevRound">←前の戦争へ</button>
       <button id="btnNextRound">次の戦争へ→</button>
     </div>
-    <div class="grid2" style="margin-top:10px;">
+    <p id="roundHelp" class="muted" aria-live="polite"></p><details class="gmPanel"><summary>占拠者の編集・確定ログ</summary><div class="grid2" style="margin-top:10px;">
       <div class="occupyBox">
         <span class="occupyLabel">現在の占拠者（GM編集可）：</span>
 
@@ -370,10 +699,10 @@
         <div class="muted" style="margin-bottom:6px;">確定ログ（上が最新）</div>
         <div id="logBox" class="log"></div>
       </div>
-    </div>
+    </div></details>
   </div>
 
-  <div class="card">
+  <div class="card utilityCard">
     <div class="row">
       <div class="muted">
         城壁：通常 +30（セントラル +100、六芒星で0） / 同値は防衛勝ち
@@ -387,7 +716,11 @@
   </div>
 
   <div class="layout">
-    <div>
+    <div class="reservePane">
+      <div class="reserveTabs" role="group" aria-label="待機一覧の切り替え">
+        <button id="btnReserveArmies" aria-pressed="true" aria-controls="armyWaitingZone">待機軍</button>
+        <button id="btnReserveChars" aria-pressed="false" aria-controls="charWaitingZone">待機キャラ</button>
+      </div>
       <div class="card dropZone" id="armyWaitingZone">
         <div class="dropZoneHeader">
           <div>
@@ -399,7 +732,7 @@
         <div id="armyList" class="list"></div>
       </div>
 
-      <div class="card dropZone" id="charWaitingZone">
+      <div class="card dropZone" id="charWaitingZone" hidden>
         <div class="dropZoneHeader">
           <div>
             <div class="dropZoneTitle">待機：キャラ（不参加）</div>
@@ -411,31 +744,38 @@
       </div>
     </div>
 
-    <div class="card">
-      <h2>戦場ボード（攻撃/防衛へドロップ）</h2>
+    <div class="card battlePane">
+      <h2 id="boardTitle">戦場ボード · 決着予測</h2>
       <div id="board" class="board" style="margin-top:10px;"></div>
     </div>
   </div>
 
+  </div>
   <div id="resultOverlay" class="overlay" style="display:none;">
-    <div class="resultModal" id="resultModalRoot">
-      <h2 class="res-title">戦果報告書：Round <span id="resRoundNum"></span></h2>
+    <div class="resultModal" id="resultModalRoot" role="dialog" aria-modal="true" aria-labelledby="resultTitle" tabindex="-1">
+      <header class="reportMasthead">
+        <div><div class="reportEyebrow">REGASTRIA / WAR CHRONICLE</div><h2 class="res-title" id="resultTitle">戦果報告書</h2><p class="reportSubtitle">戦塵のレガストリア</p></div>
+        <div class="reportRound"><span>ROUND</span><b id="resRoundNum"></b><small>確定記録</small></div>
+      </header>
+      <div id="reportSummary" class="reportSummary" aria-label="戦果の概要"></div>
       <div id="resGrid" class="res-grid"></div>
 
       <div class="res-footer">
+        <div class="reportNewsTitle"><span>戦後の情勢</span><small>AFTERMATH</small></div>
         <div id="resNews" class="res-news"></div>
         <div class="row" style="justify-content:center;">
           <button id="btnSaveResultHtml">結果をHTML保存</button>
           <button onclick="closeResult()" class="primary">閉じる</button>
         </div>
-        <div class="muted" style="margin-top:8px;">※「HTML保存」は、表示中の戦果報告書を1枚のHTMLとしてダウンロードします。</div>
+        <div class="muted exportHint" style="margin-top:8px;">※「HTML保存」は、表示中の戦果報告書を1枚のHTMLとしてダウンロードします。</div>
       </div>
     </div>
   </div>
 
 <script>
 /* ========= constants ========= */
-const STORAGE_KEY = "regastria_war_tool_v17";
+const STORAGE_KEY = "regastria_war_tool_v18";
+const LEGACY_STORAGE_KEY = "regastria_war_tool_v17";
 
 /* ---- armies ---- */
 const ARMIES = [
@@ -545,7 +885,7 @@ const CHAR_PRESETS = [
   },
   { id:"seno", name:"セノ", colorKey:"northland", supportOnly:true,
     extraSchema:[
-      {type:"label", text:"支援：参戦中のみ「対象軍の忠誠心 -20（永続／兵力増減は決着前に反映）」"},
+      {type:"label", text:"支援：参戦中のみ「対象軍の忠誠心 -20（永続）／減った兵力はリベレーター同志へ合流（決着前に反映）」"},
       {type:"targetArmy", key:"targetArmy", label:"対象軍"}
     ],
   },
@@ -604,13 +944,16 @@ const escapeHtml = (s)=>String(s).replace(/[&<>"']/g, c=>({ "&":"&amp;","<":"&lt
 function randPick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 function cssEscape(s){ return String(s).replace(/"/g,'\\"'); }
 function isRound3(){ return state.roundIndex === 3; }
-function isCharParticipating(charId, round){ if(round !== 3) return false; return !!state.rounds[round].chars[charId]?.placed; }
+function isCharParticipating(charId, round){ if(!charEligible(charId,round)) return false; return !!state.rounds[round].chars[charId]?.placed; }
 const monoTs = ()=>{ const d=new Date(); const pad=(n)=>String(n).padStart(2,"0"); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`; };
 function colorTagHtml(colorKey){ const key = colorKey || "gray"; return `<span class="tag"><span class="dot ${key}"></span>${escapeHtml(COLOR[key].label)}</span>`; }
 function cardColorClass(colorKey){ const key = colorKey || "gray"; return COLOR[key].cssClass; }
 
 /* ========= persistence ========= */
-function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function save(){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); return true; }
+  catch(error) { alert("保存できませんでした。ブラウザの保存容量・設定を確認してください。\n確定・取り消し操作は適用されません。それ以外の編集は、この画面だけに残っている場合があります。"); return false; }
+}
 
 function initRoundIfMissing(r){
   if(!state.rounds[r]) state.rounds[r] = { armies:{}, chars:{}, fieldFlags:{} };
@@ -650,10 +993,15 @@ function initDefaults(){
   }
 
   state.log = [];
+  state.finalizations = {};
+  state.legacyRounds = [];
+  state.schemaVersion = 18;
+  state.intrigue = null;
+  initIntrigue();
 }
 
 function load(){
-  const raw = localStorage.getItem(STORAGE_KEY);
+  const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
   if(!raw){ initDefaults(); return; }
   try{
     const obj = JSON.parse(raw);
@@ -661,6 +1009,11 @@ function load(){
       initDefaults(); return;
     }
     Object.assign(state, obj);
+    state.intrigue = obj.intrigue || null;
+    state.finalizations = obj.finalizations || {};
+    state.legacyRounds = obj.legacyRounds || (obj.schemaVersion === 18 ? [] : [...new Set((obj.log || []).filter(x=>/確定：/.test(x.text)).map(x=>x.round))]);
+    state.schemaVersion = 18;
+    initIntrigue();
 
     for(let r=1;r<=MAX_ROUNDS;r++) initRoundIfMissing(r);
 
@@ -686,8 +1039,7 @@ function load(){
     state.armiesMeta["リベレーター同志"].params ||= {};
     if(!Array.isArray(state.armiesMeta["リベレーター同志"].params.libMembers)){
       state.armiesMeta["リベレーター同志"].params.libMembers = ["seno"];
-    }else if(state.armiesMeta["リベレーター同志"].params.libMembers.length===0){
-      state.armiesMeta["リベレーター同志"].params.libMembers = ["seno"];
+
     }
     if(typeof state.armiesMeta["リベレーター同志"].params.prevLibCount !== "number"){
       state.armiesMeta["リベレーター同志"].params.prevLibCount = state.armiesMeta["リベレーター同志"].params.libMembers.length;
@@ -714,7 +1066,7 @@ function buildOccSelect(selectEl, fieldName){
 /* ========= wall bonus（常に存在） ========= */
 function wallBonus(field, round){
   if(field==="セントラル"){
-    const off = !!state.rounds[round].fieldFlags.centralWallOff;
+    const off = !!state.rounds[round].fieldFlags.centralWallOff || (round===3 && iHexEffect("castle"));
     return off ? 0 : 100;
   }
   return 30;
@@ -741,11 +1093,12 @@ function calcArmyBaseRaw(armyName){
 function getArmyCurrentBase(armyName){
   const base = calcArmyBaseRaw(armyName);
   const delta = Number(state.armiesMeta[armyName]?.delta || 0);
-  return base + delta;
+  return Math.max(0, base + (Number.isFinite(delta) ? delta : 0));
 }
 function setArmyCurrentBase(armyName, desired){
   const base = calcArmyBaseRaw(armyName);
-  state.armiesMeta[armyName].delta = Number(desired) - base;
+  const value = Number(desired);
+  state.armiesMeta[armyName].delta = (Number.isFinite(value) ? Math.max(0, value) : 0) - base;
 }
 
 /* snapshot for cross-army conditions */
@@ -819,10 +1172,10 @@ function getSupportLoyaltyDeltaList(round){
     if(ARMIES.includes(t)) deltas.push({army:t, delta:+20, reason:"翠嵐(+20)"});
   }
 
-  // イル：忠誠心 -20（-40ではなく-20）
+  // イル：リオン(+40)と同じ絶対値の忠誠心低下
   if(isCharParticipating("il", round)){
     const t = meta["il"]?.extra?.targetArmy || "";
-    if(ARMIES.includes(t)) deltas.push({army:t, delta:-20, reason:"イル(-20)"});
+    if(ARMIES.includes(t)) deltas.push({army:t, delta:-40, reason:"イル(-40)"});
   }
 
   // セノ：忠誠心 -20 ＆ この効果で減った兵力をリベレーター同志に加算
@@ -854,7 +1207,7 @@ function getSupportLoyaltyDeltaList(round){
 
 /* ========= Emil effect (Round3 only) ========= */
 function emilDebuffForArmy(armyName, round){
-  if(round !== 3) return 0;
+  if(!charEligible("emil",round)) return 0;
   const emilPlaced = state.rounds[round].chars["emil"]?.placed;
   if(!emilPlaced) return 0;
 
@@ -872,6 +1225,7 @@ const DRAGON_IDS = ["rito","rata","reni"];
 function hasEnemyDragonInField(field, side, round){
   if(round !== 3) return false;
   for(const id of DRAGON_IDS){
+    if(!charEligible(id,round)) continue;
     const p = state.rounds[round].chars[id]?.placed;
     if(!p) continue;
     if(p.field===field && p.side!==side) return true;
@@ -891,12 +1245,13 @@ function armyModifier(armyName, snap, round, supportPowerBonus){
   let mod = 0;
 
   switch(armyName){
+    case "王室騎士団": mod += snap.has("アメジスト魔術師団", field, enemySide) ? 30 : 0; break;
     case "アメジスト魔術師団": mod += snap.has("王室騎士団", field, enemySide) ? 30 : 0; break;
     case "ノースランド弓兵隊": mod += (field==="ノースランド") ? 30 : 0; break;
     case "北部貴族連合残党": mod += hasEnemyDragonInField(field, side, round) ? 40 : 0; break;
     case "金華傭兵団": mod += (side==="攻撃") ? 30 : 0; break;
     case "金華公家軍": mod += (state.occupation["金華"] === "金華公家軍") ? 30 : 0; break;
-    case "ノワール騎馬隊残党": mod += state.armiesMeta[armyName].flags?.noirHexagram ? 50 : 0; break;
+    case "ノワール騎馬隊残党": mod += (state.armiesMeta[armyName].flags?.noirHexagram || (round===3 && iHexEffect())) ? 50 : 0; break;
     case "ケイオス領私兵":{
       const mode = state.armiesMeta[armyName].params?.chaosMode || "戦モード";
       if(mode==="破壊工作モード"){ mod += -getArmyCurrentBase("ケイオス領私兵"); }
@@ -912,6 +1267,9 @@ function armyModifier(armyName, snap, round, supportPowerBonus){
 
 function calcArmyPower(armyName, snap, round, supportPowerBonus){
   const baseCurrent = getArmyCurrentBase(armyName);
+  if(armyName === "ケイオス領私兵" && state.armiesMeta[armyName].params.chaosMode === "破壊工作モード") {
+    return {baseCurrent, mod:-baseCurrent, value:0};
+  }
   const mod = armyModifier(armyName, snap, round, supportPowerBonus);
   const value = Math.max(0, baseCurrent + mod);
   return { baseCurrent, mod, value };
@@ -951,6 +1309,7 @@ function compute(round){
 
   if(round === 3){
     for(const preset of CHAR_PRESETS){
+      if(!charEligible(preset.id,round)) continue;
       const placed = state.rounds[round].chars[preset.id].placed;
       if(!placed) continue;
 
@@ -1005,15 +1364,16 @@ function applyLoyaltyDelta(army, delta, reason, transferTo=null){
     const next = Math.max(0, cur + troopDelta);
     setArmyCurrentBase(army, next);
 
-    if(troopDelta > 0){
-      logs.push(`✨兵力回復：${army} +${troopDelta}（${cur}→${next}）`);
-    }else{
-      logs.push(`💥脱走：${army} ${(-troopDelta)}（${cur}→${next}）`);
+    const actualDelta = next - cur;
+    if(actualDelta > 0){
+      logs.push(`✨兵力回復：${army} +${actualDelta}（${cur}→${next}）`);
+    }else if(actualDelta < 0){
+      logs.push(`💥脱走：${army} ${(-actualDelta)}（${cur}→${next}）`);
     }
 
     // 「減った兵力を別軍へ合流」：troopDelta がマイナスの時だけ
-    if(transferTo && troopDelta < 0 && state.armiesMeta[transferTo]){
-      const gain = -troopDelta;
+    if(transferTo && actualDelta < 0 && state.armiesMeta[transferTo]){
+      const gain = -actualDelta;
       const cur2 = getArmyCurrentBase(transferTo);
       const next2 = Math.max(0, cur2 + gain);
       setArmyCurrentBase(transferTo, next2);
@@ -1113,83 +1473,34 @@ function applyOutcomeLoyaltyChanges(round, results){
 }
 
 /* ========= chaos sabotage (after war, does NOT affect this battle) ========= */
-function applyChaosSabotageAfterWar(round, snap, supportPowerBonus){
-  const chaos = "ケイオス領私兵";
-  const placed = state.rounds[round].armies[chaos].placed;
-  const mode = state.armiesMeta[chaos].params?.chaosMode || "戦モード";
-  if(!placed || mode!=="破壊工作モード") return [];
-
-  const field = placed.field;
-  const enemySide = (placed.side==="攻撃") ? "防衛" : "攻撃";
-
-  const enemies = [];
-  for(const name of ARMIES){
-    if(name===chaos) continue;
-    const p = state.rounds[round].armies[name].placed;
-    if(!p) continue;
-    if(p.field!==field || p.side!==enemySide) continue;
-
-    const { value } = calcArmyPower(name, snap, round, supportPowerBonus);
-    enemies.push({ name, value });
-  }
-  if(!enemies.length) return [`破壊工作：${field} 敵側に軍がいないため不発`];
-
-  const maxVal = Math.max(...enemies.map(x=>x.value));
-  const maxOnes = enemies.filter(x=>x.value===maxVal);
-  const target = randPick(maxOnes).name;
-
-  const cur = getArmyCurrentBase(target);
-  const next = Math.max(0, cur - 20);
+function applyChaosSabotageAfterWar(round, battle){
+  const placed = state.rounds[round].armies["ケイオス領私兵"].placed;
+  if(!placed || state.armiesMeta["ケイオス領私兵"].params.chaosMode !== "破壊工作モード") return [];
+  const bucket = placed.side === "攻撃" ? "def" : "atk";
+  const enemies = battle.totals[placed.field][bucket].armyBreak;
+  if(!enemies.length) return ["破壊工作：" + placed.field + " 敵側に軍がいないため不発"];
+  const max = Math.max(...enemies.map(x=>x.value));
+  const target = randPick(enemies.filter(x=>x.value === max)).name;
+  const current = getArmyCurrentBase(target);
+  const next = Math.max(0, current - 20);
   setArmyCurrentBase(target, next);
-
-  return [`💣破壊工作：${field} の敵最大軍「${target}」を恒久-20（${cur}→${next}）`];
+  return ["💣破壊工作：" + placed.field + " の敵最大軍「" + target + "」を恒久-" + (current-next) + "（" + current + "→" + next + "）"];
 }
 
-/* ========= occupation update ========= */
-function updateOccupationFromAttackWinners(round, snap, supportPowerBonus){
-  const { results } = compute(round);
+function updateOccupationFromAttackWinners(round, battle){
   const changes = [];
-
-  for(const r of results){
-    if(!(r.atkTotal > r.defTotal)) continue;
-
-    const entities = [];
-
-    for(const a of ARMIES){
-      const placed = state.rounds[round].armies[a].placed;
-      if(!placed) continue;
-      if(placed.field !== r.field) continue;
-      if(placed.side !== "攻撃") continue;
-
-      const { value } = calcArmyPower(a, snap, round, supportPowerBonus);
-      entities.push({ name:a, value, kind:"army" });
-    }
-
-    if(round === 3){
-      for(const p of CHAR_PRESETS){
-        const placed = state.rounds[round].chars[p.id].placed;
-        if(!placed) continue;
-        if(placed.field !== r.field) continue;
-        if(placed.side !== "攻撃") continue;
-
-        const val = p.supportOnly ? 0 : calcPersonalPower(p);
-        entities.push({ name:p.name, value:val, kind:"person" });
-      }
-    }
-
+  for(const result of battle.results){
+    if(!result.attackWon) continue;
+    const side = battle.totals[result.field].atk;
+    const entities = [...side.armyBreak, ...side.personalBreak.map(x=>({...x, name: CHAR_PRESETS.find(p=>p.id===x.id)?.name || x.name}))];
     if(!entities.length) continue;
-
-    const maxVal = Math.max(...entities.map(x=>x.value));
-    const maxOnes = entities.filter(x=>x.value===maxVal);
-    const chosen = randPick(maxOnes).name;
-
-    const prev = state.occupation[r.field];
-    if(prev !== chosen){
-      state.occupation[r.field] = chosen;
-      changes.push(`占拠更新：${r.field} ${prev} → ${chosen}（最大兵力 ${maxVal}）`);
-    }else{
-      changes.push(`占拠維持：${r.field} ${prev}（最大兵力 ${maxVal}）`);
-    }
+    const max = Math.max(...entities.map(x=>x.value));
+    const chosen = randPick(entities.filter(x=>x.value===max)).name;
+    const previous = state.occupation[result.field];
+    state.occupation[result.field] = chosen;
+    changes.push(previous===chosen
+      ? "占拠維持：" + result.field + " " + chosen + "（最大兵力 " + max + "）"
+      : "占拠更新：" + result.field + " " + previous + " → " + chosen + "（最大兵力 " + max + "）");
   }
   return changes;
 }
@@ -1198,6 +1509,7 @@ function updateOccupationFromAttackWinners(round, snap, supportPowerBonus){
 let dragPayload = null;
 
 function onDragStart(e, payload){
+  if(isRoundLocked() || (payload.type === "char" && !charEligible(payload.id,state.roundIndex))){ e.preventDefault(); return; }
   dragPayload = payload;
   e.dataTransfer.setData("text/plain", JSON.stringify(payload));
   e.dataTransfer.effectAllowed = "move";
@@ -1216,7 +1528,8 @@ function enableDropZone(zoneEl, onDropFn){
     let payload=null;
     try{ payload=JSON.parse(e.dataTransfer.getData("text/plain")||""); }catch(_){}
     payload=payload||dragPayload;
-    if(!payload) return;
+    if(!payload || isRoundLocked()) return;
+    if(payload.type === "army" ? !ARMIES.includes(payload.name) : payload.type !== "char" || !CHAR_PRESETS.some(x=>x.id===payload.id)) return;
     onDropFn(payload);
     save(); renderAll();
   });
@@ -1229,7 +1542,7 @@ function enableLaneDrop(lane){
     const side  = lane.dataset.side;
 
     if(payload.type==="char"){
-      if(round !== 3) return;
+      if(!charEligible(payload.id,round)) return;
       state.rounds[round].chars[payload.id].placed = { field, side };
     } else if(payload.type==="army"){
       state.rounds[round].armies[payload.name].placed = { field, side };
@@ -1296,10 +1609,31 @@ function renderLiberatorMemberPicker(){
   return box;
 }
 
+function placementSelect(type, id){
+  const select = document.createElement("select");
+  const name = type === "army" ? id : CHAR_PRESETS.find(p=>p.id===id).name;
+  select.setAttribute("aria-label", name + "の配置先");
+  select.className = "placementSelect";
+  select.add(new Option("待機（不参加）", ""));
+  for(const field of ACTIVE_FIELDS) for(const side of SIDES) select.add(new Option(FIELD_LABEL[field] + "・" + side, field + "|" + side));
+  const entry = type === "army" ? state.rounds[state.roundIndex].armies[id] : state.rounds[state.roundIndex].chars[id];
+  select.value = entry.placed ? entry.placed.field + "|" + entry.placed.side : "";
+  select.disabled = isRoundLocked() || (type === "char" && !charEligible(id,state.roundIndex));
+  select.addEventListener("change", ()=>{
+    if(isRoundLocked() || (type === "char" && !charEligible(id,state.roundIndex))) return;
+    const target = type === "army" ? state.rounds[state.roundIndex].armies[id] : state.rounds[state.roundIndex].chars[id];
+    const [field, side] = select.value.split("|");
+    target.placed = field ? {field,side} : null;
+    save(); renderAll();
+  });
+  return select;
+}
+
 function renderArmyExtrasInputs(name){
   const meta = state.armiesMeta[name];
   const wrap = document.createElement("div");
   wrap.className="inline tiny";
+  wrap.appendChild(placementSelect("army", name));
 
   const baseRaw = calcArmyBaseRaw(name);
   const cur = getArmyCurrentBase(name);
@@ -1310,6 +1644,8 @@ function renderArmyExtrasInputs(name){
   const inp = document.createElement("input");
   inp.type="number";
   inp.value = cur;
+  inp.min = "0";
+  inp.setAttribute("aria-label", name + "の現在兵力");
   inp.title = `基礎(${baseRaw}) + 差分(delta=${meta.delta}) = 現在兵力`;
   inp.addEventListener("change", ()=>{
     setArmyCurrentBase(name, Number(inp.value||0));
@@ -1324,6 +1660,8 @@ function renderArmyExtrasInputs(name){
   const loy = document.createElement("input");
   loy.type="number";
   loy.value = Number(meta.params?.loyalty ?? 0);
+  loy.setAttribute("aria-label", name + "の忠誠心（兵力は変更しない）");
+  loy.title = "GM補正：忠誠心だけを変更します。兵力は現在兵力欄で調整してください。";
   loy.addEventListener("change", ()=>{
     meta.params.loyalty = Number(loy.value||0);
     save(); renderAll();
@@ -1334,13 +1672,13 @@ function renderArmyExtrasInputs(name){
   const stepPill = document.createElement("span");
   stepPill.className="pill";
   stepPill.textContent = `段（忠誠心/20）：${step20(Number(meta.params?.loyalty ?? 0))}`;
-  wrap.appendChild(stepPill);
+  // Threshold details remain available in the rules disclosure.
 
   if(name==="ノワール騎馬隊残党"){
     const label=document.createElement("label"); label.className="inline tiny";
-    const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=!!meta.flags.noirHexagram;
+    const cb=document.createElement("input"); cb.type="checkbox"; const linkedHex=state.roundIndex===3 && iHexEffect(); cb.checked=!!meta.flags.noirHexagram || linkedHex; cb.disabled=linkedHex;
     cb.addEventListener("change", ()=>{ meta.flags.noirHexagram=cb.checked; save(); renderAll(); });
-    label.appendChild(cb); label.appendChild(document.createTextNode(" 六芒星解放"));
+    label.appendChild(cb); label.appendChild(document.createTextNode(linkedHex ? " 六芒星解放（暗殺・護衛から連動）" : " 六芒星解放"));
     wrap.appendChild(label);
   }
 
@@ -1372,6 +1710,7 @@ function renderArmyExtrasInputs(name){
 function renderArmyTargetSelect(charId){
   const meta = state.charsMeta[charId];
   const sel=document.createElement("select");
+  sel.setAttribute("aria-label", CHAR_PRESETS.find(p=>p.id===charId).name + "の支援対象");
   const blank=document.createElement("option");
   blank.value=""; blank.textContent="（未選択）";
   sel.appendChild(blank);
@@ -1390,6 +1729,7 @@ function renderCharExtrasInputs(preset){
   const meta = state.charsMeta[preset.id];
   const wrap=document.createElement("div");
   wrap.className="inline tiny";
+  wrap.appendChild(placementSelect("char", preset.id));
 
   for(const item of (preset.extraSchema||[])){
     if(item.type==="checkbox"){
@@ -1403,6 +1743,7 @@ function renderCharExtrasInputs(preset){
       const n=document.createElement("input");
       n.type="number"; n.min=String(item.min ?? 0);
       n.value=Number(meta.extra?.pay||0);
+      n.setAttribute("aria-label", preset.name + "の支払額");
       n.addEventListener("change", ()=>{ meta.extra.pay=Number(n.value||0); save(); renderAll(); });
       wrap.appendChild(document.createTextNode("支払"));
       wrap.appendChild(n);
@@ -1481,12 +1822,12 @@ function renderWaitingArmies(){
         <div class="name">${escapeHtml(name)} ${colorTagHtml(colorKey)}</div>
         <div class="muted tiny">
           基礎：<b>${baseRaw}</b> ／ 現在：<b>${cur}</b>
-          <span class="pill">delta ${state.armiesMeta[name].delta}</span>
+          
           <span class="pill">忠誠心 <b>${loy}</b></span>
-          <span class="pill">段 ${step20(loy)}</span>
+          
         </div>
         <div class="muted tiny" style="margin-top:4px;">${escapeHtml(armyExtraHint(name))}</div>
-        <div class="inline tiny" style="margin-top:8px;" id="armyExtras_${escapeHtml(name)}"></div>
+        <details data-editor="army:${escapeHtml(name)}"><summary>配置・兵力・特殊設定</summary><div class="inline tiny" style="margin-top:8px;" id="armyExtras_${escapeHtml(name)}"></div></details>
       </div>
       <div class="value">${cur}</div>
     `;
@@ -1504,11 +1845,12 @@ function renderWaitingChars(){
   const list = el("charList");
   list.innerHTML="";
   const round = state.roundIndex;
-  const canDrag = (round === 3);
+  const canDragRound = (round === 3);
 
   for(const preset of CHAR_PRESETS){
+    const canDrag = canDragRound && charEligible(preset.id,round);
     const placed = state.rounds[round].chars[preset.id].placed;
-    if(placed) continue;
+    if(placed && (round !== 3 || charEligible(preset.id,round))) continue;
 
     const pwr = preset.supportOnly ? 0 : calcPersonalPower(preset);
     const colorKey = preset.colorKey || "gray";
@@ -1522,8 +1864,8 @@ function renderWaitingChars(){
 
     card.innerHTML = `
       <div class="left">
-        <div class="name">${escapeHtml(preset.name)} ${colorTagHtml(colorKey)} ${preset.supportOnly?`<span class="pill">支援</span>`:""}</div>
-        <div class="inline tiny" style="margin-top:8px;" id="charExtras_${escapeHtml(preset.id)}"></div>
+        <div class="name">${escapeHtml(preset.name)} ${iUnavailable(preset.id)?`<span class="charUnavailable">${escapeHtml(iUnavailable(preset.id))}</span>`:""} ${colorTagHtml(colorKey)} ${preset.supportOnly?`<span class="pill">支援</span>`:""}</div>
+        <details data-editor="char:${escapeHtml(preset.id)}"><summary>配置・スキル設定</summary><div class="inline tiny" style="margin-top:8px;" id="charExtras_${escapeHtml(preset.id)}"></div></details>
       </div>
       <div class="value">
         <div class="muted tiny">${preset.supportOnly ? "参戦で支援発動" : "個人兵力"}</div>
@@ -1551,7 +1893,7 @@ function renderPlacedArmies(field, side, snap, supportPowerBonus){
     if(placed.field!==field || placed.side!==side) continue;
 
     const colorKey = ARMY_COLORKEY[name] || "gray";
-    const { value } = calcArmyPower(name, snap, round, supportPowerBonus);
+    const value = displayBattle.totals[field][side === "攻撃" ? "atk" : "def"].armyBreak.find(x=>x.name===name)?.value || 0;
 
     const card=document.createElement("div");
     card.className = `itemCard compact ${cardColorClass(colorKey)}`;
@@ -1562,8 +1904,8 @@ function renderPlacedArmies(field, side, snap, supportPowerBonus){
     card.innerHTML = `
       <div class="left">
         <div class="name">【軍】${escapeHtml(name)} ${colorTagHtml(colorKey)}</div>
-        <details>
-          <summary>編集（GM兵力/忠誠心/特殊設定）</summary>
+        <details data-editor="army:${escapeHtml(name)}">
+          <summary>配置・兵力・特殊設定</summary>
           <div class="inline tiny" style="margin-top:8px;" id="armyPlacedExtras_${escapeHtml(name)}"></div>
           <div class="muted tiny" style="margin-top:6px;">${escapeHtml(armyExtraHint(name))}</div>
         </details>
@@ -1583,6 +1925,7 @@ function renderPlacedChars(field, side){
   if(round !== 3) return wrap;
 
   for(const preset of CHAR_PRESETS){
+    if(!charEligible(preset.id,round)) continue;
     const placed = state.rounds[round].chars[preset.id].placed;
     if(!placed) continue;
     if(placed.field!==field || placed.side!==side) continue;
@@ -1599,8 +1942,8 @@ function renderPlacedChars(field, side){
     card.innerHTML = `
       <div class="left">
         <div class="name">【個】${escapeHtml(preset.name)} ${colorTagHtml(colorKey)} ${preset.supportOnly?`<span class="pill">支援</span>`:""}</div>
-        <details>
-          <summary>編集（スキル設定）</summary>
+        <details data-editor="char:${escapeHtml(preset.id)}">
+          <summary>配置・スキル設定</summary>
           <div class="inline tiny" style="margin-top:8px;" id="charPlacedExtras_${escapeHtml(preset.id)}"></div>
         </details>
       </div>
@@ -1616,7 +1959,7 @@ function renderBoard(){
   const board = el("board");
   board.innerHTML="";
   const round = state.roundIndex;
-  const { totals, results, snap, supportPowerBonus } = compute(round);
+  const { totals, results, snap, supportPowerBonus } = displayBattle;
 
   for(const field of ACTIVE_FIELDS){
     const r = results.find(x=>x.field===field);
@@ -1646,8 +1989,8 @@ function renderBoard(){
         ${field==="セントラル" ? `
           <div class="inline tiny">
             <label class="inline tiny">
-              <input type="checkbox" id="centralWallOff_${round}" ${state.rounds[round].fieldFlags.centralWallOff ? "checked":""}/>
-              六芒星：セントラル城壁を無効（+100→0）
+              <input type="checkbox" id="centralWallOff_${round}" ${state.rounds[round].fieldFlags.centralWallOff || (round===3 && iHexEffect("castle")) ? "checked":""} ${round===3 && iHexEffect("castle") ? "disabled":""}/>
+              六芒星：セントラル城壁を無効（+100→0）${round===3 && iHexEffect("castle") ? "（暗殺・護衛から連動）":""}
             </label>
           </div>
         ` : ""}
@@ -1718,21 +2061,72 @@ function renderBoard(){
   }
 }
 
+/* Save only domain data in snapshots; never recursively include history. */
+const clone = value => JSON.parse(JSON.stringify(value));
+function snapshotState(){
+  const {finalizations, ...data} = state;
+  return clone(data);
+}
+function latestFinalizedRound(){
+  return Math.max(0, ...Object.keys(state.finalizations || {}).map(Number), ...(state.legacyRounds || []));
+}
+function isRoundLocked(round = state.roundIndex){ return round <= latestFinalizedRound(); }
+function previewBattle(round){
+  const record = state.finalizations?.[round];
+  if(record) return record.battle;
+  if(isRoundLocked(round)) return compute(round);
+  const original = {...state};
+  try {
+    Object.assign(state, snapshotState());
+    applyPreBattleLoyaltyChanges(round);
+    return compute(round);
+  } finally { Object.assign(state, original); }
+}
 function finalizeRound(){
   const round = state.roundIndex;
-
-  const preLogs = applyPreBattleLoyaltyChanges(round);
-  const { results, snap, supportPowerBonus } = compute(round);
-  const postLogs = applyOutcomeLoyaltyChanges(round, results);
-  const occChanges = updateOccupationFromAttackWinners(round, snap, supportPowerBonus);
-  const chaosLogs = applyChaosSabotageAfterWar(round, snap, supportPowerBonus);
-
-  const lines = [...preLogs, ...postLogs, ...occChanges, ...chaosLogs];
-  state.log.unshift({ round, text:`Round ${round} 確定：${lines.join(" / ")}`, ts: monoTs() });
-
-  save();
+  if(round === 3 && iUnresolved()){alert("暗殺・護衛の未処理行動があります。解決または登録取消後に確定してください。");return false;}
+  if(isRoundLocked(round)) return false;
+  const before = snapshotState();
+  const previousRecords = state.finalizations;
+  try {
+    const preLogs = applyPreBattleLoyaltyChanges(round);
+    const computed = compute(round);
+    const battle = clone({totals:computed.totals, results:computed.results});
+    for(const field of ACTIVE_FIELDS) for(const side of ["atk","def"]){
+      for(const army of battle.totals[field][side].armyBreak) army.displayName = getArmyDisplayName(army.name, round, true);
+    }
+    const battleState = snapshotState();
+    const postLogs = applyOutcomeLoyaltyChanges(round, battle.results);
+    const occChanges = updateOccupationFromAttackWinners(round, battle);
+    const chaosLogs = applyChaosSabotageAfterWar(round, battle);
+    const loyaltyLogs = [...preLogs, ...postLogs];
+    state.log.unshift({round, text:"Round " + round + " 確定：" + [...loyaltyLogs,...occChanges,...chaosLogs].join(" / "), ts:monoTs()});
+    state.finalizations = {...previousRecords, [round]:{before, battle, battleState, occupation:clone(state.occupation), occChanges, chaosLogs, loyaltyLogs, ritoVictims:round===3?ritoFullTargets():[]}};
+    if(!save()) { Object.assign(state, before, {finalizations:previousRecords}); renderAll(); return false; }
+  } catch(error) {
+    Object.assign(state, before, {finalizations:previousRecords});
+    renderAll();
+    throw error;
+  }
   renderAll();
-  showPlayerResult(round, results, occChanges, chaosLogs, [...preLogs, ...postLogs]);
+  reopenResult(round);
+  return true;
+}
+function undoRound(round = state.roundIndex){
+  const record = state.finalizations?.[round];
+  if(!record) return false;
+  const original = {...state};
+  const retained = Object.fromEntries(Object.entries(state.finalizations).filter(([r])=>Number(r)<round));
+  Object.assign(state, clone(record.before), {roundIndex:round, finalizations:retained});
+  if(!save()){ Object.assign(state, original); return false; }
+  closeResult();
+  renderAll();
+  return true;
+}
+function reopenResult(round = state.roundIndex){
+  const record = state.finalizations?.[round];
+  if(!record) return;
+  showPlayerResult(round, record.battle.results, record.occChanges, record.chaosLogs, record.loyaltyLogs, record);
 }
 
 /* ========= waiting-zone drop ========= */
@@ -1748,70 +2142,27 @@ function setupWaitingDrops(){
 }
 
 /* ========= Result helpers ========= */
-function listSideEntities(round, field, side){
-  const arr = [];
-  for(const a of ARMIES){
-    const p = state.rounds[round].armies[a]?.placed;
-    if(p && p.field===field && p.side===side){
-      arr.push({ name: getArmyDisplayName(a, round, true), rawName: a, type:"army" });
-    }
-  }
-  if(round === 3){
-    for(const c of CHAR_PRESETS){
-      const p = state.rounds[round].chars[c.id]?.placed;
-      if(p && p.field===field && p.side===side){
-        arr.push({ name: c.supportOnly ? `${c.name}(支援)` : c.name, rawName: c.name, type:"char", supportOnly: !!c.supportOnly });
-      }
-    }
-  }
-  return arr;
+function resultRows(battle, field, side){
+  const bucket = battle.totals[field][side === "攻撃" ? "atk" : "def"];
+  return [...bucket.armyBreak.map(x=>({name:x.displayName || x.name, power:x.value, colorKey:ARMY_COLORKEY[x.name] || 'gray'})),
+    ...bucket.personalBreak.map(x=>({name:x.name, power:x.value}))].sort((a,b)=>b.power-a.power);
 }
-
-function getArmyPowerForDisplay(round, armyName){
-  const { snap, supportPowerBonus } = compute(round);
-  const { value } = calcArmyPower(armyName, snap, round, supportPowerBonus);
-  return value;
-}
-function getCharPowerForDisplay(round, charName){
-  if(round !== 3) return 0;
-  const preset = CHAR_PRESETS.find(x=>x.name===charName);
-  if(!preset) return 0;
-  return preset.supportOnly ? 0 : calcPersonalPower(preset);
-}
-
-function buildSideListHtml(round, field, side){
-  const entities = listSideEntities(round, field, side);
-  const rows = entities.map(e=>{
-    const p = (e.type==="army") ? getArmyPowerForDisplay(round, e.rawName) : getCharPowerForDisplay(round, e.rawName);
-    return { name:e.name, power:p };
-  }).sort((a,b)=>b.power-a.power);
-
-  const sum = rows.reduce((s,x)=>s+x.power,0);
-
-  const cls = (side==="攻撃") ? "atk" : "def";
-  const sideLabel = (side==="攻撃") ? "攻撃側" : "防衛側";
-
+function buildSideListHtml(round, field, side, battle){
+  const rows = resultRows(battle, field, side);
+  const result = battle.results.find(x=>x.field===field);
+  const wall = side === "防衛" ? result.bonus : 0;
+  const sum = rows.reduce((n,x)=>n+x.power,0) + wall;
   const box = document.createElement("div");
-  box.className = `res-sideBox ${cls}`;
-  box.innerHTML = `
-    <div class="t">
-      <span>${sideLabel}</span>
-      <span>合計 <b>${sum}</b></span>
-    </div>
-    <div>
-      ${rows.length ? rows.map(r=>`
-        <div class="res-line">
-          <span class="nm">${escapeHtml(r.name)}</span>
-          <span class="pv">${r.power}</span>
-        </div>
-      `).join("") : `<div class="muted tiny">（なし）</div>`}
-    </div>
-  `;
+  box.className = "res-sideBox " + (side === "攻撃" ? "atk" : "def");
+  box.innerHTML = '<div class="t"><span>' + side + '側</span><span>合計 <b>' + sum + '</b></span></div>'
+    + rows.map(x=>'<div class="res-line'+(x.colorKey ? ' armyTint '+cardColorClass(x.colorKey) : '')+'"><span class="nm">'+escapeHtml(x.name)+'</span><span class="pv">'+x.power+'</span></div>').join('')
+    + (wall ? '<div class="res-line"><span>城壁</span><span class="pv">+'+wall+'</span></div>' : '')
+    + (!rows.length && !wall ? '<div class="muted">参戦なし</div>' : '');
   return box;
 }
 
 /* ========= Player UI Modal ========= */
-function showPlayerResult(round, results, occupationChanges, chaosLogs, loyaltyLogs){
+function showPlayerResult(round, results, occupationChanges, chaosLogs, loyaltyLogs, record){
   const grid = document.getElementById("resGrid");
   grid.innerHTML = "";
   document.getElementById("resRoundNum").textContent = round;
@@ -1819,17 +2170,21 @@ function showPlayerResult(round, results, occupationChanges, chaosLogs, loyaltyL
   // ここで "セントラル→サウスリバー→ノースランド→金華" の順に固定
   const order = ["セントラル","サウスリバー","ノースランド","金華"];
   const resultsOrdered = order.map(f=>results.find(x=>x.field===f)).filter(Boolean);
+  const attackWins = resultsOrdered.filter(r=>r.attackWon).length;
+  const changedFields = occupationChanges.filter(text=>text.includes('占拠更新')).length;
+  el('reportSummary').innerHTML = `<div><span>戦場</span><b>${resultsOrdered.length}</b></div><div><span>攻撃勝利</span><b>${attackWins}</b></div><div><span>防衛成功</span><b>${resultsOrdered.length-attackWins}</b></div><div><span>占拠変更</span><b>${changedFields}</b></div>`;
 
   const deserters = (loyaltyLogs||[]).filter(x=>String(x).includes("💥脱走"));
   const healers   = (loyaltyLogs||[]).filter(x=>String(x).includes("✨兵力回復"));
-  const freeJoiners = (loyaltyLogs||[]).filter(x=>String(x).includes("🕊️自由の同志："));
+  const freeJoiners = (loyaltyLogs||[]).filter(x=>(String(x).includes("🕊️自由の同志：") || String(x).includes("🪽合流：")));
 
-  resultsOrdered.forEach(r => {
+  resultsOrdered.forEach((r, index) => {
     const isAtkWon = (r.atkTotal > r.defTotal);
     const fieldKey = FIELD_TO_COLORKEY[r.field];
 
     const occChange = occupationChanges.find(c => c.includes(r.field) && c.includes("占拠更新"));
-    const currentOcc = state.occupation[r.field] || "-";
+    const currentOcc = record.occupation[r.field] || "-";
+    const previousOcc = record.before?.occupation?.[r.field] || "-";
 
     const total = Math.max(1, r.atkTotal + r.defTotal);
     const atkPct = Math.round((r.atkTotal / total) * 100);
@@ -1837,17 +2192,27 @@ function showPlayerResult(round, results, occupationChanges, chaosLogs, loyaltyL
 
     const div = document.createElement("div");
     div.className = `res-card ${isAtkWon ? "atk-win" : "def-win"}`;
+    div.style.setProperty('--field-accent', `var(--${fieldKey})`);
 
     div.innerHTML = `
       <div class="res-header">
-        <span><span class="dot ${fieldKey}"></span> ${escapeHtml(FIELD_LABEL[r.field] || r.field)}</span>
-        <span class="pill">占拠: ${escapeHtml(currentOcc)}</span>
+        <span class="reportFieldNumber">${String(index + 1).padStart(2,'0')} / BATTLEFIELD</span>
+        <h3>${escapeHtml(FIELD_LABEL[r.field] || r.field)}</h3>
+        <div class="reportOccupation ${occChange ? 'changed' : ''}">
+          <span class="reportOccupationLabel">戦後の占拠者<em>${occChange ? '占拠者交代' : '占拠維持'}</em></span>
+          <b>${escapeHtml(currentOcc)}</b>
+          ${occChange ? `<span class="reportPreviousOwner">前の占拠者：${escapeHtml(previousOcc)}</span>` : ''}
+        </div>
+        <div class="res-ribbon ${isAtkWon ? "atk" : "def"}">
+          <span>${isAtkWon ? "攻撃側の勝利" : "防衛側の勝利"}</span>
+          <span>${r.atkTotal === r.defTotal ? '兵力同値 · 防衛側が勝利' : `兵力差 ${Math.abs(r.atkTotal-r.defTotal)} · ${isAtkWon ? '攻撃側が突破' : '防衛側が守り切った'}`}</span>
+        </div>
       </div>
 
       <div class="res-scores">
-        <span style="color:var(--atk)">${r.atkTotal}</span>
-        <span class="res-vs">vs</span>
-        <span style="color:var(--def)">${r.defTotal}</span>
+        <div class="reportScore atk ${isAtkWon ? 'scoreWinner' : ''}"><span>攻撃${isAtkWon ? ' · 勝利' : ''}</span><b>${r.atkTotal}</b></div>
+        <span class="res-vs">対</span>
+        <div class="reportScore def ${isAtkWon ? '' : 'scoreWinner'}"><span>防衛${isAtkWon ? '' : ' · 勝利'}</span><b>${r.defTotal}</b></div>
       </div>
 
       <div class="muted tiny" style="text-align:center">
@@ -1864,23 +2229,18 @@ function showPlayerResult(round, results, occupationChanges, chaosLogs, loyaltyL
       </div>
       <div class="gMini">※比率表示（合計値に対する割合）</div>
 
-      <div class="res-ribbon ${isAtkWon ? "atk" : "def"}">
-        <span>${isAtkWon ? "⚔️ 攻撃勝利！" : "🛡️ 防衛成功！"}</span>
-        <span>${isAtkWon ? "攻撃側が押し切った" : "防衛側が守り切った"}</span>
-      </div>
-
       <div class="res-sideLists" id="sideLists_${cssEscape(r.field)}"></div>
 
       <div class="stamp ${isAtkWon ? "st-win" : "st-lose"}">
         ${isAtkWon ? "ATTACK WIN" : "DEFENDED"}
       </div>
 
-      ${occChange ? `<div class="res-alert">⚠️ 占拠者が変わりました！</div>` : ""}
+      ${occChange ? `<div class="res-alert">領地の支配権が移りました</div>` : ""}
     `;
 
     const lists = div.querySelector(`#sideLists_${cssEscape(r.field)}`);
-    lists.appendChild(buildSideListHtml(round, r.field, "攻撃"));
-    lists.appendChild(buildSideListHtml(round, r.field, "防衛"));
+    lists.appendChild(buildSideListHtml(round, r.field, "攻撃", record.battle));
+    lists.appendChild(buildSideListHtml(round, r.field, "防衛", record.battle));
 
     const gAtk = div.querySelector(".gAtk");
     const gDef = div.querySelector(".gDef");
@@ -1950,18 +2310,32 @@ function showPlayerResult(round, results, occupationChanges, chaosLogs, loyaltyL
     newsBox.appendChild(box);
   }
 
-  if(!occupationChanges.length && (!chaosLogs || !chaosLogs.length) && !deserters.length && !healers.length){
+  if(!occupationChanges.length && (!chaosLogs || !chaosLogs.length) && !deserters.length && !healers.length && !freeJoiners.length){
     newsBox.textContent = "特筆すべき戦後変動はありません。";
   }
 
+  resultReturnFocus = document.activeElement;
   document.getElementById("resultOverlay").style.display = "flex";
+  el("resultModalRoot").focus();
 }
 
 /* ========= close & save result ========= */
-function closeResult(){ document.getElementById("resultOverlay").style.display = "none"; }
+let resultReturnFocus = null;
+function closeResult(){ el("resultOverlay").style.display = "none"; if(resultReturnFocus?.isConnected) resultReturnFocus.focus(); }
+document.addEventListener("keydown", event=>{
+  if(el("resultOverlay").style.display !== "flex") return;
+  if(event.key === "Escape") closeResult();
+  if(event.key === "Tab"){
+    const buttons = [...el("resultModalRoot").querySelectorAll("button")];
+    const first = buttons[0], last = buttons[buttons.length-1];
+    if(event.shiftKey && (document.activeElement === first || document.activeElement === el("resultModalRoot"))){event.preventDefault();last.focus();}
+    else if(!event.shiftKey && document.activeElement === last){event.preventDefault();first.focus();}
+  }
+});
 
 function saveResultAsHtml(){
-  const modal = document.getElementById("resultModalRoot");
+  const modal = document.getElementById("resultModalRoot").cloneNode(true);
+  modal.querySelectorAll("button, .exportHint").forEach(node=>node.remove());
   const html = `
 <!doctype html>
 <html lang="ja">
@@ -1969,9 +2343,9 @@ function saveResultAsHtml(){
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>戦果報告書（保存）</title>
-<style>${document.querySelector("style").textContent}</style>
+<style>${Array.from(document.querySelectorAll("style")).map(x=>x.textContent).join("\n")}</style>
 </head>
-<body style="margin:18px;background:#fafafa;">
+<body class="exportedResult">
 <div class="resultModal" style="max-height:none; overflow:visible;">
 ${modal.innerHTML}
 </div>
@@ -1990,30 +2364,720 @@ ${modal.innerHTML}
 }
 
 /* ========= renderAll ========= */
+let displayBattle;
 function renderAll(){
+  const scrollPositions = ['.battlePane', '#armyList', '#charList'].map(selector=>{
+    const node=document.querySelector(selector);
+    return {node, top:node.scrollTop, left:node.scrollLeft};
+  });
+  const openEditors = new Set([...document.querySelectorAll('details[data-editor][open]')].map(x=>x.dataset.editor));
+  displayBattle = previewBattle(state.roundIndex);
   renderTop();
-  renderWaitingArmies();
-  renderWaitingChars();
-  renderBoard();
+  const original = {...state};
+  const record = state.finalizations?.[state.roundIndex];
+  try {
+    if(record) Object.assign(state, clone(record.battleState));
+    renderWaitingArmies(); renderWaitingChars(); renderBoard();
+  } finally { Object.assign(state, original); }
+  document.querySelectorAll('details[data-editor]').forEach(x=>{x.open=openEditors.has(x.dataset.editor);});
+  updateRoundControls();
+  renderIntrigue();
+  el("ritoWarPanel").innerHTML=renderRitoWarPanel();
+  for(const {node,top,left} of scrollPositions){node.scrollTop=top;node.scrollLeft=left;}
 }
+
+function updateRoundControls(){
+  const round = state.roundIndex;
+  const locked = isRoundLocked();
+  const record = state.finalizations?.[round];
+  el("btnFinalizeRound").disabled = locked || (round===3 && iUnresolved());
+  el("btnUndoRound").disabled = !record;
+  el("btnShowResult").disabled = !record;
+  el("btnPrevRound").disabled = round === 1;
+  el("btnNextRound").disabled = round === MAX_ROUNDS;
+  el("btnClearChars").disabled = locked || round !== 3;
+  el("btnClearArmies").disabled = locked;
+  el("roundStatus").textContent = record ? "確定済み" : locked ? "過去のラウンド" : "配置・調整中";
+  el("roundStatus").className = "statusBadge " + (locked ? "done" : "draft");
+  el("roundHelp").textContent = record
+    ? "決着時の兵力を表示しています。修正する場合は確定を取り消してください。"
+    : locked ? "このラウンドの確定前データはありません。後のラウンドを取り消すか、必要に応じて次のラウンドでGM補正してください。"
+    : "戦場の予測には、確定時に発生する忠誠心・兵力の変動を反映済み。確定するまで現在兵力は変わりません。";
+  el("boardTitle").textContent = record ? "戦場ボード · 確定結果" : locked ? "戦場ボード · 現在値で参考表示" : "戦場ボード · 決着予測";
+  document.querySelectorAll(".layout input, .layout select, .layout button, .occupyBox select").forEach(node=>{
+    if(node.closest('.reserveTabs')) return;
+    if(locked) node.disabled = true;
+  });
+  document.querySelectorAll(".itemCard").forEach(node=>{ if(locked) node.draggable = false; });
+  el("legacyNotice").hidden = !(state.legacyRounds || []).length;
+}
+for(const eventName of ["change", "click", "dblclick", "drop", "dragstart"]){
+  document.addEventListener(eventName, event=>{
+    if(event.target.closest('.reserveTabs')) return;
+    if(isRoundLocked() && event.target.closest(".layout, .occupyBox") && (eventName !== "click" || event.target.closest("button,input,select"))){
+      event.preventDefault(); event.stopImmediatePropagation();
+    }
+  }, true);
+}
+/* Route scrolling by the pane beneath the pointer, including its header. */
+function scrollPaneAt(target){
+  if(!(target instanceof Element)) return null;
+  const reserve = target.closest('.reservePane');
+  if(reserve) return reserve.querySelector('.dropZone:not([hidden]) .list');
+  return target.closest('.battlePane');
+}
+document.addEventListener('wheel', event=>{
+  if(event.ctrlKey || el('resultOverlay').style.display === 'flex') return;
+  const pane = scrollPaneAt(event.target);
+  if(!pane) return;
+  // The board uses native scroll chaining into the outer page at its edges.
+  if(pane.classList.contains('battlePane')) return;
+  const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? pane.clientHeight : 1;
+  let dx = event.deltaX * unit, dy = event.deltaY * unit;
+  const horizontal = pane.scrollWidth > pane.clientWidth + 1;
+  const vertical = pane.scrollHeight > pane.clientHeight + 1;
+  if(horizontal && (event.shiftKey || !vertical)){ dx += dy; dy = 0; }
+  const canScrollY = dy < 0 ? pane.scrollTop > 0 : dy > 0 && pane.scrollTop < pane.scrollHeight-pane.clientHeight-1;
+  const canScrollX = dx < 0 ? pane.scrollLeft > 0 : dx > 0 && pane.scrollLeft < pane.scrollWidth-pane.clientWidth-1;
+  // Only intercept when the roster can move; otherwise let the page scroll.
+  if(!canScrollY && !canScrollX) return;
+  pane.scrollTop += dy;
+  pane.scrollLeft += dx;
+  event.preventDefault();
+}, {passive:false});
+
+/* Native dragging does not consistently scroll nested panes; drive their edges. */
+let dragScrollFrame = 0;
+let dragScrollPointer = null;
+let dragScrollTime = 0;
+function edgeScrollSpeed(position, start, end){
+  if(position < start || position > end || end <= start) return 0;
+  const edge = Math.min(64, (end-start)/4);
+  if(position < start+edge) return -720 * Math.pow((start+edge-position)/edge, 1.5);
+  if(position > end-edge) return 720 * Math.pow((position-end+edge)/edge, 1.5);
+  return 0;
+}
+function stopDragScroll(){
+  if(dragScrollFrame) cancelAnimationFrame(dragScrollFrame);
+  dragScrollFrame=0; dragScrollPointer=null; dragScrollTime=0;
+}
+function tickDragScroll(time){
+  if(!dragPayload || !dragScrollPointer){stopDragScroll();return;}
+  const {pane,x,y}=dragScrollPointer;
+  if(!pane.isConnected){stopDragScroll();return;}
+  const rect=pane.getBoundingClientRect();
+  const seconds=dragScrollTime ? Math.min(32,time-dragScrollTime)/1000 : 1/60;
+  dragScrollTime=time;
+  pane.scrollTop += edgeScrollSpeed(y,Math.max(0,rect.top),Math.min(document.documentElement.clientHeight,rect.bottom))*seconds;
+  pane.scrollLeft += edgeScrollSpeed(x,Math.max(0,rect.left),Math.min(document.documentElement.clientWidth,rect.right))*seconds;
+  dragScrollFrame=requestAnimationFrame(tickDragScroll);
+}
+document.addEventListener('dragover', event=>{
+  if(!dragPayload) return;
+  const pane=scrollPaneAt(event.target);
+  if(!pane){stopDragScroll();return;}
+  event.preventDefault();
+  dragScrollPointer={pane,x:event.clientX,y:event.clientY};
+  if(!dragScrollFrame) dragScrollFrame=requestAnimationFrame(tickDragScroll);
+});
+document.addEventListener('dragleave', event=>{if(!event.relatedTarget)stopDragScroll();});
+document.addEventListener('drop', stopDragScroll, true);
+document.addEventListener('dragend', ()=>{stopDragScroll();dragPayload=null;});
+document.addEventListener('visibilitychange', ()=>{if(document.hidden){stopDragScroll();dragPayload=null;}});
+el("btnUndoRound").addEventListener("click", ()=>{
+  if(!state.finalizations?.[state.roundIndex]) return;
+  if(confirm("Round " + state.roundIndex + " の確定直前へ戻します。\nこの確定以降の兵力・忠誠心・占拠・配置・設定変更と、後続ラウンドの確定も取り消します。よろしいですか？")) undoRound();
+});
+el("btnShowResult").addEventListener("click", ()=>reopenResult());
+function selectReserve(showChars){
+  el('armyWaitingZone').hidden=showChars;
+  el('charWaitingZone').hidden=!showChars;
+  el('btnReserveArmies').setAttribute('aria-pressed',String(!showChars));
+  el('btnReserveChars').setAttribute('aria-pressed',String(showChars));
+}
+el('btnReserveArmies').addEventListener('click',()=>selectReserve(false));
+el('btnReserveChars').addEventListener('click',()=>selectReserve(true));
 
 /* ========= buttons ========= */
 el("btnFinalizeRound").addEventListener("click", ()=>{
+  if(isRoundLocked()) return;
   if(!confirm(`Round ${state.roundIndex} を確定します。\n忠誠心→兵力増減→勝敗→占拠/破壊工作 を適用します。よろしいですか？`)) return;
   finalizeRound();
 });
 el("btnPrevRound").addEventListener("click", ()=>{ state.roundIndex = Math.max(1, state.roundIndex - 1); save(); renderAll(); });
 el("btnNextRound").addEventListener("click", ()=>{ state.roundIndex = Math.min(MAX_ROUNDS, state.roundIndex + 1); save(); renderAll(); });
-el("btnClearChars").addEventListener("click", ()=>{ const round = state.roundIndex; for(const p of CHAR_PRESETS) state.rounds[round].chars[p.id].placed=null; save(); renderAll(); });
-el("btnClearArmies").addEventListener("click", ()=>{ const round = state.roundIndex; for(const name of ARMIES) state.rounds[round].armies[name].placed=null; save(); renderAll(); });
-el("btnResetAll").addEventListener("click", ()=>{ if(!confirm("全データ（占拠・兵力・忠誠心・配置・ログ）を消去します。よろしいですか？")) return; localStorage.removeItem(STORAGE_KEY); initDefaults(); save(); renderAll(); });
+el("btnClearChars").addEventListener("click", ()=>{ if(isRoundLocked()) return; const round = state.roundIndex; for(const p of CHAR_PRESETS) state.rounds[round].chars[p.id].placed=null; save(); renderAll(); });
+el("btnClearArmies").addEventListener("click", ()=>{ if(isRoundLocked()) return; const round = state.roundIndex; for(const name of ARMIES) state.rounds[round].armies[name].placed=null; save(); renderAll(); });
+el("btnResetAll").addEventListener("click", ()=>{ if(!confirm("全データ（占拠・兵力・忠誠心・配置・ログ）を消去します。よろしいですか？")) return; initDefaults(); save(); closeResult(); renderAll(); });
 el("btnSaveResultHtml").addEventListener("click", saveResultAsHtml);
+
+/* Intrigue phase: one shared device, explicit GM adjudication, reversible events. */
+const INTRIGUE_PEOPLE = [...CHAR_PRESETS.map(x=>({id:x.id,name:x.name,colorKey:x.colorKey})), {id:'maester',name:'メイスター',colorKey:'gray'}];
+const I_SPEC = {
+  maria:{guard:2,guardName:'近衛兵',item:'近衛兵',automatic:true,independent:true},
+  lion:{attack:1,weapon:'ナイフ'},
+  gail:{attack:2,guard:2,guardName:'筆頭騎士',item:'聖剣',weapon:'聖剣',kill:true,shared:true},
+  karuna:{self:1,selfItem:'紫の水晶'},
+  noelis:{guard:1,guardName:'緑の魔術',item:'緑のヴェール',all:true,independent:true,self:1,selfItem:'緑水晶'},
+  emil:{guard:1,guardName:'黒の花',item:'黒の花',all:true,independent:true},
+  helena:{attack:1,guard:1,guardName:'女騎士',item:'騎士の剣',weapon:'騎士の剣',kill:true,either:true},
+  rito:{attack:2,weapon:'不要（氷結）',self:3,poison:true,unbound:true},
+  rata:{guard:2,guardName:'火の壁',item:'火の石',sacrifice:true,poison:true},
+  ruri:{attack:1,weapon:'クナイ',watch:true,poison:true,either:true},
+  seno:{attack:1,weapon:'弓'},
+  gentoku:{guard:999,guardName:'護衛購入',item:'傭兵（支払額分）',automatic:true,independent:true},
+  ryusei:{attack:1,guard:1,guardName:'公子の決断',item:'金華の槍',weapon:'金華の槍',kill:true,either:true},
+  il:{attack:2,weapon:'クナイ',sacrifice:true,poison:true},
+  yuris:{attack:1,weapon:'錬成毒',poisonAttack:true},
+  lorentz:{guard:2,guardName:'贖罪の剣',item:'ノワールの剣',sacrifice:true},
+  reni:{attack:2,guard:2,guardName:'白い羽の護衛',item:'白い羽',weapon:'白い羽',shared:true,self:1,poison:true,unbound:true},
+  sebastian:{attack:1,weapon:'ナイフ'},
+  maester:{self:1,selfItem:'合議所の衛兵'}
+};
+const iName=id=>INTRIGUE_PEOPLE.find(x=>x.id===id)?.name || id;
+const iSpec=id=>I_SPEC[id] || {};
+const I_SKILL_NAMES={maria:'近衛兵',lion:'笑顔の裏',serin:'聖女のお願い',gail:'筆頭騎士',karuna:'紫の魔術',noelis:'緑の魔術',emil:'黒の花',helena:'女騎士',rito:'氷結',rata:'火の壁',ruri:'竜の姫',seno:'遠距離射撃',gentoku:'護衛購入',ryusei:'公子の決断',suiran:'関係構築',il:'決死の覚悟',yuris:'致死毒錬成',lorentz:'贖罪の剣',reni:'2回行動',sebastian:'嘘つき',maester:'鑑定'};
+const I_PASSIVE_NAMES={karuna:'防衛の陣',noelis:'防衛の陣',rito:'竜の鱗',rata:'竜の血筋',ruri:'竜の血筋',il:'竜の血筋',reni:'竜の身体',maester:'合議所の衛兵'};
+const iSkillName=id=>I_SKILL_NAMES[id]||'';
+function ritoFullTargets(){
+  const placed=state.rounds[3].chars.rito.placed;
+  if(!placed||!state.charsMeta.rito.flags.ritoFull||!charEligible('rito',3))return [];
+  return CHAR_PRESETS.filter(p=>p.id!=='rito'&&charEligible(p.id,3)&&state.rounds[3].chars[p.id].placed?.field===placed.field).map(p=>({id:p.id,name:p.name,side:state.rounds[3].chars[p.id].placed.side}));
+}
+function ritoWarRecord(){return state.finalizations?.[3];}
+function startRitoWarDeaths(){
+  const record=ritoWarRecord();
+  if(!record?.ritoVictims)throw Error('先にRound 3を確定してください。');
+  if(iData().ritoWarStarted)throw Error('完全顕現の死亡判定は開始済みです。');
+  if(iUnresolved())throw Error('先に未処理の行動を解決してください。');
+  return iCommit('Round 3：リトの完全顕現による死亡判定を開始',data=>{
+    data.ritoWarStarted=true;const batch=[];
+    const guardUnavailable=Object.fromEntries(INTRIGUE_PEOPLE.map(p=>[p.id,iUnavailable(p.id)]));
+    for(const target of record.ritoVictims){
+      const a={id:'act_'+data.nextId++,actor:'rito',target:target.id,kind:'ritoWar',method:'physical',weapon:'氷竜顕現・完全顕現',status:'active',strikes:1,strikesLeft:1,startedAt:Date.now(),postWar:true,hexCreations:iHexEffect('creations'),guardUnavailable};
+      data.actions.push(a);batch.push(a);
+    }
+    resolveInnateDefenses(data,batch);
+  },true);
+}
+function renderRitoWarPanel(){
+  const record=ritoWarRecord(),victims=record?.ritoVictims;
+  if(state.roundIndex!==3||!victims?.length)return '';
+  const done=iData().ritoWarStarted&&!iData().actions.some(a=>a.postWar&&!['done','skipped','cancelled'].includes(a.status));
+  return `<div class="iAutoWatchNotice"><h3>リトの完全顕現：戦後の死亡判定</h3><p>戦果は確定済みです。同じ戦場の出撃者 ${victims.length}人：${escapeHtml(victims.map(x=>x.name+'（'+x.side+'）').join('・'))}</p><p>${done?'死亡・防御の判定が完了しました。':iData().ritoWarStarted?'「暗殺・護衛」の現在の処理で、各人の防御・生死を確定してください。':'暗殺フェーズから残っている護衛・耐性を使って判定します。兵力・勝敗は変わりません。'}</p><button type="button" data-rito-war>${iData().ritoWarStarted?'死亡判定の画面を開く':'完全顕現の死亡判定を開始'}</button></div>`;
+}
+const iDefenseName=d=>d.kind==='self'?(I_PASSIVE_NAMES[d.provider]||d.name):iSkillName(d.provider)+(d.kind==='watch'?'（毒見）':'');
+const iActionName=a=>a.kind==='ritoWar'?'氷竜顕現・完全顕現':a.kind==='release'?'拘束解除の許可':a.kind==='hexagram'?'六芒星':a.kind==='spread'?'拡散毒（アイテム）':iSkillName(a.actor)+(a.kind==='cost'?'（追加使用の代償）':'');
+const I_HEX_OPTIONS={castle:'セントラル城',sword:'ノワールの剣',creations:'花・毒・薬などの錬成物'};
+const iHexEffect=key=>(iData()?.actions||[]).some(a=>a.kind==='hexagram'&&a.status==='done'&&(!key||a.effects.includes(key)));
+const iActionTarget=a=>a.kind==='release'?(a.targets?.map(iName).join('・')||'旧形式：対象を選び直してください'):a.kind==='hexagram'?a.effects.map(k=>I_HEX_OPTIONS[k]).join('・'):iName(a.target);
+const iDragon=id=>['rito','rata','ruri','il','reni'].includes(id);
+const iDragonSealed=id=>!!iData()?.people[id]?.dragonSealed;
+const iUnbound=id=>!!iSpec(id).unbound && !iDragonSealed(id);
+function initIntrigue(){
+  if(!state.intrigue) state.intrigue={people:{},defenses:[],actions:[],history:[],nextId:1,mariaRelease:false,meetingEnded:false,poisonDisabled:false,medicineDisabled:false};
+  const phase=state.intrigue;
+  for(const person of INTRIGUE_PEOPLE){
+    phase.people[person.id] ||= {status:'alive',detained:false,antidote:false,cross:false};
+    const spec=iSpec(person.id);
+    if(spec.self && !phase.defenses.some(x=>x.id==='self_'+person.id)) phase.defenses.push({id:'self_'+person.id,provider:person.id,target:person.id,kind:'self',name:'自己耐性',item:spec.selfItem || '生来の耐性',total:spec.self,remaining:spec.self,ready:!spec.selfItem,independent:true,automatic:true});
+  }
+}
+function iLocked(){return !!state.finalizations?.[3] || (state.legacyRounds || []).includes(3);}
+function iData(){return state.intrigue;}
+function iPending(id){return (iData()?.actions || []).some(a=>a.target===id && a.status==='awaiting');}
+function iBound(id){
+  const data=iData();
+  return !!data?.people[id]?.detained && !iUnbound(id) && !data.mariaRelease && !data.people[id].mariaReleased && data.people.maester.status!=='dead';
+}
+function iUnavailable(id){
+  const person=iData()?.people[id];
+  if(!person) return '';
+  if(person.status==='dead') return '死亡';
+  if(person.status==='retired') return '出家・ゲーム離脱';
+  if(id==='lorentz'&&iHexEffect('sword'))return '六芒星でノワールの剣が封印';
+  if(iPending(id)) return '死亡判定の確定待ち';
+  if(iBound(id)) return '拘束中';
+  return '';
+}
+function charEligible(id,round){return round===3 && !iUnavailable(id);}
+function iSnapshot(){const {history,...data}=iData();return clone(data);}
+function iCommit(label,change,postWar=false){
+  if(iLocked()&&!postWar) throw Error('Round 3が確定済みです。先に戦争の確定を取り消してください。');
+  const previous=iData(), before=iSnapshot();
+  state.intrigue=clone(before);
+  state.intrigue.history=previous.history;
+  try{change(state.intrigue);state.intrigue.history=[...previous.history,{label,time:monoTs(),before,postWar}].slice(-60);}
+  catch(error){state.intrigue=previous;throw error;}
+  if(!save()){state.intrigue=previous;return false;}
+  renderAll();return true;
+}
+function undoIntrigue(){
+  if(iLocked()&&!iData().history.at(-1)?.postWar) throw Error('先にRound 3の確定を取り消してください。');
+  const previous=iData(), entry=previous.history.at(-1);
+  if(!entry)return false;
+  state.intrigue={...clone(entry.before),history:previous.history.slice(0,-1)};
+  if(!save()){state.intrigue=previous;return false;}
+  renderAll();return true;
+}
+function iUsed(id,except){return iData().actions.filter(a=>a.id!==except && a.actor===id && a.kind==='attack' && a.status!=='cancelled').reduce((n,a)=>n+(a.strikes||1),0);}
+function iGuards(id,except){return iData().defenses.filter(d=>d.id!==except && d.provider===id && d.kind!=='self').reduce((n,d)=>n+d.total,0);}
+function skillRegistrationReason(id,kind){
+  if(iUnavailable(id))return iUnavailable(id);
+  const s=iSpec(id),a=iUsed(id),g=iGuards(id);
+  if(kind==='attack'){
+    if(s.either&&g)return '護衛・毒見を登録済み';
+    if(a>=(s.attack||0)||(s.shared&&a+g>=2))return '使用済み・全回数登録済み';
+  }else{
+    if(s.either&&a)return '攻撃を使用・登録済み';
+    if((!s.shared&&g)||g>=(s.guard||1)||(s.shared&&a+g>=2))return '護衛を使用・登録済み';
+  }
+  return '';
+}
+function iSkillOptions(ids,kind){return ids.map(id=>{const reason=skillRegistrationReason(id,kind);return `<option value="${id}" ${reason?'disabled':''}>${escapeHtml(iName(id)+'【'+iSkillName(id)+'】')} — ${escapeHtml(reason||(kind==='attack'?'残り'+((iSpec(id).shared?2-iGuards(id):iSpec(id).attack)-iUsed(id))+'回':'登録可能'))}</option>`;}).join('');}
+function iAssertPerson(id){if(!iData().people[id])throw Error('キャラを選択してください。');}
+function iRequireActor(id){iAssertPerson(id);const reason=iUnavailable(id);if(reason)throw Error(iName(id)+'は'+reason+'のためスキルを使えません。');}
+function addDefense(provider,target,count,ready,editId=null){
+  iRequireActor(provider);iAssertPerson(target);
+  const existing=editId&&iData().defenses.find(d=>d.id===editId);
+  if(editId&&(!existing||existing.kind==='self'||existing.remaining!==existing.total))throw Error('使用済みの護衛は先に使用操作を取り消してください。');
+  const spec=iSpec(provider), amount=Number(count), kind=spec.watch?'watch':spec.all?'all':'guard';
+  if(!spec.guard && !spec.watch)throw Error('このキャラには登録できる護衛スキルがありません。');
+  if(iData().meetingEnded)throw Error('会議終了後は新しい護衛を登録できません。');
+  if(!Number.isInteger(amount)||amount<1||amount>(spec.guard || 1))throw Error('護衛回数・支払額を確認してください。');
+  if(iGuards(provider,editId)+amount>(spec.guard || 1))throw Error('護衛の登録上限を超えています。');
+  if(provider==='maria' && !['maria','lion','serin'].includes(target))throw Error('近衛兵の対象はスカーレット家です。');
+  if(!spec.shared && iData().defenses.some(d=>d.id!==editId && d.provider===provider && d.kind!=='self'))throw Error('この護衛は登録済みです。登録欄の「修正」を使ってください。');
+  if(spec.either && iUsed(provider)>0)throw Error('攻撃と護衛・毒見はどちらか一方です。');
+  if(spec.shared && iUsed(provider)+iGuards(provider,editId)+amount>2)throw Error(iName(provider)+'は攻撃と護衛の合計2回までです。');
+  return iCommit(iName(provider)+' → '+iName(target)+'：'+(kind==='watch'?'毒見の監視を登録':'護衛'+amount+'回を登録'),data=>{
+    const entry={id:editId||'def_'+data.nextId++,provider,target,kind,name:spec.guardName || '毒見',item:spec.item || '毒見のスキル',total:amount,remaining:amount,ready:kind==='watch'||!!ready,automatic:kind==='watch'||!!spec.automatic,independent:!!spec.independent,sacrifice:!!spec.sacrifice};
+    if(editId)data.defenses[data.defenses.findIndex(d=>d.id===editId)]=entry;else data.defenses.push(entry);
+  });
+}
+function removeDefense(id){
+  const d=iData().defenses.find(x=>x.id===id);
+  if(!d||d.kind==='self'||d.remaining!==d.total)throw Error('使用済みの護衛は先に使用操作を取り消してください。');
+  return iCommit(iName(d.provider)+'：護衛登録を取消',data=>{data.defenses=data.defenses.filter(x=>x.id!==id);});
+}
+function addAttack(actor,target,method,weapon,verified,spreadTargets=[],dragonAsh=false,editId=null){
+  iRequireActor(actor);iAssertPerson(target);
+  if(editId&&!iData().actions.some(a=>a.id===editId&&a.kind==='attack'&&a.status==='queued'))throw Error('執行済みの行動は先に取り消してください。');
+  if(iData().meetingEnded)throw Error('会議終了後は新しい攻撃を登録できません。');
+  if(iData().people[target].status!=='alive')throw Error('対象者はすでに死亡・離脱しています。');
+  const spec=iSpec(actor);
+  if(actor==='rito'&&iData().actions.some(a=>a.id!==editId&&a.kind==='attack'&&a.actor==='rito'&&a.status!=='cancelled'&&a.target!==target))throw Error('リトの氷結は同じ相手に2回までです。別々の相手には使えません。');
+  if(dragonAsh && !iDragon(target))throw Error('竜封の灰の対象は竜の血族を選んでください。');
+  if(dragonAsh && method!=='physical')throw Error('竜封の灰は物理攻撃として登録してください。');
+  if(!spec.attack)throw Error('このキャラには暗殺・殺害スキルがありません。');
+  if(!verified)throw Error('スキルカード・武器の提出を確認してください。');
+  if(!['physical','poison'].includes(method))throw Error('攻撃の種類を確認してください。');
+  if(spec.kill && method!=='physical')throw Error('殺害スキルは毒に変更できません。');
+  if(actor==='rito'&&method!=='physical')throw Error('リトの氷結は物理攻撃です。毒は拡散毒の別枠から登録してください。');
+  if(spec.poisonAttack && method!=='poison')throw Error('ユリスの暗殺は毒殺です。');
+  if(!String(weapon).trim())throw Error('使用武器・毒を入力してください。');
+  if(spec.kill && weapon!==spec.weapon)throw Error('必要武器は'+spec.weapon+'です。');
+  if(iUsed(actor,editId)>=spec.attack)throw Error('暗殺・殺害の回数を使い切っています（未処理の登録分を含む）。');
+  if(actor==='rito'&&iUsed(actor,editId)>0)throw Error('リトの氷結は登録済みです。既存の登録を修正してください。');
+  if(spec.either && iGuards(actor))throw Error('護衛・毒見を登録済みのため攻撃は選べません。');
+  if(spec.shared && iUsed(actor,editId)+iGuards(actor)>=2)throw Error(iName(actor)+'は攻撃と護衛の合計2回までです。');
+  if(spreadTargets.some(Boolean))throw Error('拡散毒は専用欄から基本スキルと別に登録してください。');
+  return iCommit(iName(actor)+' → '+iName(target)+'：'+(method==='poison'?'毒殺':'攻撃')+'を登録',data=>{
+    const id=editId||'act_'+data.nextId++;
+    const entry={id,actor,target,kind:'attack',method,weapon:String(weapon).trim(),dragonAsh:!!dragonAsh,status:'queued',sacrifice:false,strikes:actor==='rito'?2:1};
+    if(editId)data.actions[data.actions.findIndex(a=>a.id===id)]=entry;else data.actions.push(entry);
+    updateIlCosts(data);
+  });
+}
+function updateIlCosts(data){let n=0;for(const a of data.actions){if(a.kind==='attack'&&a.actor==='il'&&a.status!=='cancelled'){if(a.status==='queued')a.sacrifice=n>0;n++;}}}
+function addSpreadPoison(actor,targets,verified){
+  iRequireActor(actor);
+  if(iData().meetingEnded)throw Error('会議終了後は新しい攻撃を登録できません。');
+  if(!verified)throw Error('拡散毒の提出と3人の対象を確認してください。');
+  if(targets.length!==3 || new Set(targets).size!==3 || targets.some(x=>!x))throw Error('拡散毒の対象は重複なしで3人指定してください。');
+  targets.forEach(id=>{iAssertPerson(id);if(iData().people[id].status!=='alive')throw Error('死亡・離脱済みの対象は指定できません。');});
+  return iCommit(iName(actor)+'：拡散毒を別枠で登録 → '+targets.map(iName).join('・'),data=>{
+    const group='spread_'+data.nextId++;
+    for(const target of targets)data.actions.push({id:'act_'+data.nextId++,actor,target,kind:'spread',method:'poison',weapon:'拡散毒',status:'queued',group});
+  });
+}
+function addHexagram(actor,effects,verified){
+  iRequireActor(actor);
+  if(!['emil','yuris'].includes(actor))throw Error('六芒星を使用できるのはエミールかユリスです。');
+  if(iData().meetingEnded)throw Error('会議終了後は登録できません。');
+  if(!verified)throw Error('六芒星のペンダント・スキルカードの提出を確認してください。');
+  if(!effects.length||effects.some(k=>!Object.hasOwn(I_HEX_OPTIONS,k))||new Set(effects).size!==effects.length)throw Error('破壊対象を選択してください。');
+  if(iData().actions.some(a=>a.kind==='hexagram'&&a.status!=='cancelled'))throw Error('六芒星は使用・登録済みです。修正は登録を取り消してください。');
+  return iCommit(iName(actor)+'：六芒星を登録（'+effects.map(k=>I_HEX_OPTIONS[k]).join('・')+'）',data=>{
+    data.actions.push({id:'act_'+data.nextId++,actor,kind:'hexagram',effects:[...effects],weapon:'六芒星のペンダント',status:'queued'});
+  });
+}
+function iNext(){
+  if(iData().actions.some(a=>['active','awaiting'].includes(a.status)))return null;
+  return iData().actions.find(a=>a.status==='queued');
+}
+function addMariaRelease(targets){
+  if(!Array.isArray(targets)||!targets.length||new Set(targets).size!==targets.length)throw Error('解除する対象者を選んでください。');
+  targets.forEach(id=>{iAssertPerson(id);if(iData().mariaRelease||iData().people[id].mariaReleased||iData().actions.some(a=>a.kind==='release'&&a.status==='queued'&&a.targets?.includes(id)))throw Error(iName(id)+'の解除許可は登録・適用済みです。');});
+  return iCommit('マリアの拘束解除許可を登録：'+targets.map(iName).join('・'),data=>{
+    data.actions.push({id:'act_'+data.nextId++,actor:'maria',kind:'release',targets:[...targets],weapon:'GMが受け付けた拘束解除の許可',status:'queued'});
+  });
+}
+function resolveAutomaticWatch(data,batch){
+  for(const entry of batch){
+    const a=data.actions.find(x=>x.id===entry.id);
+    if(a.status!=='active'||a.method!=='poison'||a.hexCreations||(a.kind!=='spread'&&data.poisonDisabled))continue;
+    const watch=data.defenses.find(d=>d.kind==='watch'&&d.target===a.actor&&d.remaining>0&&!iUnavailable(d.provider));
+    if(!watch)continue;
+    watch.remaining--;
+    const protectedActions=a.kind==='spread'?batch.map(x=>data.actions.find(y=>y.id===x.id)).filter(x=>x.actor===a.actor&&x.method==='poison'&&x.status==='active'):[a];
+    for(const protectedAction of protectedActions){
+      protectedAction.status='done';protectedAction.result='ルリ【竜の姫】の毒見が自動発動：'+(a.kind==='spread'?'拡散毒3人分をまとめて身代わり':'身代わり');
+      protectedAction.automaticDefense=watch.id;
+      if(!iDragonSealed(watch.provider))protectedAction.result+='（ルリは毒無効で生存）';
+    }
+    if(!iDragonSealed(watch.provider))continue;
+    data.actions.push({id:'act_'+data.nextId++,actor:a.actor,target:watch.provider,kind:'watchPoison',method:'poison',weapon:a.weapon+'（毒見の身代わり）',status:'active',startedAt:a.startedAt,hexCreations:a.hexCreations,medicineDisabled:a.medicineDisabled,parent:a.id});
+  }
+}
+function resolveInnateDefenses(data,batch){
+  for(const entry of batch){
+    const a=data.actions.find(x=>x.id===entry.id);
+    if(a.status!=='active'||a.dragonAsh||iDragonSealed(a.target))continue;
+    let count=0,name='';
+    if(a.method==='poison'&&iSpec(a.target).poison&&!a.hexCreations&&!(a.kind!=='spread'&&data.poisonDisabled)){
+      count=a.strikesLeft||1;name=I_PASSIVE_NAMES[a.target]+'（毒無効）';
+    }else if(a.method==='physical'){
+      const d=data.defenses.find(d=>d.kind==='self'&&d.target===a.target&&!iSpec(d.provider).selfItem&&d.remaining>0);
+      if(d){count=Math.min(a.strikesLeft||1,d.remaining);d.remaining-=count;name=iDefenseName(d);}
+    }
+    if(!count)continue;
+    a.strikesLeft=Math.max(0,(a.strikesLeft||1)-count);a.status=a.strikesLeft?'active':'done';
+    a.automaticInnate={name,count};a.result=iName(a.target)+'【'+name+'】が自動発動：'+count+'回分を防御'+(a.strikesLeft?'（残り'+a.strikesLeft+'回分の処理が必要）':'');
+  }
+}
+function iStartReason(action){
+  if(action.kind==='release')return action.targets?.length?'':'旧形式の解除許可です。登録取消後に対象者を選んで再登録してください。';
+  if(action.kind==='hexagram')return iUnavailable(action.actor);
+  if(action.kind==='attack'&&action.actor==='rito'){
+    const first=iData().actions.find(a=>a.kind==='attack'&&a.actor==='rito'&&a.status!=='cancelled');
+    if(first&&first.target!==action.target)return 'リトの氷結は同じ相手に2回まで（対象を修正してください）';
+  }
+  if(iData().people[action.target].status!=='alive')return '対象者が死亡・離脱済み';
+  if(action.kind==='attack' || (action.kind==='spread'&&!action.startedAt))return iUnavailable(action.actor);
+  return '';
+}
+function startAttack(id,confirmed){
+  if(!confirmed)throw Error('対象・攻撃内容を相互確認してください。');
+  const action=iNext();if(!action||action.id!==id)throw Error('先に前の行動を解決してください。');
+  const reason=iStartReason(action);if(reason)throw Error(reason+'のため実行できません。');
+  if(action.kind==='release')return iCommit('マリアの拘束解除許可を適用：'+iActionTarget(action),data=>{
+    const a=data.actions.find(x=>x.id===id);a.status='done';a.startedAt=Date.now();a.result=iActionTarget(a)+'の拘束解除を許可（以後の行動に適用）';a.targets.forEach(target=>{data.people[target].mariaReleased=true;});
+  });
+  if(action.kind==='hexagram')return iCommit(iName(action.actor)+'：六芒星発動 → '+iActionTarget(action),data=>{
+    const a=data.actions.find(x=>x.id===id);a.status='done';a.startedAt=Date.now();a.result='破壊：'+iActionTarget(a)+'（以後の行動に適用）';
+  });
+  const batch=action.kind==='spread' ? iData().actions.filter(a=>a.kind==='spread'&&a.status==='queued'&&(action.group?a.group===action.group:action.parent?a.parent===action.parent:a.id===action.id)) : [action];
+  for(const a of batch){const reason=iStartReason(a);if(reason)throw Error(reason+'のため実行できません。');}
+  return iCommit(iName(action.actor)+' → '+iName(action.target)+'：通知・処理開始',data=>{
+    const now=Date.now();for(const entry of batch){const a=data.actions.find(x=>x.id===entry.id);a.status='active';a.startedAt=now;a.strikesLeft=a.strikes||1;a.hexCreations=iHexEffect('creations');a.medicineDisabled=!!data.medicineDisabled||a.hexCreations;}
+    const a=data.actions.find(x=>x.id===id);
+    if(a.sacrifice){const pos=data.actions.indexOf(a);data.actions.splice(pos+1,0,{id:'act_'+data.nextId++,actor:a.actor,target:a.actor,kind:'cost',method:'cost',weapon:'追加暗殺の代償',status:'queued'});}
+    resolveAutomaticWatch(data,batch);
+    resolveInnateDefenses(data,batch);
+  },!!action.postWar);
+}
+function cancelAttack(id){
+  const action=iData().actions.find(x=>x.id===id);
+  if(!action || action.status!=='queued')throw Error('未処理の行動だけ取り消せます。');
+  if((action.kind==='cost' || (action.kind==='spread' && action.startedAt)) && iData().people[action.target].status==='alive')throw Error('発動済みの代償・拡散毒は取り消せません。元の執行操作を履歴から戻してください。');
+  return iCommit('未処理の行動を取消：'+iName(action.actor)+' → '+iActionTarget(action),data=>{
+    data.actions.find(x=>x.id===id).status='cancelled';
+    if(action.kind==='spread')data.actions.filter(x=>x.kind==='spread'&&x.status==='queued'&&(action.group?x.group===action.group:action.parent&&x.parent===action.parent)).forEach(x=>x.status='cancelled');
+    data.actions.filter(x=>x.parent===id).forEach(x=>x.status='cancelled');
+    updateIlCosts(data);
+  });
+}
+function skipUnavailableAction(id){
+  const action=iData().actions.find(a=>a.id===id);
+  if(!action||action.status!=='queued')throw Error('未処理の行動だけ確認できます。');
+  const reason=iStartReason(action);
+  if(!reason)throw Error('この行動は実行可能です。');
+  return iCommit(iName(action.actor)+'【'+iActionName(action)+'】：実行せず次へ（'+reason+'）',data=>{
+    const entries=action.kind==='spread'&&iUnavailable(action.actor)?data.actions.filter(a=>a.status==='queued'&&a.kind==='spread'&&(action.group?a.group===action.group:action.parent?a.parent===action.parent:a.id===id)):[data.actions.find(a=>a.id===id)];
+    for(const a of entries){a.status='skipped';a.result='実行せず次へ：'+reason;a.skippedAt=Date.now();}
+  },!!action.postWar);
+}
+function defenseCandidates(action){
+  const data=iData(), poison=action.method==='poison', cost=action.method==='cost', out=[];
+  const nullified=poison && (action.hexCreations || (action.kind!=='spread' && data.poisonDisabled));
+  if(nullified)out.push({id:'nullified',name:'六芒星による毒の無効化',enabled:true,mandatory:true,reason:action.hexCreations?'六芒星発動後の毒は無効（拡散毒を含む）':'旧GM設定による毒の無効化',remaining:'消費なし'});
+  if(poison && iSpec(action.target).poison)out.push({id:'immunity',name:iName(action.target)+'／'+I_PASSIVE_NAMES[action.target]+'（毒無効）',enabled:!nullified&&!iDragonSealed(action.target),mandatory:true,reason:iDragonSealed(action.target)?'竜封の灰で耐性喪失':'生来の毒耐性・回数制限なし',remaining:iDragonSealed(action.target)?'無効':'無制限'});
+  for(const d of data.defenses){
+    if(d.kind==='watch')continue; // Poison watch triggers automatically at attack start.
+    if(d.kind==='watch' ? d.target!==action.actor : d.target!==action.target)continue;
+    const reasons=[];
+    if(d.kind==='all' && (action.hexCreations??iHexEffect('creations')))reasons.push('六芒星で錬成物を破壊済み');
+    if(d.kind==='self' && iDragon(d.provider) && (iDragonSealed(d.provider)||action.dragonAsh))reasons.push(action.dragonAsh?'竜封の灰には竜の耐性を使えない':'竜封の灰で耐性喪失');
+    if(nullified)reasons.push('攻撃自体が無効');
+    if(!d.remaining)reasons.push('残り0回');
+    if(d.kind==='watch' && !poison)reasons.push('毒殺ではない');
+    if((poison||cost) && !['all','watch'].includes(d.kind))reasons.push(cost?'自死・代償には使えない':'毒を防げない');
+    if(cost && d.kind==='watch')reasons.push('毒殺ではない');
+    if(action.kind==='ritoWar'&&action.guardUnavailable){
+      const unavailable=action.guardUnavailable[d.provider];
+      if(d.kind!=='self'&&(unavailable==='拘束中'||!d.independent&&unavailable))reasons.push('発動時の護衛者が'+unavailable);
+    }else if(d.kind!=='self'&&iBound(d.provider))reasons.push('護衛者が拘束中');
+    else if(!d.independent){const unavailable=iUnavailable(d.provider);if(unavailable)reasons.push('護衛者が'+unavailable);}
+    if(d.kind==='self' && data.people[d.provider].status!=='alive')reasons.push('本人が死亡・離脱済み');
+    const innate=d.kind==='self'&&!iSpec(d.provider).selfItem;
+    out.push({id:d.id,name:iName(d.provider)+'／'+iDefenseName(d),enabled:!reasons.length,mandatory:false,remaining:d.remaining,reason:reasons.join('・') || (innate?'生来の耐性：アイテム不要':d.kind==='watch'?'監視している毒使用者の行動を阻止':d.sacrifice && d.total-d.remaining>=1?'追加護衛：使用後、護衛者の死亡代償を処理':d.automatic?'本人の到着不要・実際の申告をGM確認':d.kind==='all'?'毒・自死を含むあらゆる死に有効':'20秒以内の到着・申告とアイテムをGM確認'),item:innate?'':d.item});
+  }
+  return out;
+}
+function chooseDefense(actionId,defenseId,confirmed){
+  if(!confirmed)throw Error('実際の申告・使用アイテムを確認してください。');
+  const action=iData().actions.find(x=>x.id===actionId);
+  if(!action || !['active','awaiting'].includes(action.status))throw Error('処理中の攻撃ではありません。');
+  const candidate=defenseCandidates(action).find(x=>x.id===defenseId);
+  if(!candidate?.enabled)throw Error('この防御は現在使用できません。');
+  return iCommit(iName(action.target)+'を防御：'+candidate.name,data=>{
+    const a=data.actions.find(x=>x.id===actionId);a.strikesLeft=Math.max(0,(a.strikesLeft||1)-1);a.status=a.strikesLeft?'active':'done';
+    a.defenseResults=[...(a.defenseResults||[]),candidate.name];a.result='防御成功：'+a.defenseResults.join(' ／ ')+(a.strikesLeft?'（残り'+a.strikesLeft+'回分）':'');
+    const defense=data.defenses.find(x=>x.id===defenseId);
+    if(defense){
+      defense.remaining--;
+      if(defense.sacrifice && defense.total-defense.remaining>=2){
+        const pos=data.actions.indexOf(a);data.actions.splice(pos+1,0,{id:'act_'+data.nextId++,actor:defense.provider,target:defense.provider,kind:'cost',method:'cost',weapon:'追加護衛の代償',status:'queued',postWar:!!a.postWar});
+      }
+    }
+  },!!action.postWar);
+}
+function markUndefended(id,confirmed){
+  if(!confirmed)throw Error('防御が成立しなかったことを確認してください。');
+  const action=iData().actions.find(x=>x.id===id);
+  if(!action || action.status!=='active')throw Error('処理中の攻撃ではありません。');
+  if(action.dragonAsh)return iCommit(iName(action.target)+'：竜封の灰を受け、生存・竜の耐性喪失',data=>{
+    const a=data.actions.find(x=>x.id===id);a.status='done';a.result='竜封の灰：生存・竜の耐性喪失';data.people[a.target].dragonSealed=true;
+  });
+  if(defenseCandidates(action).some(x=>x.enabled&&x.mandatory))throw Error('毒の無効化・毒耐性が有効です。適用する耐性を選んでください。');
+  return iCommit(iName(action.target)+'：防御不成立、死亡確定待ち',data=>{data.actions.find(x=>x.id===id).status='awaiting';},!!action.postWar);
+}
+function resolveVictim(id,outcome,confirmed){
+  if(!confirmed)throw Error('20秒の猶予と救済の申告を確認してください。');
+  const action=iData().actions.find(x=>x.id===id);
+  if(!action || (action.status!=='awaiting'&&!(outcome==='antidote'&&action.status==='active')))throw Error('死亡確定待ちではありません。');
+  if(!['dead','antidote','retired'].includes(outcome))throw Error('結果を選択してください。');
+  const person=iData().people[action.target];
+  if(outcome==='antidote' && (action.method!=='poison'||(action.medicineDisabled??iData().medicineDisabled)))throw Error('治療薬は使用できません。');
+  if(outcome==='retired'&&!person.cross)throw Error('木の十字架が確認されていません。');
+  return iCommit(iName(action.target)+'：'+({dead:'死亡確定',antidote:'毒治療薬で生存',retired:'出家・ゲーム離脱'}[outcome]),data=>{
+    const a=data.actions.find(x=>x.id===id),p=data.people[a.target];a.status='done';a.result=outcome==='dead'?'死亡':outcome==='retired'?'出家・離脱':'治療薬で生存';
+    if(outcome==='antidote'){p.antidote=false;a.consumedItem='毒治療薬';a.itemCount=1;}else p.status=outcome;
+    if(outcome==='retired')p.cross=false;
+  },!!action.postWar);
+}
+function iUnresolved(){return (iData()?.actions || []).some(a=>!['done','cancelled','skipped'].includes(a.status));}
+function setIntriguePerson(id,key,value){
+  iAssertPerson(id);
+  if(!['status','detained','antidote','cross'].includes(key))throw Error('変更項目が不正です。');
+  if(key==='status'&&!['alive','dead','retired'].includes(value))throw Error('状態が不正です。');
+  if(key==='detained' && value && iUnbound(id))throw Error(iName(id)+'は拘束不可です。');
+  return iCommit(iName(id)+'の'+({status:'生死',detained:'拘束登録',antidote:'治療薬',cross:'木の十字架'}[key])+'をGM更新',data=>{data.people[id][key]=value;});
+}
+let intrigueDraft = {};
+function updateGuardCount(reset=false){
+  const actor=el('iGuardActor').value,spec=iSpec(actor),input=el('iGuardCount'),hint=el('iGuardCountHint');
+  const variable=actor==='gentoku'||spec.shared||spec.sacrifice;
+  const max=spec.shared?Math.max(0,2-iUsed(actor)-iGuards(actor)):(spec.guard||1);
+  input.min=max===0?'0':'1';input.max=String(max);input.readOnly=!variable;
+  if(reset||!variable||!Object.hasOwn(intrigueDraft,'iGuardCount'))input.value=String(actor==='lorentz'?2:spec.sacrifice||actor==='gentoku'||spec.shared?Math.min(1,max):max);
+  if(spec.shared)input.value=String(Math.min(Number(input.value),max));
+  hint.textContent=actor==='lorentz'?'初期値2回。2回目を使うかはプレイヤーが選択します。GMが実際の使用を確定したときだけ、本人の死亡判定へ進みます。':spec.sacrifice?'基本1回。2回にすると、追加護衛の使用時に本人の死亡代償が発生します。':actor==='gail'?'聖剣必須。護衛・殺害あわせて残り'+max+'回。1回ずつ別の相手に登録可能。同じ相手を2回守る場合は2を選択。':spec.shared?'初期値1回。暗殺・護衛あわせて残り'+max+'回。必要なら護衛回数を2に変更できます。':actor==='gentoku'?'実際の支払額を入力してください。':'基本'+max+'回を自動設定しています。';
+}
+function iOptions(ids,blank=false){return (blank?'<option value="">なし</option>':'')+ids.map(id=>'<option value="'+id+'">'+escapeHtml(iName(id))+'</option>').join('');}
+function iSelectedOptions(value){return INTRIGUE_PEOPLE.map(p=>`<option value="${p.id}" ${p.id===value?'selected':''}>${escapeHtml(p.name)}</option>`).join('');}
+function renderAttackPicker(ids,locked){return `<div class="iAttackPicker" role="group" aria-label="攻撃スキルを選択">${ids.map(id=>{
+  const s=iSpec(id),reason=skillRegistrationReason(id,'attack'),person=INTRIGUE_PEOPLE.find(p=>p.id===id),remaining=Math.max(0,(s.shared?2-iGuards(id):s.attack)-iUsed(id));
+  return `<button type="button" class="iAttackChoice ${cardColorClass(person.colorKey)}" data-ia="pickAttack" data-id="${id}" aria-pressed="false" ${locked||reason||iData().meetingEnded?'disabled':''}><strong>${escapeHtml(iName(id))}</strong><span>【${escapeHtml(iSkillName(id))}】</span><small>${escapeHtml(reason||((s.kill?'殺害':s.poisonAttack?'毒殺':'暗殺')+' ／ 残り'+remaining+'回'))}</small></button>`;
+}).join('')}</div><input id="iAttackActor" data-draft type="hidden" value=""><p id="iAttackSelection" class="iAttackSelection" aria-live="polite">攻撃スキルを選んでください</p>`;}
+function updateAttackSelection(){
+  const id=el('iAttackActor').value;
+  const fixed=id==='rito'?iData().actions.find(a=>a.actor==='rito'&&a.kind==='attack'&&a.status!=='cancelled'):null;
+  const target=el('iAttackTarget');target.disabled=!!fixed;if(fixed)target.value=fixed.target;
+  el('intrigueRoot').querySelectorAll('[data-ia="pickAttack"]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.id===id)));
+  el('iAttackSelection').textContent=id?'選択中：'+iName(id)+'【'+iSkillName(id)+'】'+(id==='rito'?' ／ 1回の登録で同じ相手に2回分'+(fixed?'：'+iName(fixed.target):''):'')+(skillRegistrationReason(id,'attack')?' ／ '+skillRegistrationReason(id,'attack'):''):'攻撃スキルを選んでください';
+}
+function renderHexagramForm(locked){return `<h3>六芒星</h3><p class="muted">使用順に発動し、過去の結果は変更しません。基本スキルとは別枠です。</p><div class="iForm iVertical"><label>使用者<select id="iHexActor" data-draft>${iOptions(['emil','yuris'])}</select></label>${Object.entries(I_HEX_OPTIONS).map(([key,name])=>`<label><input id="iHex_${key}" type="checkbox" data-draft> ${name}</label>`).join('')}<label><input id="iHexVerified" type="checkbox" data-draft> ペンダント・スキルカード・破壊対象を確認済み</label>${iButton('六芒星を登録','addHexagram','','',locked||iData().meetingEnded||iData().actions.some(a=>a.kind==='hexagram'&&a.status!=='cancelled'))}</div>`;}
+function renderDefenseRegistry(locked){
+  const defenses=iData().defenses;
+  const card=d=>{
+    const sealed=d.kind==='self'&&iDragonSealed(d.provider);
+    const unavailable=d.kind!=='self'&&iBound(d.provider)?'護衛者が拘束中':!d.independent?iUnavailable(d.provider):iData().people[d.target]?.status!=='alive'?'対象者が死亡・離脱済み':'';
+    const destroyed=d.kind==='all'&&iHexEffect('creations');
+    const status=destroyed?'六芒星で破壊済み':sealed?'竜封の灰で無効':!d.remaining?'使用済み':unavailable||(d.kind==='watch'?'自動発動':'残りあり');
+    const ready=!destroyed&&!sealed&&d.remaining>0&&!unavailable;
+    return `<article class="iGuardCard ${ready?'':'needsCheck'}"><div class="iGuardIdentity"><span class="iGuardKind">${d.kind==='self'?'自己耐性':d.kind==='all'?'万能防御':d.kind==='watch'?'毒見':'護衛'}</span><strong>${escapeHtml(iName(d.provider))}</strong><span>【${escapeHtml(iDefenseName(d))}】</span></div><div class="iGuardRemaining"><span>残り</span><strong>${sealed?'—':d.remaining}<small> / ${d.total}</small></strong></div><div class="iGuardMeta"><span class="iGuardStatus ${ready?'ready':''}">${escapeHtml(status)}</span><span>${d.kind==='self'&&!iSpec(d.provider).selfItem?'アイテム不要（生来の耐性）':'必要：'+escapeHtml(d.item)}</span>${d.sacrifice?'<span class="iWarning">2回目の使用で護衛者の死亡判定</span>':''}</div>${d.kind==='watch'?'<p class="muted">監視対象の最初の毒攻撃1回だけ自動発動。拡散毒3人分は1回と数えます。</p>':''}${iEditForm(d,true,locked)}</article>`;
+  };
+  const groups=INTRIGUE_PEOPLE.map(p=>{
+    const rows=defenses.filter(d=>d.target===p.id&&d.kind!=='watch');if(!rows.length)return '';
+    return `<section class="iGuardGroup ${cardColorClass(p.colorKey)}"><h4><span>守られる人</span>${escapeHtml(p.name)}<small>${rows.length}件</small></h4><div class="iGuardStack">${rows.map(card).join('')}</div></section>`;
+  }).join('');
+  const watches=defenses.filter(d=>d.kind==='watch');
+  return `<details class="iGuardOverview"><summary>護衛・自己耐性の一覧</summary><div class="iGuardTitle"><span>${defenses.filter(d=>d.kind!=='watch').length}件登録</span></div><p class="muted">対象者ごとに表示しています。残数は実際の使用時だけ減ります。攻撃ごとの使用可否は「現在の処理」で確認してください。</p><div class="iGuardGrid">${groups||'<p class="muted">護衛の登録はありません。</p>'}</div>${watches.length?`<h3 class="iWatchHeading">毒見の監視</h3><p class="muted">ここで指定するのは、毒を使う可能性がある人物です。</p><div class="iGuardGrid">${watches.map(d=>`<section class="iGuardGroup"><h4><span>監視している人</span>${escapeHtml(iName(d.target))}</h4>${card(d)}</section>`).join('')}</div>`:''}</details>`;
+}
+function iEditForm(entry,defense,locked){
+  if(defense&&entry.kind==='self')return '';
+  const editable=defense?entry.remaining===entry.total:entry.status==='queued'&&entry.kind==='attack';
+  if(!editable)return '<small class="muted">執行済みの修正は、使用操作を取り消してから行えます。</small>';
+  return `<details class="iEdit"><summary>登録内容を修正</summary><label>使用者<select data-edit="actor">${iSelectedOptions(defense?entry.provider:entry.actor)}</select></label><label>対象<select data-edit="target">${iSelectedOptions(entry.target)}</select></label>${defense?`<label>回数<input data-edit="count" type="number" min="1" max="999" value="${entry.total}" ${entry.provider!=='gentoku'&&!iSpec(entry.provider).shared&&!iSpec(entry.provider).sacrifice?'readonly':' '}></label>`:`<label>種類<select data-edit="method"><option value="physical" ${entry.method==='physical'?'selected':''}>物理</option><option value="poison" ${entry.method==='poison'?'selected':''}>毒</option></select></label><label>武器・毒<input data-edit="weapon" value="${escapeHtml(entry.weapon)}"></label><label><input data-edit="ash" type="checkbox" ${entry.dragonAsh?'checked':''}> 竜封の灰</label>`}<label><input data-edit="verified" type="checkbox"> ${defense?'修正内容を確認済み':'修正内容・アイテムを再確認済み'}</label>${iButton('修正を保存',defense?'saveDefense':'saveAttack',entry.id,'',locked)}${defense?iButton('登録を取消','removeDefense',entry.id,'',locked):''}</details>`;
+}
+function updateSkillRegistrationButtons(){
+  for(const [id,action,kind] of [['iAttackActor','addAttack','attack'],['iGuardActor','addDefense','guard']]){
+    const actor=el(id).value,b=el('intrigueRoot').querySelector('[data-ia="'+action+'"]');
+    const reason=actor?skillRegistrationReason(actor,kind):'使用者を選択してください';
+    b.disabled=iLocked()||iData().meetingEnded||!!reason;b.title=reason;
+  }
+}
+function iButton(label,action,id='',extra='',disabled=false){return `<button type="button" data-ia="${action}" data-id="${id}" data-extra="${extra}" ${disabled?'disabled':''}>${label}</button>`;}
+function renderIntrigue(){
+  const root=el('intrigueRoot');if(!root)return;
+  const openDetails=new Set([...root.querySelectorAll('details[open]')].map(x=>x.querySelector('summary')?.textContent));
+  root.querySelectorAll('[data-draft]').forEach(x=>{intrigueDraft[x.id]=x.type==='checkbox'?x.checked:x.value;});
+  const data=iData(),locked=iLocked(),next=iNext(),active=data.actions.filter(a=>['active','awaiting'].includes(a.status));
+  const ids=INTRIGUE_PEOPLE.map(x=>x.id),attackers=ids.filter(id=>iSpec(id).attack),guards=ids.filter(id=>iSpec(id).guard||iSpec(id).watch);
+  const detained=ids.filter(id=>data.people[id].detained);
+  root.innerHTML=`
+    <div class="iHeading"><div><h2>暗殺・護衛の進行</h2><p class="muted">入力を確認 → 通知 → 実際に使われた防御を選択 → 消費・生死を確定</p></div><div class="iUndoPreview">${iButton('直前の操作を取り消す','undo','','',(locked&&!data.history.at(-1)?.postWar)||!data.history.length)}<p class="muted" aria-live="polite">${data.history.length?'戻す操作：'+escapeHtml(data.history.at(-1).label):'取り消せる操作はありません'}</p></div></div>
+    ${locked?'<div class="notice">Round 3の戦果は確定済みです。完全顕現の戦後処理以外を変更するには、戦争の確定を取り消してください。</div>':''}
+    <div class="iCustody"><b>犯人投票による拘束【犯罪者の監視】</b><span>登録 ${detained.length}人 ／ 現在拘束中 ${ids.filter(iBound).length}人</span><span>メイスター：${data.people.maester.status==='dead'?'死亡 → 拘束解除':data.people.maester.status==='retired'?'出家（自動解除なし）':'生存'}</span></div>
+    <details class="iSetup"><summary>生死・拘束者・所持アイテムを登録（20キャラ＋メイスター）</summary><div class="iPeople">${INTRIGUE_PEOPLE.map(person=>{
+      const p=data.people[person.id],reason=iUnavailable(person.id);
+      return `<div class="iPerson ${cardColorClass(person.colorKey)}"><b>${escapeHtml(person.name)}</b><span>【${escapeHtml(iSkillName(person.id))}】</span><span class="iState ${reason?'unavailable':''}">${reason||'行動可能'}</span>${iDragon(person.id)?`<span class="iState">${iDragonSealed(person.id)?'竜封の灰：耐性喪失':'竜の耐性あり'}</span>`:''}<label>状態 <select data-person="${person.id}" data-prop="status" ${locked?'disabled':''}><option value="alive" ${p.status==='alive'?'selected':''}>生存</option><option value="dead" ${p.status==='dead'?'selected':''}>死亡</option><option value="retired" ${p.status==='retired'?'selected':''}>出家・離脱</option></select></label><label><input type="checkbox" data-person="${person.id}" data-prop="detained" ${p.detained?'checked':''} ${locked||iUnbound(person.id)?'disabled':''}> 拘束対象${iUnbound(person.id)?'（拘束不可）':''}</label><label><input type="checkbox" data-person="${person.id}" data-prop="cross" ${p.cross?'checked':''} ${locked?'disabled':''}> 木の十字架を所持</label></div>`;
+    }).join('')}</div><p class="muted">死亡・出家・死亡確定待ち・拘束中はRound 3に参戦できません。拘束対象のチェックは解除後も記録として残ります。</p></details>
+    <details class="iSetup"><summary>護衛・毒見を新しく登録</summary>
+      <div class="iForm"><label>護衛者<select id="iGuardActor" data-draft>${iSkillOptions(guards,'guard')}</select></label><label>護衛対象／毒見で監視する人物<select id="iGuardTarget" data-draft>${iOptions(ids)}</select></label><label>護衛回数／玄徳の支払額<input id="iGuardCount" data-draft type="number" min="1" max="999" value="2"><small id="iGuardCountHint" class="muted"></small></label>${iButton('護衛を登録','addDefense','','',locked)}</div>
+      <p class="muted">ルリは「毒を使いそうな人」を指定。護衛の残数は、実際の使用確定時だけ減ります。ゲイル・レニは攻撃と護衛をあわせて2回。護衛の登録時点で行動枠を予約します。</p>
+    </details>${renderDefenseRegistry(locked)}
+    <div class="iControls"><span>六芒星：${iHexEffect()?'発動済み（'+Object.keys(I_HEX_OPTIONS).filter(iHexEffect).map(k=>I_HEX_OPTIONS[k]).join('・')+'）':'未発動'}</span><label><input type="checkbox" data-iflag="meetingEnded" ${data.meetingEnded?'checked':''} ${locked?'disabled':''}> 会議終了（新規登録を終了）</label></div>
+    <div class="iColumns"><section class="iPanel"><h3>次の攻撃を登録</h3><p class="muted">1回分ずつ登録し、登録順に解決します。リトは1件で同じ相手への2回分。ほかの2回行動は1回ずつ登録します。</p><div class="iForm iVertical">${renderAttackPicker(attackers,locked)}<label>対象者<select id="iAttackTarget" data-draft>${iOptions(ids)}</select></label><label>攻撃の種類<select id="iAttackMethod" data-draft><option value="physical">物理（暗殺・殺害）</option><option value="poison">毒殺（錬成毒・速攻毒）</option></select></label><label><input id="iDragonAsh" data-draft type="checkbox"> 竜封の灰による攻撃（提出を確認）</label><p class="muted">竜の血族が灰を受けると、生存したまま毒・物理・拘束への耐性を失います。スキルと竜顕現は残ります。</p><label>使用武器・毒<input id="iAttackWeapon" data-draft value="ナイフ"></label><label><input id="iAttackVerified" data-draft type="checkbox"> スキルカード・必要武器／毒の提出を確認</label>${iButton('攻撃を登録','addAttack','','',locked||data.meetingEnded)}</div><details class="iSetup"><summary>マリアの拘束解除許可</summary><div class="iForm iVertical"><p class="muted">解除を許可された人だけ選択してください（複数選択可）。</p>${ids.filter(iBound).map(id=>`<label><input type="checkbox" data-release-target="${id}" ${locked||data.actions.some(a=>a.kind==='release'&&a.status==='queued'&&a.targets?.includes(id))?'disabled':' '}> ${escapeHtml(iName(id))}</label>`).join('')||'<p class="muted">現在、拘束中の人はいません。</p>'}${iButton('選んだ人の解除許可を待ち列に登録','addRelease','','',locked||!ids.some(iBound))}<small>待ち列で適用した時点から、選んだ人だけ拘束が解除されます。</small></div></details><details class="iSetup"><summary>六芒星を使用する</summary>${renderHexagramForm(locked)}</details><details class="iSetup"><summary>拡散毒を使用する（基本スキルとは別枠）</summary><p class="muted">3人を同時に毒殺対象にします。基本スキルを使用済みでも登録できます。発動時に3人へ通知し、それぞれの防御・生死を確認してください。</p><div class="iForm iVertical"><label>使用者<select id="iSpreadActor" data-draft>${iOptions(ids)}</select></label>${[1,2,3].map(n=>`<label>対象${n}<select id="iSpread${n}" data-draft>${iOptions(ids,true)}</select></label>`).join('')}<label><input id="iSpreadVerified" type="checkbox" data-draft> 拡散毒の提出・対象3人を確認済み</label>${iButton('拡散毒を登録','addSpread','','',locked||data.meetingEnded)}</div></details></section>
+    <section class="iPanel"><h3>現在の処理</h3>${renderAutomaticWatchNotice()}${renderInnateNotice()}${active.length?active.map(a=>renderActiveIntrigue(a,locked&&!a.postWar)).join(''):'<div class="iEmpty">登録した行動から、通知・処理を開始してください。</div>'}
+      <h3>行動の待ち列</h3><div class="iQueue">${data.actions.filter(a=>a.status==='queued').map(a=>`<div class="iAction"><b>${escapeHtml(iName(a.actor)+' → '+iActionTarget(a))}</b><span>【${escapeHtml(iActionName(a))}】${a.strikes===2?' 同じ相手への2回分':' '} ${escapeHtml(a.weapon)}${a.dragonAsh?' ／ 竜封の灰':''}${a.kind==='spread'?' ／ 3人同時発動・別枠':a.kind==='cost'?' ／ 自死・代償':''}</span>${iStartReason(a)?'<span class="iWarning">'+escapeHtml(iStartReason(a))+'</span>':''}<div class="row">${iButton(a.kind==='release'?'拘束解除の許可を適用':a.kind==='hexagram'?'六芒星を発動':a.kind==='spread'?'3人に通知・同時発動':'通知・処理を開始','start',a.id,'',(locked&&!a.postWar)||next?.id!==a.id||!!iStartReason(a))}${iStartReason(a)?iButton('実行不可を確認して次へ','skipUnavailable',a.id,'',locked&&!a.postWar):''}${iButton('登録を取消','cancel',a.id,'',locked)}</div>${iEditForm(a,false,locked)}</div>`).join('') || '<p class="muted">未処理の行動はありません。</p>'}</div>
+    </section></div>
+    <details class="iSetup"><summary>執行結果・操作履歴（直近60操作まで取り消し可能）</summary><div class="iHistory">${data.actions.filter(a=>a.status==='done'||a.status==='skipped').map(a=>`<p><b>${escapeHtml(iName(a.actor)+' → '+iActionTarget(a))}</b> 【${escapeHtml(iActionName(a))}】 ${escapeHtml(a.result||'解決済み')}</p>`).join('')}${data.history.slice().reverse().map(x=>`<p><span class="muted">${escapeHtml(x.time)}</span> ${escapeHtml(x.label)}</p>`).join('')}</div></details>`;
+  root.querySelectorAll('[data-draft]').forEach(x=>{if(Object.hasOwn(intrigueDraft,x.id)){if(x.type==='checkbox')x.checked=intrigueDraft[x.id];else x.value=intrigueDraft[x.id];}});
+  updateGuardCount();
+  updateSkillRegistrationButtons();
+  updateAttackSelection();
+  root.querySelectorAll('details').forEach(x=>{x.open=openDetails.has(x.querySelector('summary')?.textContent);});
+}
+function renderAutomaticWatchNotice(){
+  const events=iData().actions.filter(a=>a.automaticDefense&&a.status==='done');
+  const latest=events.at(-1);if(!latest)return '';
+  const batch=events.filter(a=>a.automaticDefense===latest.automaticDefense&&a.startedAt===latest.startedAt&&a.actor===latest.actor);
+  const redirected=iData().actions.find(a=>a.kind==='watchPoison'&&batch.some(b=>b.id===a.parent));
+  const outcome=redirected?(['active','awaiting'].includes(redirected.status)?'ルリは毒耐性を失っているため、身代わりの毒を処理してください。':'ルリの身代わり結果：'+(redirected.result||'処理済み')):'ルリは毒無効で生存（発動時）';
+  return `<div class="iAutoWatchNotice" role="status" aria-live="polite"><span class="iAutoWatchBadge">直近の自動発動</span><h3>ルリ【竜の姫】の毒見が発動</h3><p><b>${escapeHtml(iName(latest.actor))}</b>の${latest.kind==='spread'?'拡散毒をまとめて':'毒攻撃を'}止めました。</p><p><span class="muted">守られた人：</span><strong>${escapeHtml(batch.map(a=>iName(a.target)).join('・'))}</strong></p><p>${escapeHtml(outcome)}</p><small>毒見1回分を消費しました。${batch.length>1?'対象'+batch.length+'人で1回分です。':''}追加の使用操作は不要です。</small></div>`;
+}
+function renderInnateNotice(){
+  const events=iData().actions.filter(a=>a.automaticInnate);const last=events.at(-1);if(!last)return '';
+  const entries=events.filter(a=>a.startedAt===last.startedAt&&a.actor===last.actor);
+  return `<div class="iAutoWatchNotice" role="status" aria-live="polite"><span class="iAutoWatchBadge">直近の自動発動・生来の耐性</span>${entries.map(a=>`<h3>${escapeHtml(iName(a.target))}【${escapeHtml(a.automaticInnate.name)}】</h3><p>${escapeHtml(iName(a.actor))}からの攻撃${a.automaticInnate.count}回分を自動で防ぎました。アイテム不要。</p><p>${a.status==='active'?'残り'+a.strikesLeft+'回分の攻撃を処理してください。':a.status==='awaiting'?'残りの攻撃による死亡・救済の確認待ちです。':a.defenseResults||a.consumedItem||iData().people[a.target].status!=='alive'?'その後の結果：'+escapeHtml(a.result):'この攻撃は防御済みです。'}</p>`).join('')}</div>`;
+}
+function renderActiveIntrigue(a,locked){
+  const candidates=defenseCandidates(a),person=iData().people[a.target];
+  return `<div class="iActive"><div class="iActiveTitle">${escapeHtml(iName(a.actor)+' → '+iActionTarget(a))}</div><p>【${escapeHtml(iActionName(a))}】${a.strikes===2?' 同じ相手への2回分':' '} ${escapeHtml(a.weapon)}${a.dragonAsh?' ＋ 竜封の灰':''} ／ ${a.method==='cost'?'自死・代償':a.method==='poison'?'毒殺':'物理攻撃'}</p>${a.strikes===2?`<p class="iWarning">残り ${a.strikesLeft??2} / 2 回分の攻撃。防御1回につき1回分を防ぎます。</p>`:''}<div class="iTimer" data-i-deadline="${a.startedAt+20000}">通知後の20秒をGM確認</div><p class="muted">タイマーは目安です。最初に申告して実際に守った防御を選択してください。表示だけでは消費しません。</p>
+    <div class="iCandidates">${candidates.map(c=>`<div class="iCandidate ${c.enabled?'':'unavailable'}"><div><b>${escapeHtml(c.name)}</b><span>残り ${escapeHtml(c.remaining)}${c.item?' ／ '+escapeHtml(c.item):''}</span><small>${escapeHtml(c.reason)}</small></div><div class="iUseControls"><label><input type="checkbox" class="iUseReview" ${locked||!c.enabled?'disabled':' '}> ${c.item?'申告・必要アイテムの提出を確認':'適用を確認'}</label>${iButton('今回使用','use',a.id,c.id,locked||!c.enabled)}</div></div>`).join('') || '<p class="iWarning">登録されている防御・耐性はありません。</p>'}</div>
+    ${renderAntidote(a,locked)}${a.status==='active'?iButton(a.dragonAsh?'灰を受けた → 生存・竜の耐性を失う':'防御不成立 → 救済・死亡確認へ','undefended',a.id,'',locked||candidates.some(c=>c.enabled&&c.mandatory)):`<div class="iFatal"><b>死亡確定待ち</b><p>通知後20秒の経過と、治療薬・出家の申告を確認してください。</p><div class="row">${iButton('死亡を確定','death',a.id,'dead',locked)}${iButton('木の十字架で出家','death',a.id,'retired',locked||!person.cross)}</div></div>`}</div>`;
+}
+function renderAntidote(a,locked){
+  if(a.method!=='poison')return '';
+  const disabled=a.medicineDisabled??iData().medicineDisabled;
+  return `<div class="iAntidote"><b>毒治療薬で救済</b><p>その場で受け取った薬を使用できます。他の人からの提供も可・事前登録不要。</p>${disabled?'<p class="iWarning">六芒星で薬が無効になっているため使用できません。</p>':''}${iButton('毒治療薬を受け取った → 使用して生存','antidoteReceived',a.id,'',locked||disabled)}</div>`;
+}
+function iRun(fn){try{fn();}catch(error){alert(error.message);renderIntrigue();}}
+function setupIntrigue(){
+  el('ritoWarPanel').addEventListener('click',event=>{
+    if(!event.target.closest('[data-rito-war]'))return;
+    iRun(()=>{
+      if(!iData().ritoWarStarted&&!startRitoWarDeaths())return;
+      el('tab_intrigue').click();
+      el('intrigueRoot').querySelector('.iColumns')?.scrollIntoView({block:'start',behavior:'smooth'});
+    });
+  });
+  const root=el('intrigueRoot');
+  root.addEventListener('click',event=>{
+    const b=event.target.closest('button[data-ia]');if(!b)return;
+    const id=b.dataset.id;
+    iRun(()=>{
+      switch(b.dataset.ia){
+        case 'addRelease':addMariaRelease([...el('intrigueRoot').querySelectorAll('[data-release-target]:checked')].map(x=>x.dataset.releaseTarget));break;
+        case 'skipUnavailable':skipUnavailableAction(id);break;
+        case 'antidoteReceived':if(confirm('対象：'+iName(iData().actions.find(x=>x.id===id).target)+'\n毒治療薬をその場で受け取りましたか？（他の人からの提供も可）\n1個使用して生存として処理します。'))resolveVictim(id,'antidote',true);break;
+        case 'pickAttack':{
+          if(skillRegistrationReason(id,'attack')||iLocked()||iData().meetingEnded)return;
+          el('iAttackActor').value=id;el('iAttackWeapon').value=iSpec(id).weapon||'';
+          el('iAttackMethod').value=iSpec(id).poisonAttack?'poison':'physical';
+          el('iAttackVerified').checked=false;el('iDragonAsh').checked=false;
+          updateSkillRegistrationButtons();updateAttackSelection();break;
+        }
+        case 'addHexagram':addHexagram(el('iHexActor').value,Object.keys(I_HEX_OPTIONS).filter(k=>el('iHex_'+k).checked),el('iHexVerified').checked);break;
+        case 'saveDefense':case 'saveAttack':{
+          const form=b.closest('.iEdit'),v=key=>form.querySelector('[data-edit="'+key+'"]');
+          if(!v('verified').checked)throw Error('修正内容・アイテムを再確認してください。');
+          if(b.dataset.ia==='saveDefense')addDefense(v('actor').value,v('target').value,v('count').value,true,id);
+          else addAttack(v('actor').value,v('target').value,v('method').value,v('weapon').value,true,[],v('ash').checked,id);
+          break;
+        }
+        case 'removeDefense':if(confirm('未使用の護衛登録を取り消しますか？'))removeDefense(id);break;
+        case 'undo':if(iData().history.length&&confirm('取り消す操作：'+iData().history.at(-1).label+'\nこの操作の前に戻します。よろしいですか？'))undoIntrigue();break;
+        case 'addDefense':addDefense(el('iGuardActor').value,el('iGuardTarget').value,el('iGuardCount').value,false);break;
+        case 'addAttack':addAttack(el('iAttackActor').value,el('iAttackTarget').value,el('iAttackMethod').value,el('iAttackWeapon').value,el('iAttackVerified').checked,[],el('iDragonAsh').checked);break;
+        case 'addSpread':addSpreadPoison(el('iSpreadActor').value,[1,2,3].map(n=>el('iSpread'+n).value),el('iSpreadVerified').checked);break;
+        case 'start':startAttack(id,true);break;
+        case 'cancel':cancelAttack(id);break;
+        case 'use':chooseDefense(id,b.dataset.extra,!!b.closest('.iCandidate')?.querySelector('.iUseReview')?.checked);break;
+        case 'undefended':if(!iData().actions.find(x=>x.id===id)?.dragonAsh || (confirm('竜封の灰を受けたことを確認しましたか？ 生存のまま、毒無効・物理耐性・拘束不可を失います。')))markUndefended(id,true);break;
+        case 'death':if(confirm('対象：'+iName(iData().actions.find(x=>x.id===id).target)+'\n'+({dead:'死亡',antidote:'毒治療薬が提出されたことを確認し、1個消費して生存',retired:'出家・離脱'}[b.dataset.extra])+'として確定します。よろしいですか？'))resolveVictim(id,b.dataset.extra,true);break;
+      }
+    });
+  });
+  root.addEventListener('change',event=>{
+    const x=event.target;
+    if(x.closest('.iEdit')){
+      const form=x.closest('.iEdit');
+      if(x.dataset.edit!=='verified')form.querySelector('[data-edit="verified"]').checked=false;
+      if(x.dataset.edit==='actor'){
+        const spec=iSpec(x.value),count=form.querySelector('[data-edit="count"]');
+        if(count){count.readOnly=x.value!=='gentoku'&&!spec.shared&&!spec.sacrifice;count.value=String(x.value==='lorentz'?2:spec.sacrifice||spec.shared||x.value==='gentoku'?1:spec.guard||1);}
+        else{form.querySelector('[data-edit="weapon"]').value=spec.weapon||'';form.querySelector('[data-edit="method"]').value=spec.poisonAttack?'poison':'physical';}
+      }
+    }
+    if(x.id==='iGuardActor')updateGuardCount(true);
+    if(x.id==='iGuardActor'||x.id==='iAttackActor')updateSkillRegistrationButtons();
+    if(x.id==='iAttackActor'){
+      el('iAttackWeapon').value=iSpec(x.value).weapon||'';
+      el('iAttackMethod').value=iSpec(x.value).poisonAttack?'poison':'physical';el('iAttackVerified').checked=false;
+    }
+    if(x.id==='iAttackMethod'){el('iAttackWeapon').value=x.value==='poison'?'速攻毒':iSpec(el('iAttackActor').value).weapon||'';el('iAttackVerified').checked=false;}
+    iRun(()=>{
+      if(x.dataset.person)setIntriguePerson(x.dataset.person,x.dataset.prop,x.type==='checkbox'?x.checked:x.value);
+      if(x.dataset.iflag)iCommit('GM設定：'+({mariaRelease:'マリアの拘束解除許可',meetingEnded:'会議終了',poisonDisabled:'毒の無効化',medicineDisabled:'治療薬の無効化'}[x.dataset.iflag])+(x.checked?' ON':' OFF'),data=>{data[x.dataset.iflag]=x.checked;});
+    });
+  });
+  for(const phase of ['war','intrigue'])el('tab_'+phase).addEventListener('click',()=>{
+    el('warSection').hidden=phase!=='war';el('intrigueSection').hidden=phase!=='intrigue';
+    el('tab_war').setAttribute('aria-pressed',String(phase==='war'));el('tab_intrigue').setAttribute('aria-pressed',String(phase==='intrigue'));
+  });
+  setInterval(()=>{document.querySelectorAll('[data-i-deadline]').forEach(x=>{const seconds=Math.max(0,Math.ceil((Number(x.dataset.iDeadline)-Date.now())/1000));x.textContent=seconds?'通知から20秒まで '+seconds+'秒':'20秒経過 · GMが申告状況を確認して確定';});},1000);
+}
+
 
 /* ========= init ========= */
 load();
 setupWaitingDrops();
 renderAll();
+setupIntrigue();
 </script>
 </body>
 </html>
-
