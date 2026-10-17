@@ -1,0 +1,201 @@
+# えるのマダミス作品一覧（古い順）
+# 作品を追加するときは、この末尾に1ブロック足すだけ。
+# 空欄の項目は表示されません。
+#
+#   slug:     URL用の名前（/games/<slug>/ に詳細ページがあれば page: true）
+#   title:    作品名
+#   color:    作品のテーマ色（ホバーやリンクの差し色）
+#   font:     タイトルの書体（CSS の font-family。layout で Google Fonts を読み込んでいるもの）
+#   tagline:  一言紹介（About に表示）
+#   players:  人数（数字）
+#   playtime: プレイ時間（表記そのまま）
+#   gm:       GM（"不要" / "必須" など）
+#   image:    一覧用画像（/assets/images/ 以下。cards/<slug>.jpg に 600x800 程度で置く）
+#   image_position: 画像の切り抜き位置（例: top, center 30%）。省略時は中央
+#   links:    販売・公開先 [{label, url}]。url を省くと店舗名だけ表示（リンクなし）
+#   status:   active（販売・公開中） / ended（終了）
+
+# --- 既存作品（並びは要確認） ---
+
+- slug: mafia
+  title: 海の上で昼食を
+  color: "#6b6b6b"
+  font: "'Zen Antique', serif"
+  tagline: 裏社会ファミリーの中で腹の探り合いを楽しむシナリオ。
+  players: 5
+  playtime: 約3時間
+  gm: 不要
+  image: cards/mafia.jpg
+  page: true
+  status: active
+  links:
+    - { label: CCFOLIA GAMES, url: "https://ccfolia.com/games/zcoADP1A8jSJGDCpXHTy" }
+    - { label: BOOTH, url: "https://elkurin.booth.pm/items/6099499" }
+
+- slug: gokon
+  title: 合コンマダミス
+  color: "#e05aa8"
+  font: "'Mochiy Pop One', sans-serif"
+  tagline: 合コンを模した楽しいシナリオ。
+  players: 6
+  playtime: 約90分
+  gm: 不要
+  image: cards/gokon.jpg
+  page: true
+  status: active
+  links:
+    - { label: BOOTH, url: "https://elkurin.booth.pm/items/6099549" }
+
+- slug: sonata
+  title: 最後のソナタ
+  color: "#9a7b6c"
+  font: "'Zen Old Mincho', serif"
+  tagline: ピアノのコンクールを舞台に、最後にはピアノ演奏をするシナリオ。
+  players: 5
+  playtime: 約150分
+  gm: 不要
+  image: cards/sonata.jpg
+  page: true
+  status: active
+  links:
+    - { label: BOOTH, url: "https://elkurin.booth.pm/items/6099565" }
+    - { label: UZU, url: "https://www.uzu-app.com/ja/scenario/7570" }
+
+- slug: dragon
+  title: ドラゴンリバース
+  color: "#1f6170"
+  font: "'Zen Old Mincho', serif"
+  tagline: ファンタジー世界でパーティメンバーの一員となって冒険するシナリオ。
+  players: 4
+  playtime: 120分
+  gm: 不要
+  image: cards/dragon.jpg
+  page: true
+  status: active
+  released: 2024-11-02
+  links:
+    - { label: UZU, url: "https://www.uzu-app.com/ja/scenario/6168" }
+
+- slug: skybound-rebellion
+  title: Skybound Rebellion～宇宙を翔ける反逆者～
+  color: "#1fa8d8"
+  font: "'Orbitron', 'Noto Sans JP', sans-serif"
+  tagline: 宇宙を舞台にしたオンラインSFマーダーミステリー。
+  players: 6
+  playtime: 240分
+  gm: 必須
+  image: cards/skybound-rebellion.jpg
+  page: true
+  status: active
+  links:
+    - { label: BOOTH, url: "https://elkurin.booth.pm/items/6730619" }
+
+- slug: airship
+  title: 魂を運ぶ飛行船
+  color: "#b5762f"
+  font: "'Zen Antique', serif"
+  tagline: スチームパンクSFマーダーミステリー。
+  players: 5
+  playtime: 150-180分
+  image: cards/airship.jpg
+  page: true
+  status: active
+  links:
+    - { label: BOOTH, url: "https://elkurin.booth.pm/items/7397023" }
+
+- slug: last-offer
+  title: Last Offer
+  color: "#a4161a"
+  font: "'UnifrakturMaguntia', cursive"
+  tagline: 2015年、シカゴ。裏社会の掟と、嘘と選択の物語。
+  players: 4
+  playtime: 60分
+  image: cards/last-offer.jpg
+  page: true
+  status: active
+  links:
+    - { label: マダミシュ }
+
+# --- Last Offer 以降の作品（古い順） ---
+# 情報元: マダミス.jp 作者ページ https://mdms.jp/authors/726 / BOOTH
+
+- slug: gekko-no-nisezakura
+  title: 月光の偽桜
+  color: "#8a68c0"
+  font: "'Zen Old Mincho', serif"
+  image: cards/gekko-no-nisezakura.jpg
+  tagline: 大正、名門・柊木家の別邸。当主の死と、家督をめぐる偽りの宴。
+  players: 8
+  playtime: 240分
+  gm: 必須
+  status: active
+  released: 2025-08
+  links:
+    - { label: クインズワルツ, url: "https://mmq.game/queens-waltz/scenario/gekkou-nisesakura" }
+
+- slug: kasasuberi
+  title: 境界線のカーサスベリ
+  color: "#c0392b"
+  font: "'Zen Antique', serif"
+  image: cards/kasasuberi.jpg
+  tagline: 大和王国と月華帝国。開戦までの猶予は三日間、国の命数を背負う勇士たちの物語。
+  players: 8
+  playtime: 270分
+  gm: 必須
+  status: active
+  released: 2025-09
+  links:
+    - { label: クインズワルツ, url: "https://mmq.game/queens-waltz/scenario/kyokaisen-sarusuberi" }
+
+- slug: senichiya
+  title: 精霊囁く千一夜
+  color: "#b08a3e"
+  font: "'Zen Old Mincho', serif"
+  image: cards/senichiya.jpg
+  tagline: 約束の千一日目、物語を紡ぐはずの王妃は目を覚まさなかった――。
+  players: 5
+  gm: 不要
+  status: active
+  released: 2025-12
+  links:
+    - { label: BOOTH, url: "https://elkurin.booth.pm/items/7761341" }
+
+- slug: error
+  title: ERROR エラー：人間が正常に作動していません
+  color: "#e0313b"
+  font: "'DotGothic16', sans-serif"
+  image: cards/error.jpg
+  image_position: top
+  tagline: AIが止まった！ 犯人探しか、締め切りか。AI頼りの社員たちのドタバタコメディ。
+  players: 5
+  playtime: 120分
+  gm: 不要
+  status: active
+  released: 2026-05
+  links:
+    - { label: BOOTH, url: "https://elkurin.booth.pm/items/8374977" }
+
+- slug: ehre
+  title: 選別の魚雷―エーレ号事件―
+  color: "#d62828"
+  font: "'Zen Antique', serif"
+  image: cards/ehre.jpg
+  tagline: 一九四〇年代、帝国海軍の潜水艦エーレ号。いつもと変わらぬ作戦行動が、歴史に残る事件へ。
+  players: 5
+  playtime: 120分
+  status: active
+  links:
+    - { label: UZU TOKYO }
+
+- slug: legastria
+  title: 戦塵のレガストリア
+  color: "#b8862b"
+  font: "'Zen Antique', serif"
+  image: cards/legastria.jpg
+  tagline: 家の名誉と遺産がすべてだった時代。レガストリア全土を巻き込む動乱のひと月。
+  players: 20
+  playtime: 360分
+  gm: 必須
+  status: active
+  links:
+    - { label: クインズワルツ, url: "https://mmq.game/queens-waltz/scenario/senjin-regasutoria" }

@@ -1,0 +1,42 @@
+{%- comment -%}
+  最新作の大きな枠。include.work に _data/scenarios.yml の1件、include.number に通し番号を渡す。
+{%- endcomment -%}
+{%- assign w = include.work -%}
+{%- if w.page -%}
+  {%- assign href = '/games/' | append: w.slug | append: '/' | relative_url -%}
+  {%- assign external = false -%}
+{%- elsif w.links and w.links.size > 0 -%}
+  {%- assign href = w.links[0].url -%}
+  {%- assign external = true -%}
+{%- else -%}
+  {%- assign href = nil -%}
+{%- endif -%}
+{%- assign img = '/assets/images/' | append: w.image | relative_url -%}
+<section class="featured" style="--accent: {{ w.color | default: '#ff6600' }}">
+  {%- if w.image %}<img class="featured__backdrop" src="{{ img }}" alt="" aria-hidden="true">{% endif %}
+  <div class="featured__inner">
+    {%- if href %}<a class="featured__art" href="{{ href }}"{% if external %} target="_blank" rel="noopener"{% endif %}>{% else %}<div class="featured__art">{% endif -%}
+      {%- if w.image %}<img src="{{ img }}" alt="{{ w.title | escape }}"{% if w.image_position %} style="object-position: {{ w.image_position }}"{% endif %}>{% endif -%}
+    {%- if href %}</a>{% else %}</div>{% endif %}
+
+    <div class="featured__text">
+      <p class="featured__label"><span>NEW</span>No.{{ include.number }}</p>
+      <h2 class="featured__title"{% if w.font %} style="font-family: {{ w.font }}"{% endif %}>
+        {%- if href %}<a href="{{ href }}"{% if external %} target="_blank" rel="noopener"{% endif %}>{{ w.title | escape }}</a>{% else %}{{ w.title | escape }}{% endif -%}
+      </h2>
+      {%- if w.tagline %}<p class="featured__tagline">{{ w.tagline | escape }}</p>{% endif %}
+      <p class="featured__meta">
+        {%- if w.players %}<span>{{ w.players }}人</span>{% endif -%}
+        {%- if w.playtime %}<span>{{ w.playtime }}</span>{% endif -%}
+        {%- if w.gm %}<span>GM{{ w.gm }}</span>{% endif -%}
+      </p>
+      {%- if w.links and w.links.size > 0 %}
+      <p class="featured__where">
+        {%- for l in w.links -%}
+          {%- if l.url %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label | escape }} で見る →</a>{% else %}<span>{{ l.label | escape }} で公演中</span>{% endif -%}
+        {%- endfor -%}
+      </p>
+      {%- endif %}
+    </div>
+  </div>
+</section>

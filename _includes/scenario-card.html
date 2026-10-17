@@ -1,0 +1,42 @@
+{%- comment -%}
+  作品タイル。include.work に _data/scenarios.yml の1件、include.number に通し番号を渡す。
+{%- endcomment -%}
+{%- assign w = include.work -%}
+{%- if w.page -%}
+  {%- assign href = '/games/' | append: w.slug | append: '/' | relative_url -%}
+  {%- assign external = false -%}
+{%- elsif w.links and w.links.size > 0 -%}
+  {%- assign href = w.links[0].url -%}
+  {%- assign external = true -%}
+{%- else -%}
+  {%- assign href = nil -%}
+{%- endif -%}
+<article class="work{% if w.status == 'ended' %} is-ended{% endif %}" style="--accent: {{ w.color | default: '#ff6600' }}">
+  {%- if href %}<a class="work__art" href="{{ href }}"{% if external %} target="_blank" rel="noopener"{% endif %}>{% else %}<div class="work__art">{% endif -%}
+    {%- if w.image -%}
+      <img src="{{ '/assets/images/' | append: w.image | relative_url }}" alt="{{ w.title | escape }}" loading="lazy"{% if w.image_position %} style="object-position: {{ w.image_position }}"{% endif %}>
+    {%- endif -%}
+    {%- if w.tagline %}<span class="work__peek">{{ w.tagline | escape }}</span>{% endif -%}
+  {%- if href %}</a>{% else %}</div>{% endif %}
+
+  <p class="work__no">No.{{ include.number }}</p>
+  <h2 class="work__title"{% if w.font %} style="font-family: {{ w.font }}"{% endif %}>
+    {%- if href %}<a href="{{ href }}"{% if external %} target="_blank" rel="noopener"{% endif %}>{{ w.title | escape }}</a>{% else %}{{ w.title | escape }}{% endif -%}
+  </h2>
+
+  <p class="work__meta">
+    {%- if w.players %}{{ w.players }}人{% endif -%}
+    {%- if w.playtime %}・{{ w.playtime }}{% endif -%}
+    {%- if w.gm %}・GM{{ w.gm }}{% endif -%}
+    {%- if w.status == 'ended' %}・提供終了{% endif -%}
+  </p>
+
+  {%- if w.links and w.links.size > 0 %}
+  <p class="work__where">
+    {%- for l in w.links -%}
+      {%- unless forloop.first %} / {% endunless -%}
+      {%- if l.url %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label | escape }}</a>{% else %}{{ l.label | escape }}{% endif -%}
+    {%- endfor -%}
+  </p>
+  {%- endif %}
+</article>
