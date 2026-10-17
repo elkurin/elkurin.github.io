@@ -185,7 +185,7 @@
   playtime: 120分
   status: active
   links:
-    - { label: UZU TOKYO }
+    - { label: UZU TOKYO, url: "https://mdms.jp/shops/uzu_tokyo/catalogs/4121" }
 
 - slug: legastria
   title: 戦塵のレガストリア
