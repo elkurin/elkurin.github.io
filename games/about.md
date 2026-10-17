@@ -3,35 +3,35 @@ layout: page
 title: マダミス作家える@elkurin
 permalink: /games/about
 ---
-<head>
-  <link rel="icon" href="{{ '/phantom-favicon.png' | relative_url }}" type="image/x-icon">
-</head>
 
 マーダーミステリーのシナリオを書いているえるです。  
 X/Twitter アカウント → [@elkurin_games](https://x.com/elkurin_games)  
 
-<img src="/assets/images/phantom.png" width="100px">
+<img src="/assets/images/phantom.png" width="100px" alt="">
 
+## 作品一覧
 
-## 販売中シナリオ
+新しい順に並んでいます。各作品の画像付き一覧は [Scenarios](/games/scenarios/) へ。
 
-### 海の上で昼食を
-裏社会ファミリーの中で腹の探り合いを楽しむシナリオ。  
-詳細は[こちら](/games/mafia)  
-ご購入は[こちら](https://elkurin.booth.pm/items/6099499)  
-CCFOLIA GAMESにて公開中：[こちら](https://ccfolia.com/games/zcoADP1A8jSJGDCpXHTy)  
-
-### ドラゴンリバース
-ファンタジー世界でパーティメンバーの一員となって冒険するシナリオ。  
-詳細は[こちら](/games/dragon)  
-UZUにて公開中：[こちら](https://www.uzu-app.com/ja/scenario/6168)
-
-### 合コンマダミス
-合コンを模した楽しいシナリオ。
-詳細は[こちら](/games/gokon)  
-ご購入は[こちら](https://elkurin.booth.pm/items/6099549)
-
-### 最後のソナタ
-ピアノのコンクールを舞台に最後にはピアノ演奏をするシナリオ。
-詳細は[こちら](/games/sonata)  
-ご購入は[こちら](https://elkurin.booth.pm/items/6099565)
+{% assign works = site.data.scenarios | reverse %}
+<ul class="about-works">
+{%- for w in works %}
+  <li>
+    <h3>
+      {%- if w.page -%}
+        <a href="/games/{{ w.slug }}/">{{ w.title | escape }}</a>
+      {%- else -%}
+        {{ w.title | escape }}
+      {%- endif -%}
+      {%- if w.status == 'ended' %} <small>（提供終了）</small>{% endif -%}
+    </h3>
+    {%- if w.tagline %}<p>{{ w.tagline | escape }}</p>{% endif %}
+    <p class="about-works__meta">
+      {%- if w.players %}{{ w.players }}人{% endif -%}
+      {%- if w.playtime %} / {{ w.playtime }}{% endif -%}
+      {%- if w.gm %} / GM{{ w.gm }}{% endif -%}
+      {%- for l in w.links %}{% if forloop.first %}　{% else %}・{% endif %}{% if l.url %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label | escape }}</a>{% else %}{{ l.label | escape }}{% endif %}{% endfor -%}
+    </p>
+  </li>
+{%- endfor %}
+</ul>

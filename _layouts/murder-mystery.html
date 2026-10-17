@@ -1,28 +1,19 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en" }}">
-  {%- include head.html -%}
+<html lang="{{ page.lang | default: site.lang | default: "ja" }}">
 <head>
-  <meta charset="UTF-8">
-  <link rel="icon" href="{{ '/phantom-favicon.png' | relative_url }}" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  <link rel="icon" href="{{ '/phantom-favicon.png' | relative_url }}" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&family=Zen+Old+Mincho:wght@400;700&family=Mochiy+Pop+One&family=DotGothic16&family=Orbitron:wght@400;700&family=UnifrakturMaguntia&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  {%- feed_meta -%}
 </head>
 
 <body>
   <nav class="menu-bar">
-    <!--
-    <div class="menu-logo">
-      <a href="/">
-        <img src="/assets/images/logo-white.png" alt="Site Logo">
-      </a>
-    </div>
-    --!>
     <ul class="menu-items">
       <li><a href="/games/" class="menu-link">Home</a></li>
       <li><a href="/games/scenarios" class="menu-link">Scenarios</a></li>
@@ -31,40 +22,44 @@
     </ul>
   </nav>
 
-  <main class="page-content" aria-label="Content">
-    <div class="wrapper">
-      <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
-    </div>
-    <!-- 警告ボタン -->
+  <main class="page-content scenarios-page" aria-label="Content">
     <div class="alert-button">
       <a href="/games/errata" class="alert-link">エラッタはここをクリックしてご確認ください</a>
     </div>
     <h1 class="games-title">Scenarios</h1>
-    <div class="post-content">
-      {{ content }}
-    </div>
-    <div class="wrapper">
-      <div class="scenario-container">
-        <a href="/games/last-offer" class="animated-button button-last-offer"><span>Last<br>Offer</span></a>
-        <a href="/games/skybound-rebellion" class="animated-button button-skybound-rebellion"><span>Skybound<br>Rebellion</span></a>
-      </div>
-      <div class="scenario-container">
-        <a href="/games/airship" class="animated-button button-airship"><span>魂を運ぶ<br>飛行船</span></a>
-        <a href="/games/sonata" class="animated-button button-sonata"><span>最後の<br>ソナタ</span></a>
-      </div>
-      <div class="scenario-container">
-        <a href="/games/gokon" class="animated-button button-gokon"><span>合コン<br>マダミス</span></a>
-        <a href="/games/dragon" class="animated-button button-dragon"><span>ドラゴン<br>リバース</span></a>
-      </div>
-      <div class="scenario-container">
-        <a href="/games/mafia" class="animated-button button-mafia"><span>海の上で<br>昼食を</span></a>
-      </div>
-    </div>
+
+    {{ content }}
+
+    {%- assign works = site.data.scenarios | reverse -%}
+    {%- assign total = works.size -%}
+    {%- include featured-work.html work=works.first number=total -%}
+
+    <h2 class="games-subtitle">All Scenarios</h2>
+    <section class="work-grid">
+      {%- for w in works offset:1 -%}
+        {%- assign no = total | minus: forloop.index -%}
+        {%- include scenario-card.html work=w number=no -%}
+      {%- endfor -%}
+    </section>
   </main>
-  <!--
-  <footer class="games-footer">
-    <a href="/games/about" class="games-about">About me</a>
-  </footer>
-  --!>
+
+  <script>
+    // タイルをスクロールに合わせてふわっと出す（動きを減らす設定の人には出さない）
+    (function () {
+      if (!('IntersectionObserver' in window)) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var items = document.querySelectorAll('.work');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-shown'); io.unobserve(e.target); }
+        });
+      }, { rootMargin: '0px 0px -40px 0px' });
+      items.forEach(function (el, i) {
+        el.classList.add('will-show');
+        el.style.transitionDelay = (i % 4) * 70 + 'ms';
+        io.observe(el);
+      });
+    })();
+  </script>
 </body>
 </html>
